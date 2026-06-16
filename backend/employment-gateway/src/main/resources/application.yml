@@ -1,0 +1,85 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: employment-gateway
+  
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        ip: ${SERVICE_IP:}
+    
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      
+      routes:
+        - id: auth-service
+          uri: lb://employment-auth
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+        
+        - id: student-service
+          uri: lb://employment-student
+          predicates:
+            - Path=/api/students/**
+          filters:
+            - StripPrefix=1
+        
+        - id: job-service
+          uri: lb://employment-job
+          predicates:
+            - Path=/api/jobs/**
+          filters:
+            - StripPrefix=1
+        
+        - id: resume-service
+          uri: lb://employment-resume
+          predicates:
+            - Path=/api/resumes/**
+          filters:
+            - StripPrefix=1
+        
+        - id: assessment-service
+          uri: lb://employment-assessment
+          predicates:
+            - Path=/api/assessments/**
+          filters:
+            - StripPrefix=1
+
+    sentinel:
+      transport:
+        dashboard: ${SENTINEL_DASHBOARD:localhost:8080}
+        port: ${SENTINEL_PORT:8719}
+        client-ip: ${SERVICE_IP:}
+      eager: true
+      http-method-specify: true
+
+  main:
+    web-application-type: reactive
+
+jwt:
+  secret: employment-platform-jwt-secret-key-2024
+  expiration: 86400000
+
+whitelist:
+  paths:
+    - /api/auth/login
+    - /api/auth/register
+    - /api/auth/refresh-token
+    - /api-docs/**
+    - /swagger-ui/**
+    - /swagger-ui.html
+    - /actuator/**
+
+logging:
+  level:
+    com.example: debug
+    org.springframework.cloud.gateway: debug
+    com.alibaba.csp.sentinel: info

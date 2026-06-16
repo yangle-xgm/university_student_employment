@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="employment-learning" />
+        <module name="employment-interview" />
+        <module name="employment-student" />
+        <module name="employment-resume" />
+        <module name="employment-gateway" />
+        <module name="employment-common" />
+        <module name="employment-career" />
+        <module name="employment-auth" />
+        <module name="employment-assessment" />
+        <module name="employment-job" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="employment-assessment" target="18" />
+      <module name="employment-auth" target="18" />
+      <module name="employment-career" target="18" />
+      <module name="employment-common" target="18" />
+      <module name="employment-gateway" target="18" />
+      <module name="employment-interview" target="18" />
+      <module name="employment-job" target="18" />
+      <module name="employment-learning" target="18" />
+      <module name="employment-platform" target="18" />
+      <module name="employment-resume" target="18" />
+      <module name="employment-student" target="18" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="employment-assessment" options="-parameters" />
+      <module name="employment-auth" options="-parameters" />
+      <module name="employment-career" options="-parameters" />
+      <module name="employment-common" options="-parameters" />
+      <module name="employment-gateway" options="-parameters" />
+      <module name="employment-interview" options="-parameters" />
+      <module name="employment-job" options="-parameters" />
+      <module name="employment-learning" options="-parameters" />
+      <module name="employment-resume" options="-parameters" />
+      <module name="employment-student" options="-parameters" />
+    </option>
+  </component>
+</project>
