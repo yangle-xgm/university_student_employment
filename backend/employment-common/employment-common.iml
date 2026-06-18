@@ -10,7 +10,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="employment-common" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -18,7 +20,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_18">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -76,6 +78,7 @@
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:5.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:6.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:6.1.14" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.34" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:3.2.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:3.2.11" level="project" />

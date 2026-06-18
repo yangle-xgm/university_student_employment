@@ -25,8 +25,19 @@ public class AuthServiceImpl implements AuthService {
     public ApiResponse<LoginResponse> login(LoginRequest request) {
         User user = userMapper.findByUsername(request.getUsername())
                 .orElseThrow(() -> new BusinessException("用户名或密码错误"));
+        
+        // 打印调试信息
+        System.out.println("=== 登录调试 ===");
+        System.out.println("用户名: " + request.getUsername());
+        System.out.println("输入密码: " + request.getPassword());
+        System.out.println("存储的密码哈希: " + user.getPassword());
+        System.out.println("密码哈希长度: " + user.getPassword().length());
+        
+        boolean passwordMatch = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        System.out.println("密码匹配结果: " + passwordMatch);
+        System.out.println("===============");
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordMatch) {
             throw new BusinessException("用户名或密码错误");
         }
 

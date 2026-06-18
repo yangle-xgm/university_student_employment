@@ -13,7 +13,7 @@
     <artifactId>employment-assessment</artifactId>
     <packaging>jar</packaging>
     <name>employment-assessment</name>
-    <description>测评服务模块 - 职业测评、报告生成</description>
+    <description>职业测评模块 - 职业兴趣、性格特质、能力倾向测评</description>
     
     <dependencies>
         <dependency>
@@ -28,12 +28,17 @@
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         
         <dependency>
@@ -45,6 +50,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
         </dependency>
         
         <dependency>

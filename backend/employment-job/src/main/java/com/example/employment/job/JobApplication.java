@@ -1,16 +1,18 @@
-package com.example.employment.student;
+package com.example.employment.job;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(scanBasePackages = {"com.example.employment.student", "com.example.employment.common"})
+@SpringBootApplication(scanBasePackages = {"com.example.employment.job", "com.example.employment.common"})
 @EnableDiscoveryClient
 @EnableFeignClients
-public class Application {
+@MapperScan("com.example.employment.job.repository")
+public class JobApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(JobApplication.class, args);
     }
 }
