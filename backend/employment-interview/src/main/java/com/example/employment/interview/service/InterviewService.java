@@ -7,6 +7,8 @@ import java.util.List;
 public interface InterviewService {
     Interview getInterviewById(Long interviewId);
     List<Interview> getAllInterviews();
+    List<Interview> getInterviewsByStudentId(Long studentId);
+    List<Interview> getInterviewsByJobId(Long jobId);
     List<Interview> getInterviewsByApplicationId(Long applicationId);
     Interview createInterview(Interview interview);
     Interview updateInterview(Long interviewId, Interview interview);

@@ -32,6 +32,16 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
+    public List<Interview> getInterviewsByStudentId(Long studentId) {
+        return interviewMapper.findByStudentId(studentId);
+    }
+
+    @Override
+    public List<Interview> getInterviewsByJobId(Long jobId) {
+        return interviewMapper.findByJobId(jobId);
+    }
+
+    @Override
     public List<Interview> getInterviewsByApplicationId(Long applicationId) {
         LambdaQueryWrapper<Interview> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Interview::getApplicationId, applicationId)

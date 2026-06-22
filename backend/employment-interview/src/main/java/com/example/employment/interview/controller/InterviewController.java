@@ -33,6 +33,20 @@ public class InterviewController {
         return ResponseEntity.ok(ApiResponse.success(interviews));
     }
 
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "获取学生面试列表", description = "根据学生ID获取面试列表")
+    public ResponseEntity<ApiResponse<List<Interview>>> getInterviewsByUserId(@PathVariable Long userId) {
+        List<Interview> interviews = interviewService.getInterviewsByStudentId(userId);
+        return ResponseEntity.ok(ApiResponse.success(interviews));
+    }
+
+    @GetMapping("/job/{jobId}")
+    @Operation(summary = "获取职位面试列表", description = "根据职位ID获取面试列表")
+    public ResponseEntity<ApiResponse<List<Interview>>> getInterviewsByJobId(@PathVariable Long jobId) {
+        List<Interview> interviews = interviewService.getInterviewsByJobId(jobId);
+        return ResponseEntity.ok(ApiResponse.success(interviews));
+    }
+
     @GetMapping("/application/{applicationId}")
     @Operation(summary = "获取申请相关面试列表", description = "根据申请ID获取相关面试")
     public ResponseEntity<ApiResponse<List<Interview>>> getInterviewsByApplicationId(@PathVariable Long applicationId) {
