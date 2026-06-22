@@ -9,5 +9,4 @@ import java.util.List;
 @Mapper
 public interface LearningPathMapper extends BaseMapper<LearningPath> {
     List<LearningPath> findByStatus(String status);
-    List<LearningPath> findByCareerGoal(String careerGoal);
 }

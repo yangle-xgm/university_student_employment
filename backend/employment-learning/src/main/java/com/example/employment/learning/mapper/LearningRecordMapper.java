@@ -9,5 +9,4 @@ import java.util.List;
 @Mapper
 public interface LearningRecordMapper extends BaseMapper<LearningRecord> {
     List<LearningRecord> findByStudentId(Long studentId);
-    LearningRecord findByStudentIdAndResourceId(Long studentId, Long resourceId);
 }

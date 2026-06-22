@@ -117,7 +117,7 @@
           <div class="job-header">
             <div class="job-title-section">
               <h3>{{ job.title }}</h3>
-              <span class="job-type" :class="job.jobType.toLowerCase()">{{ getJobTypeLabel(job.jobType) }}</span>
+              <span class="job-type" :class="(job.jobType || 'unknown').toLowerCase()">{{ getJobTypeLabel(job.jobType) }}</span>
             </div>
             <div class="job-salary">{{ job.salary }}</div>
           </div>

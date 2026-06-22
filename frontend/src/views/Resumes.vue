@@ -67,7 +67,7 @@
             <div v-for="resume in resumes" :key="resume.id" class="resume-card" @click="selectResume(resume)">
               <div class="resume-header">
                 <h3>{{ resume.name }}</h3>
-                <span class="resume-status" :class="resume.status.toLowerCase()">{{ getStatusLabel(resume.status) }}</span>
+                <span class="resume-status" :class="(resume.status || 'unknown').toLowerCase()">{{ getStatusLabel(resume.status) }}</span>
               </div>
               <p class="resume-intro">{{ resume.introduction }}</p>
               <div class="resume-meta">

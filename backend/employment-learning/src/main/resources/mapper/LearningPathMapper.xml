@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.learning.mapper.LearningPathMapper">
-    
-    <select id="findByStatus" resultType="com.example.employment.learning.entity.LearningPath">
-        SELECT * FROM learning_paths WHERE status = #{status} ORDER BY created_at DESC
-    </select>
-    
-    <select id="findByCareerGoal" resultType="com.example.employment.learning.entity.LearningPath">
-        SELECT * FROM learning_paths WHERE career_goal = #{careerGoal} ORDER BY created_at DESC
-    </select>
-    
+  <select id="findByStatus" parameterType="string" resultType="com.example.employment.learning.entity.LearningPath">
+    SELECT id, title, description, career_goal, estimated_duration, status, created_at, updated_at
+    FROM learning_paths
+    WHERE status = #{status}
+    ORDER BY created_at DESC
+  </select>
 </mapper>

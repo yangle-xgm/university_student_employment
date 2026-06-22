@@ -281,7 +281,7 @@ const getResourceIcon = (type) => {
 }
 
 const getResourceIconClass = (type) => {
-  return type.toLowerCase()
+  return type ? type.toLowerCase() : 'unknown'
 }
 
 const getResourceTypeLabel = (type) => {

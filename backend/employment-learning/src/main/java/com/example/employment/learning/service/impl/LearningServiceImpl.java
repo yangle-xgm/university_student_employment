@@ -1,8 +1,7 @@
 package com.example.employment.learning.service.impl;
 
-import com.example.employment.learning.dto.LearningPathDTO;
-import com.example.employment.learning.dto.LearningRecordDTO;
-import com.example.employment.learning.dto.ResourceDTO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.employment.common.exception.BusinessException;
 import com.example.employment.learning.entity.LearningPath;
 import com.example.employment.learning.entity.LearningRecord;
 import com.example.employment.learning.entity.LearningResource;
@@ -11,8 +10,6 @@ import com.example.employment.learning.mapper.LearningPathResourceMapper;
 import com.example.employment.learning.mapper.LearningRecordMapper;
 import com.example.employment.learning.mapper.LearningResourceMapper;
 import com.example.employment.learning.service.LearningService;
-import com.example.employment.common.dto.response.ApiResponse;
-import com.example.employment.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.binding.BindingException;
 import org.slf4j.Logger;
@@ -23,134 +20,114 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class LearningServiceImpl implements LearningService {
     private static final Logger log = LoggerFactory.getLogger(LearningServiceImpl.class);
 
-    private final LearningResourceMapper resourceMapper;
-    private final LearningPathMapper pathMapper;
-    private final LearningPathResourceMapper pathResourceMapper;
-    private final LearningRecordMapper recordMapper;
+    private final LearningPathMapper learningPathMapper;
+    private final LearningPathResourceMapper learningPathResourceMapper;
+    private final LearningResourceMapper learningResourceMapper;
+    private final LearningRecordMapper learningRecordMapper;
 
     @Override
-    public ApiResponse<List<ResourceDTO>> getResourceList(String category) {
-        List<LearningResource> resources;
+    public List<LearningResource> getResourceList(String category) {
         try {
+            LambdaQueryWrapper<LearningResource> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(LearningResource::getStatus, "ACTIVE");
             if (category != null && !category.isEmpty()) {
-                resources = resourceMapper.findByCategory(category);
-            } else {
-                resources = resourceMapper.findByStatus("ACTIVE");
+                wrapper.eq(LearningResource::getCategory, category);
             }
-        } catch (BindingException ex) {
-            log.error("Mapper method error in getResourceList: {}", ex.getMessage());
-            resources = Collections.emptyList();
+            wrapper.orderByDesc(LearningResource::getCreatedAt);
+            return learningResourceMapper.selectList(wrapper);
+        } catch (Exception e) {
+            log.error("Error getting resource list: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        List<ResourceDTO> dtoList = resources.stream()
-                .map(this::convertToResourceDTO)
-                .collect(Collectors.toList());
-        return ApiResponse.success(dtoList);
     }
 
     @Override
-    public ApiResponse<List<ResourceDTO>> searchResources(String keyword) {
-        List<LearningResource> resources;
+    public List<LearningResource> searchResources(String keyword) {
         try {
-            resources = resourceMapper.search("%" + keyword + "%");
-        } catch (BindingException ex) {
-            log.error("Mapper method error in searchResources: {}", ex.getMessage());
-            resources = Collections.emptyList();
+            LambdaQueryWrapper<LearningResource> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(LearningResource::getStatus, "ACTIVE");
+            if (keyword != null && !keyword.isEmpty()) {
+                wrapper.and(w -> w.like(LearningResource::getTitle, keyword)
+                        .or().like(LearningResource::getDescription, keyword));
+            }
+            wrapper.orderByDesc(LearningResource::getCreatedAt);
+            return learningResourceMapper.selectList(wrapper);
+        } catch (Exception e) {
+            log.error("Error searching resources: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        List<ResourceDTO> dtoList = resources.stream()
-                .map(this::convertToResourceDTO)
-                .collect(Collectors.toList());
-        return ApiResponse.success(dtoList);
     }
 
     @Override
-    public ApiResponse<ResourceDTO> getResourceById(Long resourceId) {
-        LearningResource resource = resourceMapper.selectById(resourceId);
+    public LearningResource getResourceById(Long resourceId) {
+        LearningResource resource = learningResourceMapper.selectById(resourceId);
         if (resource == null) {
             throw new BusinessException("学习资源不存在");
         }
         resource.setViewCount(resource.getViewCount() != null ? resource.getViewCount() + 1 : 1);
-        resourceMapper.updateById(resource);
-        return ApiResponse.success(convertToResourceDTO(resource));
+        learningResourceMapper.updateById(resource);
+        return resource;
     }
 
     @Override
-    public ApiResponse<List<LearningPathDTO>> getLearningPathList(String careerGoal) {
-        List<LearningPath> paths;
+    public List<LearningPath> getLearningPathList(String status) {
         try {
-            if (careerGoal != null && !careerGoal.isEmpty()) {
-                paths = pathMapper.findByCareerGoal(careerGoal);
-            } else {
-                paths = pathMapper.findByStatus("ACTIVE");
-            }
+            String filterStatus = (status != null && !status.isEmpty()) ? status : "ACTIVE";
+            List<LearningPath> paths = learningPathMapper.findByStatus(filterStatus);
+            return paths != null ? paths : Collections.emptyList();
         } catch (BindingException ex) {
-            log.error("Mapper method error in getLearningPathList: {}", ex.getMessage());
-            paths = Collections.emptyList();
+            log.error("Mapper method findByStatus not found: {}", ex.getMessage());
+            LambdaQueryWrapper<LearningPath> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(LearningPath::getStatus, "ACTIVE");
+            wrapper.orderByDesc(LearningPath::getCreatedAt);
+            return learningPathMapper.selectList(wrapper);
+        } catch (Exception e) {
+            log.error("Error getting learning path list: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        List<LearningPathDTO> dtoList = paths.stream()
-                .map(this::convertToPathDTO)
-                .collect(Collectors.toList());
-        return ApiResponse.success(dtoList);
     }
 
     @Override
-    public ApiResponse<LearningPathDTO> getLearningPathById(Long pathId) {
-        LearningPath path = pathMapper.selectById(pathId);
-        if (path == null) {
-            throw new BusinessException("学习路径不存在");
-        }
-        return ApiResponse.success(convertToPathDTO(path));
+    public LearningPath getLearningPathById(Long pathId) {
+        return learningPathMapper.selectById(pathId);
     }
 
     @Override
-    public ApiResponse<List<LearningRecordDTO>> getLearningRecords(Long studentId) {
-        List<LearningRecord> records;
+    public List<LearningRecord> getLearningRecords(Long studentId) {
         try {
-            records = recordMapper.findByStudentId(studentId);
+            List<LearningRecord> records = learningRecordMapper.findByStudentId(studentId);
+            return records != null ? records : Collections.emptyList();
         } catch (BindingException ex) {
-            log.error("Mapper method error in getLearningRecords: {}", ex.getMessage());
-            records = Collections.emptyList();
+            log.error("Mapper method findByStudentId not found: {}", ex.getMessage());
+            LambdaQueryWrapper<LearningRecord> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(LearningRecord::getStudentId, studentId);
+            wrapper.orderByDesc(LearningRecord::getCreatedAt);
+            return learningRecordMapper.selectList(wrapper);
+        } catch (Exception e) {
+            log.error("Error getting learning records: {}", e.getMessage());
+            return Collections.emptyList();
         }
-        if (records == null || records.isEmpty()) {
-            return ApiResponse.success(Collections.emptyList());
-        }
-        
-        List<Long> resourceIds = records.stream()
-                .map(LearningRecord::getResourceId)
-                .filter(id -> id != null)
-                .collect(Collectors.toList());
-        
-        final Map<Long, LearningResource> resourceMap;
-        if (!resourceIds.isEmpty()) {
-            List<LearningResource> resourceList = resourceMapper.selectBatchIds(resourceIds);
-            resourceMap = resourceList.stream()
-                    .collect(Collectors.toMap(LearningResource::getId, r -> r));
-        } else {
-            resourceMap = Collections.emptyMap();
-        }
-        
-        List<LearningRecordDTO> dtoList = records.stream()
-                .map(record -> convertToRecordDTO(record, resourceMap.get(record.getResourceId())))
-                .collect(Collectors.toList());
-        return ApiResponse.success(dtoList);
     }
 
     @Override
     @Transactional
-    public ApiResponse<LearningRecordDTO> updateLearningProgress(Long studentId, Long resourceId, Double progress) {
-        LearningResource resource = resourceMapper.selectById(resourceId);
+    public LearningRecord updateLearningProgress(Long studentId, Long resourceId, Double progress) {
+        LearningResource resource = learningResourceMapper.selectById(resourceId);
         if (resource == null) {
             throw new BusinessException("学习资源不存在");
         }
 
-        LearningRecord record = recordMapper.findByStudentIdAndResourceId(studentId, resourceId);
+        LambdaQueryWrapper<LearningRecord> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(LearningRecord::getStudentId, studentId)
+                .eq(LearningRecord::getResourceId, resourceId);
+        LearningRecord record = learningRecordMapper.selectOne(wrapper);
+
         if (record == null) {
             record = LearningRecord.builder()
                     .studentId(studentId)
@@ -159,73 +136,33 @@ public class LearningServiceImpl implements LearningService {
                     .completed(progress >= 100)
                     .lastWatchTime(LocalDateTime.now())
                     .build();
-            recordMapper.insert(record);
+            learningRecordMapper.insert(record);
         } else {
             record.setProgress(Math.min(100.0, Math.max(0.0, progress)));
             record.setCompleted(record.getProgress() >= 100);
             record.setLastWatchTime(LocalDateTime.now());
-            recordMapper.updateById(record);
+            learningRecordMapper.updateById(record);
         }
 
-        return ApiResponse.success(convertToRecordDTO(record, resource));
+        return record;
     }
 
-    private LearningPathDTO convertToPathDTO(LearningPath path) {
-        List<LearningResource> resources;
+    @Override
+    public List<LearningResource> getResourcesForPath(Long pathId) {
         try {
-            resources = pathResourceMapper.findByPathId(path.getId());
+            List<LearningResource> resources = learningPathResourceMapper.findByPathId(pathId);
+            return resources != null ? resources : Collections.emptyList();
         } catch (BindingException ex) {
-            log.error("Mapper method error in convertToPathDTO: {}", ex.getMessage());
-            resources = Collections.emptyList();
+            log.error("Mapper method findByPathId not found: {}", ex.getMessage());
+            return Collections.emptyList();
         }
-        if (resources == null) {
-            resources = Collections.emptyList();
-        }
-        
-        List<ResourceDTO> resourceDTOs = resources.stream()
-                .map(this::convertToResourceDTO)
-                .collect(Collectors.toList());
-
-        return LearningPathDTO.builder()
-                .id(path.getId())
-                .title(path.getTitle())
-                .description(path.getDescription())
-                .careerGoal(path.getCareerGoal())
-                .estimatedDuration(path.getEstimatedDuration())
-                .status(path.getStatus())
-                .createdAt(path.getCreatedAt())
-                .resources(resourceDTOs)
-                .build();
     }
 
-    private ResourceDTO convertToResourceDTO(LearningResource resource) {
-        if (resource == null) return null;
-        return ResourceDTO.builder()
-                .id(resource.getId())
-                .title(resource.getTitle())
-                .type(resource.getType())
-                .category(resource.getCategory())
-                .difficulty(resource.getDifficulty())
-                .duration(resource.getDuration())
-                .url(resource.getUrl())
-                .thumbnailUrl(resource.getThumbnailUrl())
-                .description(resource.getDescription())
-                .viewCount(resource.getViewCount())
-                .status(resource.getStatus())
-                .createdAt(resource.getCreatedAt())
-                .build();
-    }
-
-    private LearningRecordDTO convertToRecordDTO(LearningRecord record, LearningResource resource) {
-        return LearningRecordDTO.builder()
-                .id(record.getId())
-                .studentId(record.getStudentId())
-                .resourceId(record.getResourceId())
-                .resourceTitle(resource != null ? resource.getTitle() : null)
-                .progress(record.getProgress())
-                .completed(record.getCompleted())
-                .lastWatchTime(record.getLastWatchTime())
-                .createdAt(record.getCreatedAt())
-                .build();
+    @Override
+    public List<LearningResource> getResourcesByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return learningResourceMapper.selectBatchIds(ids);
     }
 }

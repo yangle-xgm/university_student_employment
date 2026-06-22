@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.learning.mapper.LearningPathResourceMapper">
-    
-    <select id="findByPathId" resultType="com.example.employment.learning.entity.LearningPathResource">
-        SELECT * FROM learning_path_resources WHERE path_id = #{pathId} ORDER BY sort_order ASC
-    </select>
-    
+  <select id="findByPathId" parameterType="long" resultType="com.example.employment.learning.entity.LearningResource">
+    SELECT lr.id, lr.title, lr.type, lr.category, lr.difficulty, lr.duration, lr.url,
+           lr.thumbnail_url, lr.description, lr.view_count, lr.status, lr.created_at, lr.updated_at
+    FROM learning_resources lr
+    JOIN learning_path_resources lpr ON lpr.resource_id = lr.id
+    WHERE lpr.path_id = #{pathId}
+    ORDER BY lpr.sort_order ASC
+  </select>
 </mapper>

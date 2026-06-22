@@ -67,7 +67,7 @@
             <div v-for="plan in plans" :key="plan.id" class="plan-card" @click="selectPlan(plan)">
               <div class="plan-header">
                 <h3>{{ plan.title }}</h3>
-                <span class="plan-status" :class="plan.status.toLowerCase()">{{ getStatusLabel(plan.status) }}</span>
+                <span class="plan-status" :class="(plan.status || 'unknown').toLowerCase()">{{ getStatusLabel(plan.status) }}</span>
               </div>
               <p class="plan-description">{{ plan.description }}</p>
               <div class="plan-meta">

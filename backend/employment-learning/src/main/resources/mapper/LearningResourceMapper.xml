@@ -1,31 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.learning.mapper.LearningResourceMapper">
-
-    <select id="findByStatus" resultType="com.example.employment.learning.entity.LearningResource">
-        SELECT * FROM learning_resources WHERE status = #{status} ORDER BY created_at DESC
-    </select>
-
-    <select id="findByCategory" resultType="com.example.employment.learning.entity.LearningResource">
-        SELECT * FROM learning_resources WHERE category = #{category} ORDER BY created_at DESC
-    </select>
-
-    <select id="search" resultType="com.example.employment.learning.entity.LearningResource">
-        SELECT * FROM learning_resources
-        WHERE title LIKE CONCAT('%', #{keyword}, '%')
-           OR description LIKE CONCAT('%', #{keyword}, '%')
-        ORDER BY created_at DESC
-    </select>
-
-    <select id="selectByIds" parameterType="java.util.List" resultType="com.example.employment.learning.entity.LearningResource">
-        SELECT id, title, type, category, difficulty, duration, url, thumbnail_url, description, view_count, status, created_at, updated_at
-        FROM learning_resources
-        <if test="list != null and list.size() > 0">
-            WHERE id IN
-            <foreach collection="list" item="id" open="(" separator="," close=")">
-                #{id}
-            </foreach>
-        </if>
-    </select>
-
+  <select id="selectByIds" parameterType="java.util.List" resultType="com.example.employment.learning.entity.LearningResource">
+    SELECT id, title, type, category, difficulty, duration, url, thumbnail_url, description, view_count, status, created_at, updated_at
+    FROM learning_resources
+    <if test="list != null and list.size() > 0">
+      WHERE id IN
+      <foreach collection="list" item="id" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </if>
+  </select>
 </mapper>

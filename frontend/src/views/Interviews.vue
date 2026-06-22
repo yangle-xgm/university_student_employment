@@ -234,7 +234,7 @@ const getStatusLabel = (status) => {
 }
 
 const getStatusClass = (status) => {
-  return status.toLowerCase()
+  return status ? status.toLowerCase() : 'unknown'
 }
 
 const getTypeLabel = (type) => {

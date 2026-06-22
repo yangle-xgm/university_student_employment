@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.learning.mapper.LearningRecordMapper">
-    
-    <select id="findByStudentId" resultType="com.example.employment.learning.entity.LearningRecord">
-        SELECT * FROM learning_records WHERE student_id = #{studentId} ORDER BY created_at DESC
-    </select>
-    
-    <select id="findByStudentIdAndResourceId" resultType="com.example.employment.learning.entity.LearningRecord">
-        SELECT * FROM learning_records WHERE student_id = #{studentId} AND resource_id = #{resourceId}
-    </select>
-    
+  <select id="findByStudentId" parameterType="long" resultType="com.example.employment.learning.entity.LearningRecord">
+    SELECT id, student_id, resource_id, progress, completed, last_watch_time, created_at, updated_at
+    FROM learning_records
+    WHERE student_id = #{studentId}
+    ORDER BY created_at DESC
+  </select>
 </mapper>
