@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -92,10 +93,23 @@ public class LearningServiceImpl implements LearningService {
     @Override
     public ApiResponse<List<LearningRecordDTO>> getLearningRecords(Long studentId) {
         List<LearningRecord> records = recordMapper.findByStudentId(studentId);
-        Map<Long, LearningResource> resourceMap = resourceMapper.selectBatchIds(
-                records.stream().map(LearningRecord::getResourceId).collect(Collectors.toList()))
-                .stream()
-                .collect(Collectors.toMap(LearningResource::getId, r -> r));
+        if (records == null || records.isEmpty()) {
+            return ApiResponse.success(Collections.emptyList());
+        }
+        
+        List<Long> resourceIds = records.stream()
+                .map(LearningRecord::getResourceId)
+                .filter(id -> id != null)
+                .collect(Collectors.toList());
+        
+        final Map<Long, LearningResource> resourceMap;
+        if (!resourceIds.isEmpty()) {
+            resourceMap = resourceMapper.selectBatchIds(resourceIds)
+                    .stream()
+                    .collect(Collectors.toMap(LearningResource::getId, r -> r));
+        } else {
+            resourceMap = Collections.emptyMap();
+        }
         
         List<LearningRecordDTO> dtoList = records.stream()
                 .map(record -> convertToRecordDTO(record, resourceMap.get(record.getResourceId())))
@@ -133,16 +147,40 @@ public class LearningServiceImpl implements LearningService {
 
     private LearningPathDTO convertToPathDTO(LearningPath path) {
         List<LearningPathResource> pathResources = pathResourceMapper.findByPathId(path.getId());
+        if (pathResources == null || pathResources.isEmpty()) {
+            return LearningPathDTO.builder()
+                    .id(path.getId())
+                    .title(path.getTitle())
+                    .description(path.getDescription())
+                    .careerGoal(path.getCareerGoal())
+                    .estimatedDuration(path.getEstimatedDuration())
+                    .status(path.getStatus())
+                    .createdAt(path.getCreatedAt())
+                    .resources(Collections.emptyList())
+                    .build();
+        }
+        
         List<Long> resourceIds = pathResources.stream()
                 .map(LearningPathResource::getResourceId)
+                .filter(id -> id != null)
                 .collect(Collectors.toList());
         
-        Map<Long, LearningResource> resourceMap = resourceMapper.selectBatchIds(resourceIds)
-                .stream()
-                .collect(Collectors.toMap(LearningResource::getId, r -> r));
+        final Map<Long, LearningResource> resourceMap;
+        if (!resourceIds.isEmpty()) {
+            resourceMap = resourceMapper.selectBatchIds(resourceIds)
+                    .stream()
+                    .collect(Collectors.toMap(LearningResource::getId, r -> r));
+        } else {
+            resourceMap = Collections.emptyMap();
+        }
         
         List<ResourceDTO> resources = pathResources.stream()
-                .sorted((a, b) -> Integer.compare(a.getSortOrder(), b.getSortOrder()))
+                .sorted((a, b) -> {
+                    if (a.getSortOrder() == null && b.getSortOrder() == null) return 0;
+                    if (a.getSortOrder() == null) return -1;
+                    if (b.getSortOrder() == null) return 1;
+                    return Integer.compare(a.getSortOrder(), b.getSortOrder());
+                })
                 .map(pr -> convertToResourceDTO(resourceMap.get(pr.getResourceId())))
                 .filter(r -> r != null)
                 .collect(Collectors.toList());
