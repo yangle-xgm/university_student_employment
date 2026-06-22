@@ -204,7 +204,7 @@
           </div>
           <div class="form-group">
             <label>个人简介</label>
-            <el-textarea v-model="resumeForm.introduction" placeholder="请介绍一下自己..." rows="3" />
+            <el-input v-model="resumeForm.introduction" type="textarea" placeholder="请介绍一下自己..." :rows="3" />
           </div>
           <div class="form-group">
             <label>专业技能</label>

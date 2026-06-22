@@ -158,7 +158,7 @@
           </div>
           <div class="form-group">
             <label>里程碑描述</label>
-            <el-textarea v-model="milestoneForm.description" placeholder="请描述这个里程碑..." rows="3" />
+            <el-input v-model="milestoneForm.description" type="textarea" placeholder="请描述这个里程碑..." :rows="3" />
           </div>
         </form>
         <template #footer>
