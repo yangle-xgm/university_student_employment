@@ -1,14 +1,17 @@
 package com.example.employment.resume.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.resume.entity.Resume;
 import com.example.employment.resume.repository.ResumeMapper;
 import com.example.employment.resume.service.ResumeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,6 +37,19 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public Resume createResume(Resume resume) {
+        if (resume.getStudentId() == null) {
+            Long currentUserId = resolveCurrentUserId();
+            if (currentUserId == null) {
+                throw new BusinessException("无法识别当前用户ID，请先登录或在请求体中提供 studentId");
+            }
+            resume.setStudentId(currentUserId);
+        }
+
+        if (resume.getCreatedAt() == null) {
+            resume.setCreatedAt(LocalDateTime.now());
+        }
+        resume.setUpdatedAt(LocalDateTime.now());
+
         resumeMapper.insert(resume);
         return resume;
     }
@@ -58,5 +74,27 @@ public class ResumeServiceImpl implements ResumeService {
             throw new BusinessException("简历不存在");
         }
         resumeMapper.deleteById(resumeId);
+    }
+
+    private Long resolveCurrentUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) return null;
+        Object principal = auth.getPrincipal();
+        if (principal == null) return null;
+
+        try {
+            Method getIdMethod = principal.getClass().getMethod("getId");
+            Object idObj = getIdMethod.invoke(principal);
+            if (idObj instanceof Number) {
+                return ((Number) idObj).longValue();
+            }
+            if (idObj instanceof String) {
+                return Long.valueOf((String) idObj);
+            }
+        } catch (NoSuchMethodException ignored) {
+        } catch (Exception e) {
+        }
+
+        return null;
     }
 }

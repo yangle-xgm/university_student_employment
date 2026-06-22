@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,24 @@ public class ResumeController {
 
     @PostMapping
     @Operation(summary = "创建简历", description = "创建新简历")
-    public ResponseEntity<ApiResponse<Resume>> createResume(@RequestBody Resume resume) {
+    public ResponseEntity<ApiResponse<Resume>> createResume(
+            Authentication authentication,
+            @RequestBody Resume resume) {
+
+        if (resume.getStudentId() == null && authentication != null) {
+            Object principal = authentication.getPrincipal();
+            try {
+                java.lang.reflect.Method m = principal.getClass().getMethod("getId");
+                Object idObj = m.invoke(principal);
+                if (idObj instanceof Number) {
+                    resume.setStudentId(((Number) idObj).longValue());
+                } else if (idObj instanceof String) {
+                    resume.setStudentId(Long.valueOf((String) idObj));
+                }
+            } catch (Exception ignore) {
+            }
+        }
+
         Resume created = resumeService.createResume(resume);
         return ResponseEntity.ok(ApiResponse.success("创建成功", created));
     }
