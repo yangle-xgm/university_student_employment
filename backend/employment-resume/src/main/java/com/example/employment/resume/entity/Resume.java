@@ -18,41 +18,32 @@ public class Resume {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @TableField("user_id")
-    private Long userId;
+    @TableField("student_id")
+    private Long studentId;
+
+    @TableField("template_id")
+    private Long templateId;
 
     @TableField("title")
     private String title;
 
-    @TableField("summary")
-    private String summary;
+    @TableField("content")
+    private String content;
 
-    @TableField("education")
-    private String education;
+    @TableField("file_url")
+    private String fileUrl;
 
-    @TableField("experience")
-    private String experience;
+    @TableField("is_default")
+    private Boolean isDefault;
 
-    @TableField("skills")
-    private String skills;
+    @TableField("format_score")
+    private Integer formatScore;
 
-    @TableField("projects")
-    private String projects;
+    @TableField("content_score")
+    private Integer contentScore;
 
-    @TableField("certificates")
-    private String certificates;
-
-    @TableField("awards")
-    private String awards;
-
-    @TableField("contact_email")
-    private String contactEmail;
-
-    @TableField("contact_phone")
-    private String contactPhone;
-
-    @TableField("status")
-    private String status;
+    @TableField("match_score")
+    private Integer matchScore;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;

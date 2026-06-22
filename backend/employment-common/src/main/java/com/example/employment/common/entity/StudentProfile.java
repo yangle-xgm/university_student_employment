@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -31,17 +31,26 @@ public class StudentProfile {
     @TableField("grade")
     private String grade;
 
-    @TableField("graduation_date")
-    private LocalDate graduationDate;
-
     @TableField("education")
     private String education;
 
     @TableField("skills")
     private String skills;
 
-    @TableField("resume_url")
-    private String resumeUrl;
+    @TableField("bio")
+    private String bio;
+
+    @TableField("avatar_url")
+    private String avatarUrl;
+
+    @TableField("target_job")
+    private String targetJob;
+
+    @TableField("expected_salary")
+    private BigDecimal expectedSalary;
+
+    @TableField("job_status")
+    private String jobStatus;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;

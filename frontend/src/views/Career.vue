@@ -137,7 +137,7 @@
           </div>
           <div class="form-group">
             <label>规划描述</label>
-            <el-textarea v-model="planForm.description" placeholder="请描述您的职业规划..." rows="3" />
+            <el-input v-model="planForm.description" type="textarea" placeholder="请描述您的职业规划..." :rows="3" />
           </div>
         </form>
         <template #footer>

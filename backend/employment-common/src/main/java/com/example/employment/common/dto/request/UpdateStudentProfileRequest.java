@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -21,15 +21,20 @@ public class UpdateStudentProfileRequest {
     @Size(max = 20, message = "年级不能超过20个字符")
     private String grade;
 
-    private LocalDate graduationDate;
-
     @Size(max = 20, message = "学历不能超过20个字符")
     private String education;
 
     private String skills;
 
-    @Size(max = 255, message = "简历URL不能超过255个字符")
-    private String resumeUrl;
+    private String bio;
+
+    @Size(max = 100, message = "目标职位不能超过100个字符")
+    private String targetJob;
+
+    private BigDecimal expectedSalary;
+
+    @Size(max = 20, message = "求职状态不能超过20个字符")
+    private String jobStatus;
 
     @Size(max = 50, message = "真实姓名不能超过50个字符")
     private String realName;

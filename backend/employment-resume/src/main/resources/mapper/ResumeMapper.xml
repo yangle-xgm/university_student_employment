@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.resume.repository.ResumeMapper">
     
-    <select id="selectByUserId" resultType="com.example.employment.resume.entity.Resume">
-        SELECT * FROM resumes WHERE user_id = #{userId} ORDER BY created_at DESC
+    <select id="selectByStudentId" resultType="com.example.employment.resume.entity.Resume">
+        SELECT * FROM resumes WHERE student_id = #{studentId} ORDER BY created_at DESC
     </select>
     
 </mapper>

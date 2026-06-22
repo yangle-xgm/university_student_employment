@@ -77,17 +77,23 @@ public class StudentServiceImpl implements StudentService {
         if (request.getGrade() != null) {
             profile.setGrade(request.getGrade());
         }
-        if (request.getGraduationDate() != null) {
-            profile.setGraduationDate(request.getGraduationDate());
-        }
         if (request.getEducation() != null) {
             profile.setEducation(request.getEducation());
         }
         if (request.getSkills() != null) {
             profile.setSkills(request.getSkills());
         }
-        if (request.getResumeUrl() != null) {
-            profile.setResumeUrl(request.getResumeUrl());
+        if (request.getBio() != null) {
+            profile.setBio(request.getBio());
+        }
+        if (request.getTargetJob() != null) {
+            profile.setTargetJob(request.getTargetJob());
+        }
+        if (request.getExpectedSalary() != null) {
+            profile.setExpectedSalary(request.getExpectedSalary());
+        }
+        if (request.getJobStatus() != null) {
+            profile.setJobStatus(request.getJobStatus());
         }
 
         userMapper.updateById(user);

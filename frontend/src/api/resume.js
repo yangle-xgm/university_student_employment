@@ -7,9 +7,9 @@ export const getResumeById = (resumeId) => {
   })
 }
 
-export const getResumesByUserId = (userId) => {
+export const getResumesByStudentId = (studentId) => {
   return request({
-    url: `/resumes/user/${userId}`,
+    url: `/resumes/student/${studentId}`,
     method: 'get'
   })
 }
@@ -36,3 +36,5 @@ export const deleteResume = (resumeId) => {
     method: 'delete'
   })
 }
+
+export const getResumesByUserId = getResumesByStudentId

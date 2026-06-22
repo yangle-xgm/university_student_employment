@@ -14,4 +14,8 @@ public interface JobMapper extends BaseMapper<Job> {
             @Param("keyword") String keyword,
             @Param("location") String location,
             @Param("industry") String industry);
+
+    Job selectJobWithCompany(@Param("id") Long id);
+
+    List<Job> selectAllJobsWithCompany();
 }

@@ -18,17 +18,23 @@ public class Application {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @TableField("user_id")
-    private Long userId;
-
     @TableField("job_id")
     private Long jobId;
+
+    @TableField("student_id")
+    private Long studentId;
+
+    @TableField("resume_id")
+    private Long resumeId;
 
     @TableField("status")
     private String status;
 
-    @TableField("cover_letter")
-    private String coverLetter;
+    @TableField("apply_time")
+    private LocalDateTime applyTime;
+
+    @TableField("feedback")
+    private String feedback;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;

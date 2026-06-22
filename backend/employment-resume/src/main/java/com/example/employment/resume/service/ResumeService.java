@@ -1,15 +1,13 @@
 package com.example.employment.resume.service;
 
-import com.example.employment.resume.dto.request.CreateResumeRequest;
-import com.example.employment.resume.dto.request.UpdateResumeRequest;
-import com.example.employment.resume.dto.response.ResumeDTO;
+import com.example.employment.resume.entity.Resume;
 
 import java.util.List;
 
 public interface ResumeService {
-    ResumeDTO getResumeById(Long resumeId);
-    List<ResumeDTO> getResumesByUserId(Long userId);
-    ResumeDTO createResume(CreateResumeRequest request);
-    ResumeDTO updateResume(Long resumeId, UpdateResumeRequest request);
+    Resume getResumeById(Long resumeId);
+    List<Resume> getResumesByStudentId(Long studentId);
+    Resume createResume(Resume resume);
+    Resume updateResume(Long resumeId, Resume resume);
     void deleteResume(Long resumeId);
 }

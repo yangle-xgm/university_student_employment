@@ -18,26 +18,23 @@ public class Interview {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @TableField("user_id")
-    private Long userId;
-
-    @TableField("job_id")
-    private Long jobId;
-
-    @TableField("interview_time")
-    private LocalDateTime interviewTime;
-
-    @TableField("location")
-    private String location;
+    @TableField("application_id")
+    private Long applicationId;
 
     @TableField("type")
     private String type;
 
+    @TableField("scheduled_time")
+    private LocalDateTime scheduledTime;
+
     @TableField("status")
     private String status;
 
-    @TableField("notes")
-    private String notes;
+    @TableField("meeting_url")
+    private String meetingUrl;
+
+    @TableField("recording_url")
+    private String recordingUrl;
 
     @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;

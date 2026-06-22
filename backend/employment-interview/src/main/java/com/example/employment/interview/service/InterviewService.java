@@ -1,17 +1,14 @@
 package com.example.employment.interview.service;
 
-import com.example.employment.interview.dto.request.CreateInterviewRequest;
-import com.example.employment.interview.dto.request.UpdateInterviewRequest;
-import com.example.employment.interview.dto.response.InterviewDTO;
+import com.example.employment.interview.entity.Interview;
 
 import java.util.List;
 
 public interface InterviewService {
-    InterviewDTO getInterviewById(Long interviewId);
-    List<InterviewDTO> getAllInterviews();
-    List<InterviewDTO> getInterviewsByUserId(Long userId);
-    List<InterviewDTO> getInterviewsByJobId(Long jobId);
-    InterviewDTO createInterview(CreateInterviewRequest request);
-    InterviewDTO updateInterview(Long interviewId, UpdateInterviewRequest request);
+    Interview getInterviewById(Long interviewId);
+    List<Interview> getAllInterviews();
+    List<Interview> getInterviewsByApplicationId(Long applicationId);
+    Interview createInterview(Interview interview);
+    Interview updateInterview(Long interviewId, Interview interview);
     void deleteInterview(Long interviewId);
 }

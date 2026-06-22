@@ -1,19 +1,15 @@
 package com.example.employment.interview.service.impl;
 
-import com.example.employment.interview.dto.request.CreateInterviewRequest;
-import com.example.employment.interview.dto.request.UpdateInterviewRequest;
-import com.example.employment.interview.dto.response.InterviewDTO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.example.employment.common.exception.BusinessException;
 import com.example.employment.interview.entity.Interview;
 import com.example.employment.interview.mapper.InterviewMapper;
 import com.example.employment.interview.service.InterviewService;
-import com.example.employment.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,80 +18,45 @@ public class InterviewServiceImpl implements InterviewService {
     private final InterviewMapper interviewMapper;
 
     @Override
-    public InterviewDTO getInterviewById(Long interviewId) {
+    public Interview getInterviewById(Long interviewId) {
         Interview interview = interviewMapper.selectById(interviewId);
         if (interview == null) {
             throw new BusinessException("面试不存在");
         }
-        return convertToDTO(interview);
+        return interview;
     }
 
     @Override
-    public List<InterviewDTO> getAllInterviews() {
-        List<Interview> interviews = interviewMapper.selectList(null);
-        return interviews.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Interview> getAllInterviews() {
+        return interviewMapper.selectList(null);
     }
 
     @Override
-    public List<InterviewDTO> getInterviewsByUserId(Long userId) {
-        List<Interview> interviews = interviewMapper.findByUserId(userId);
-        return interviews.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<InterviewDTO> getInterviewsByJobId(Long jobId) {
-        List<Interview> interviews = interviewMapper.findByJobId(jobId);
-        return interviews.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Interview> getInterviewsByApplicationId(Long applicationId) {
+        LambdaQueryWrapper<Interview> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Interview::getApplicationId, applicationId)
+               .orderByDesc(Interview::getCreatedAt);
+        return interviewMapper.selectList(wrapper);
     }
 
     @Override
     @Transactional
-    public InterviewDTO createInterview(CreateInterviewRequest request) {
-        Interview interview = Interview.builder()
-                .userId(request.getUserId())
-                .jobId(request.getJobId())
-                .interviewTime(request.getInterviewTime())
-                .location(request.getLocation())
-                .status("SCHEDULED")
-                .notes(request.getNotes())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
-        
+    public Interview createInterview(Interview interview) {
+        interview.setStatus("SCHEDULED");
         interviewMapper.insert(interview);
-        return convertToDTO(interview);
+        return interview;
     }
 
     @Override
     @Transactional
-    public InterviewDTO updateInterview(Long interviewId, UpdateInterviewRequest request) {
-        Interview interview = interviewMapper.selectById(interviewId);
-        if (interview == null) {
+    public Interview updateInterview(Long interviewId, Interview interview) {
+        Interview existing = interviewMapper.selectById(interviewId);
+        if (existing == null) {
             throw new BusinessException("面试不存在");
         }
-
-        if (request.getInterviewTime() != null) {
-            interview.setInterviewTime(request.getInterviewTime());
-        }
-        if (request.getLocation() != null) {
-            interview.setLocation(request.getLocation());
-        }
-        if (request.getStatus() != null) {
-            interview.setStatus(request.getStatus());
-        }
-        if (request.getNotes() != null) {
-            interview.setNotes(request.getNotes());
-        }
-        interview.setUpdatedAt(LocalDateTime.now());
-
+        interview.setId(interviewId);
         interviewMapper.updateById(interview);
-        return convertToDTO(interview);
+        return interviewMapper.selectById(interviewId);
     }
 
     @Override
@@ -106,19 +67,5 @@ public class InterviewServiceImpl implements InterviewService {
             throw new BusinessException("面试不存在");
         }
         interviewMapper.deleteById(interviewId);
-    }
-
-    private InterviewDTO convertToDTO(Interview entity) {
-        return InterviewDTO.builder()
-                .id(entity.getId())
-                .userId(entity.getUserId())
-                .jobId(entity.getJobId())
-                .interviewTime(entity.getInterviewTime())
-                .location(entity.getLocation())
-                .notes(entity.getNotes())
-                .status(entity.getStatus())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .build();
     }
 }

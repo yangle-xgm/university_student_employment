@@ -3,18 +3,35 @@
 <mapper namespace="com.example.employment.job.repository.JobMapper">
     
     <select id="searchJobs" resultType="com.example.employment.job.entity.Job">
-        SELECT * FROM jobs 
-        WHERE status = 'ACTIVE'
+        SELECT j.*, c.company_name 
+        FROM jobs j 
+        LEFT JOIN company_profiles c ON j.company_id = c.id
+        WHERE j.status = 'PUBLISHED'
         <if test="keyword != null and keyword != ''">
-            AND (title LIKE CONCAT('%', #{keyword}, '%') OR description LIKE CONCAT('%', #{keyword}, '%'))
+            AND (j.title LIKE CONCAT('%', #{keyword}, '%') OR c.company_name LIKE CONCAT('%', #{keyword}, '%'))
         </if>
         <if test="location != null and location != ''">
-            AND location LIKE CONCAT('%', #{location}, '%')
+            AND j.location LIKE CONCAT('%', #{location}, '%')
         </if>
         <if test="industry != null and industry != ''">
-            AND industry = #{industry}
+            AND j.industry = #{industry}
         </if>
-        ORDER BY created_at DESC
+        ORDER BY j.created_at DESC
+    </select>
+
+    <select id="selectJobWithCompany" resultType="com.example.employment.job.entity.Job">
+        SELECT j.*, c.company_name 
+        FROM jobs j 
+        LEFT JOIN company_profiles c ON j.company_id = c.id
+        WHERE j.id = #{id}
+    </select>
+
+    <select id="selectAllJobsWithCompany" resultType="com.example.employment.job.entity.Job">
+        SELECT j.*, c.company_name 
+        FROM jobs j 
+        LEFT JOIN company_profiles c ON j.company_id = c.id
+        WHERE j.status = 'PUBLISHED'
+        ORDER BY j.created_at DESC
     </select>
     
 </mapper>

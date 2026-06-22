@@ -10,5 +10,5 @@ import java.util.List;
 @Mapper
 public interface ResumeMapper extends BaseMapper<Resume> {
 
-    List<Resume> selectByUserId(@Param("userId") Long userId);
+    List<Resume> selectByStudentId(@Param("studentId") Long studentId);
 }
