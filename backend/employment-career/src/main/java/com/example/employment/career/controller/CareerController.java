@@ -22,10 +22,10 @@ public class CareerController {
 
     private final CareerPlanService careerPlanService;
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/student/{userId}")
     @Operation(summary = "获取学生职业规划列表", description = "获取指定学生的所有职业规划")
-    public ResponseEntity<ApiResponse<List<CareerPlanDTO>>> getPlansByStudentId(@PathVariable Long studentId) {
-        return ResponseEntity.ok(careerPlanService.getPlansByStudentId(studentId));
+    public ResponseEntity<ApiResponse<List<CareerPlanDTO>>> getPlansByStudentId(@PathVariable Long userId) {
+        return ResponseEntity.ok(careerPlanService.getPlansByStudentId(userId));
     }
 
     @GetMapping("/{planId}")
@@ -37,9 +37,9 @@ public class CareerController {
     @PostMapping
     @Operation(summary = "创建职业规划", description = "创建新的职业规划")
     public ResponseEntity<ApiResponse<CareerPlanDTO>> createPlan(
-            @RequestParam Long studentId,
+            @RequestParam Long userId,
             @RequestBody CreateCareerPlanRequest request) {
-        return ResponseEntity.ok(careerPlanService.createPlan(studentId, request));
+        return ResponseEntity.ok(careerPlanService.createPlan(userId, request));
     }
 
     @PutMapping("/{planId}")

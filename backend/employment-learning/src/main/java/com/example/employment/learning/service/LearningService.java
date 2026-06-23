@@ -12,8 +12,8 @@ public interface LearningService {
     LearningResource getResourceById(Long resourceId);
     List<LearningPath> getLearningPathList(String status);
     LearningPath getLearningPathById(Long pathId);
-    List<LearningRecord> getLearningRecords(Long studentId);
-    LearningRecord updateLearningProgress(Long studentId, Long resourceId, Double progress);
+    List<LearningRecord> getLearningRecords(Long userId);
+    LearningRecord updateLearningProgress(Long userId, Long resourceId, Double progress);
     List<LearningResource> getResourcesForPath(Long pathId);
     List<LearningResource> getResourcesByIds(List<Long> ids);
 }

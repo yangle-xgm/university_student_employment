@@ -11,10 +11,12 @@ import com.example.employment.career.mapper.CareerPlanMapper;
 import com.example.employment.career.service.CareerPlanService;
 import com.example.employment.common.dto.response.ApiResponse;
 import com.example.employment.common.exception.BusinessException;
+import com.example.employment.student.service.StudentProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,10 +26,15 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 
     private final CareerPlanMapper planMapper;
     private final CareerMilestoneMapper milestoneMapper;
+    private final StudentProfileService studentProfileService;
 
     @Override
-    public ApiResponse<List<CareerPlanDTO>> getPlansByStudentId(Long studentId) {
-        List<CareerPlan> plans = planMapper.findByStudentId(studentId);
+    public ApiResponse<List<CareerPlanDTO>> getPlansByStudentId(Long userId) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, false);
+        if (studentProfileId == null) {
+            throw new BusinessException("学生档案不存在");
+        }
+        List<CareerPlan> plans = planMapper.findByStudentId(studentProfileId);
         List<CareerPlanDTO> dtoList = plans.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -45,9 +52,14 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 
     @Override
     @Transactional
-    public ApiResponse<CareerPlanDTO> createPlan(Long studentId, CreateCareerPlanRequest request) {
+    public ApiResponse<CareerPlanDTO> createPlan(Long userId, CreateCareerPlanRequest request) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, true);
+        if (studentProfileId == null) {
+            throw new BusinessException("无法获取学生档案ID");
+        }
+
         CareerPlan plan = CareerPlan.builder()
-                .studentId(studentId)
+                .studentId(studentProfileId)
                 .title(request.getTitle())
                 .goalShort(request.getGoalShort())
                 .goalMedium(request.getGoalMedium())

@@ -19,17 +19,17 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="employment-assessment" target="18" />
-      <module name="employment-auth" target="18" />
-      <module name="employment-career" target="18" />
-      <module name="employment-common" target="18" />
-      <module name="employment-gateway" target="18" />
-      <module name="employment-interview" target="18" />
-      <module name="employment-job" target="18" />
-      <module name="employment-learning" target="18" />
-      <module name="employment-platform" target="18" />
-      <module name="employment-resume" target="18" />
-      <module name="employment-student" target="18" />
+      <module name="employment-assessment" target="17" />
+      <module name="employment-auth" target="17" />
+      <module name="employment-career" target="17" />
+      <module name="employment-common" target="17" />
+      <module name="employment-gateway" target="17" />
+      <module name="employment-interview" target="17" />
+      <module name="employment-job" target="17" />
+      <module name="employment-learning" target="17" />
+      <module name="employment-platform" target="17" />
+      <module name="employment-resume" target="17" />
+      <module name="employment-student" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -42,6 +42,7 @@
       <module name="employment-interview" options="-parameters" />
       <module name="employment-job" options="-parameters" />
       <module name="employment-learning" options="-parameters" />
+      <module name="employment-platform" options="-parameters" />
       <module name="employment-resume" options="-parameters" />
       <module name="employment-student" options="-parameters" />
     </option>

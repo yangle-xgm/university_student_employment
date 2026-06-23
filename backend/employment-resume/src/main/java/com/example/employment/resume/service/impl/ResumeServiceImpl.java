@@ -2,6 +2,7 @@ package com.example.employment.resume.service.impl;
 
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.resume.entity.Resume;
+import com.example.employment.student.service.StudentProfileService;
 import com.example.employment.resume.repository.ResumeMapper;
 import com.example.employment.resume.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeMapper resumeMapper;
+    private final StudentProfileService studentProfileService;
 
     @Override
     public Resume getResumeById(Long resumeId) {
@@ -37,13 +39,19 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public Resume createResume(Resume resume) {
-        if (resume.getStudentId() == null) {
-            Long currentUserId = resolveCurrentUserId();
-            if (currentUserId == null) {
+        Long userId = resume.getStudentId();
+        if (userId == null) {
+            userId = resolveCurrentUserId();
+            if (userId == null) {
                 throw new BusinessException("无法识别当前用户ID，请先登录或在请求体中提供 studentId");
             }
-            resume.setStudentId(currentUserId);
         }
+
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, true);
+        if (studentProfileId == null) {
+            throw new BusinessException("无法获取学生档案ID");
+        }
+        resume.setStudentId(studentProfileId);
 
         if (resume.getCreatedAt() == null) {
             resume.setCreatedAt(LocalDateTime.now());

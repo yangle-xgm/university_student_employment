@@ -3,6 +3,7 @@ package com.example.employment.learning.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.learning.entity.LearningPath;
+import com.example.employment.student.service.StudentProfileService;
 import com.example.employment.learning.entity.LearningRecord;
 import com.example.employment.learning.entity.LearningResource;
 import com.example.employment.learning.mapper.LearningPathMapper;
@@ -30,6 +31,7 @@ public class LearningServiceImpl implements LearningService {
     private final LearningPathResourceMapper learningPathResourceMapper;
     private final LearningResourceMapper learningResourceMapper;
     private final LearningRecordMapper learningRecordMapper;
+    private final StudentProfileService studentProfileService;
 
     @Override
     public List<LearningResource> getResourceList(String category) {
@@ -99,14 +101,18 @@ public class LearningServiceImpl implements LearningService {
     }
 
     @Override
-    public List<LearningRecord> getLearningRecords(Long studentId) {
+    public List<LearningRecord> getLearningRecords(Long userId) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, false);
+        if (studentProfileId == null) {
+            return Collections.emptyList();
+        }
         try {
-            List<LearningRecord> records = learningRecordMapper.findByStudentId(studentId);
+            List<LearningRecord> records = learningRecordMapper.findByStudentId(studentProfileId);
             return records != null ? records : Collections.emptyList();
         } catch (BindingException ex) {
             log.error("Mapper method findByStudentId not found: {}", ex.getMessage());
             LambdaQueryWrapper<LearningRecord> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(LearningRecord::getStudentId, studentId);
+            wrapper.eq(LearningRecord::getStudentId, studentProfileId);
             wrapper.orderByDesc(LearningRecord::getCreatedAt);
             return learningRecordMapper.selectList(wrapper);
         } catch (Exception e) {
@@ -117,20 +123,25 @@ public class LearningServiceImpl implements LearningService {
 
     @Override
     @Transactional
-    public LearningRecord updateLearningProgress(Long studentId, Long resourceId, Double progress) {
+    public LearningRecord updateLearningProgress(Long userId, Long resourceId, Double progress) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, true);
+        if (studentProfileId == null) {
+            throw new BusinessException("无法获取学生档案ID");
+        }
+
         LearningResource resource = learningResourceMapper.selectById(resourceId);
         if (resource == null) {
             throw new BusinessException("学习资源不存在");
         }
 
         LambdaQueryWrapper<LearningRecord> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(LearningRecord::getStudentId, studentId)
+        wrapper.eq(LearningRecord::getStudentId, studentProfileId)
                 .eq(LearningRecord::getResourceId, resourceId);
         LearningRecord record = learningRecordMapper.selectOne(wrapper);
 
         if (record == null) {
             record = LearningRecord.builder()
-                    .studentId(studentId)
+                    .studentId(studentProfileId)
                     .resourceId(resourceId)
                     .progress(Math.min(100.0, Math.max(0.0, progress)))
                     .completed(progress >= 100)

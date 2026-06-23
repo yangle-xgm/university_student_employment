@@ -16,6 +16,7 @@ import com.example.employment.assessment.mapper.AssessmentReportMapper;
 import com.example.employment.assessment.service.AssessmentService;
 import com.example.employment.common.dto.response.ApiResponse;
 import com.example.employment.common.exception.BusinessException;
+import com.example.employment.student.service.StudentProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class AssessmentServiceImpl implements AssessmentService {
     private final AssessmentRecordMapper recordMapper;
     private final AssessmentReportMapper reportMapper;
     private final ObjectMapper objectMapper;
+    private final StudentProfileService studentProfileService;
 
     @Override
     public ApiResponse<List<AssessmentDTO>> getAssessmentList() {
@@ -70,6 +72,8 @@ public class AssessmentServiceImpl implements AssessmentService {
     @Override
     @Transactional
     public ApiResponse<SubmitResultDTO> submitAnswers(Long studentId, SubmitAnswersRequest request) {
+        Long studentProfileId = ensureStudentProfileForUser(studentId);
+
         Assessment assessment = assessmentMapper.selectById(request.getAssessmentId());
         if (assessment == null) {
             throw new BusinessException("测评不存在");
@@ -102,16 +106,18 @@ public class AssessmentServiceImpl implements AssessmentService {
         }
 
         AssessmentRecord record = AssessmentRecord.builder()
-                .studentId(studentId)
+                .studentId(studentProfileId)
                 .assessmentId(request.getAssessmentId())
                 .answers(answersJson)
                 .score(finalScore)
                 .status("COMPLETED")
                 .completedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
         recordMapper.insert(record);
 
-        Long reportId = generateReport(record.getId(), studentId, finalScore, assessment.getDimension());
+        Long reportId = generateReport(record.getId(), studentProfileId, finalScore, assessment.getDimension());
 
         SubmitResultDTO result = SubmitResultDTO.builder()
                 .reportId(reportId)
@@ -120,6 +126,11 @@ public class AssessmentServiceImpl implements AssessmentService {
                 .build();
 
         return ApiResponse.success(result);
+    }
+
+    private Long ensureStudentProfileForUser(Long userId) {
+        if (userId == null) return null;
+        return studentProfileService.getOrCreateStudentProfileId(userId, true);
     }
 
     @Override
@@ -132,8 +143,12 @@ public class AssessmentServiceImpl implements AssessmentService {
     }
 
     @Override
-    public ApiResponse<List<ReportDTO>> getReportsByStudentId(Long studentId) {
-        List<AssessmentReport> reports = reportMapper.findByStudentId(studentId);
+    public ApiResponse<List<ReportDTO>> getReportsByStudentId(Long userId) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, false);
+        if (studentProfileId == null) {
+            throw new BusinessException("学生档案不存在");
+        }
+        List<AssessmentReport> reports = reportMapper.findByStudentId(studentProfileId);
         List<ReportDTO> dtoList = reports.stream()
                 .map(this::convertToReportDTO)
                 .collect(Collectors.toList());

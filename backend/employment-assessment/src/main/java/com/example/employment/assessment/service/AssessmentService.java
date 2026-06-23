@@ -13,7 +13,7 @@ public interface AssessmentService {
     ApiResponse<List<AssessmentDTO>> getAssessmentList();
     ApiResponse<AssessmentDTO> getAssessmentById(Long id);
     ApiResponse<List<QuestionDTO>> getQuestionsByAssessmentId(Long assessmentId);
-    ApiResponse<SubmitResultDTO> submitAnswers(Long studentId, SubmitAnswersRequest request);
+    ApiResponse<SubmitResultDTO> submitAnswers(Long userId, SubmitAnswersRequest request);
     ApiResponse<ReportDTO> getReportById(Long reportId);
-    ApiResponse<List<ReportDTO>> getReportsByStudentId(Long studentId);
+    ApiResponse<List<ReportDTO>> getReportsByStudentId(Long userId);
 }

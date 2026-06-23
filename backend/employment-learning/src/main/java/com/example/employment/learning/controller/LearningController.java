@@ -58,20 +58,20 @@ public class LearningController {
         return ResponseEntity.ok(ApiResponse.success(path));
     }
 
-    @GetMapping("/records/{studentId}")
+    @GetMapping("/records/{userId}")
     @Operation(summary = "获取学习记录", description = "获取指定学生的学习记录")
-    public ResponseEntity<ApiResponse<List<LearningRecord>>> getLearningRecords(@PathVariable Long studentId) {
-        List<LearningRecord> records = learningService.getLearningRecords(studentId);
+    public ResponseEntity<ApiResponse<List<LearningRecord>>> getLearningRecords(@PathVariable Long userId) {
+        List<LearningRecord> records = learningService.getLearningRecords(userId);
         return ResponseEntity.ok(ApiResponse.success(records));
     }
 
     @PostMapping("/records/progress")
     @Operation(summary = "更新学习进度", description = "更新学生学习资源的进度")
     public ResponseEntity<ApiResponse<LearningRecord>> updateProgress(
-            @RequestParam Long studentId,
+            @RequestParam Long userId,
             @RequestParam Long resourceId,
             @RequestParam Double progress) {
-        LearningRecord record = learningService.updateLearningProgress(studentId, resourceId, progress);
+        LearningRecord record = learningService.updateLearningProgress(userId, resourceId, progress);
         return ResponseEntity.ok(ApiResponse.success(record));
     }
 }

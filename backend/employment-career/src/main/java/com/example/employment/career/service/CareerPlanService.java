@@ -9,9 +9,9 @@ import com.example.employment.common.dto.response.ApiResponse;
 import java.util.List;
 
 public interface CareerPlanService {
-    ApiResponse<List<CareerPlanDTO>> getPlansByStudentId(Long studentId);
+    ApiResponse<List<CareerPlanDTO>> getPlansByStudentId(Long userId);
     ApiResponse<CareerPlanDTO> getPlanById(Long planId);
-    ApiResponse<CareerPlanDTO> createPlan(Long studentId, CreateCareerPlanRequest request);
+    ApiResponse<CareerPlanDTO> createPlan(Long userId, CreateCareerPlanRequest request);
     ApiResponse<CareerPlanDTO> updatePlan(Long planId, CreateCareerPlanRequest request);
     ApiResponse<String> deletePlan(Long planId);
     ApiResponse<List<CareerMilestoneDTO>> getMilestonesByPlanId(Long planId);

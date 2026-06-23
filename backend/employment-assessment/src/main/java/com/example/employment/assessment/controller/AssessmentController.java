@@ -44,9 +44,9 @@ public class AssessmentController {
     @PostMapping("/submit")
     @Operation(summary = "提交测评答案", description = "提交测评答案并生成报告")
     public ResponseEntity<ApiResponse<SubmitResultDTO>> submitAnswers(
-            @RequestParam Long studentId,
+            @RequestParam Long userId,
             @RequestBody SubmitAnswersRequest request) {
-        return ResponseEntity.ok(assessmentService.submitAnswers(studentId, request));
+        return ResponseEntity.ok(assessmentService.submitAnswers(userId, request));
     }
 
     @GetMapping("/reports/{reportId}")
@@ -55,9 +55,9 @@ public class AssessmentController {
         return ResponseEntity.ok(assessmentService.getReportById(reportId));
     }
 
-    @GetMapping("/reports/student/{studentId}")
+    @GetMapping("/reports/student/{userId}")
     @Operation(summary = "获取学生测评报告列表", description = "获取指定学生的所有测评报告")
-    public ResponseEntity<ApiResponse<List<ReportDTO>>> getReportsByStudentId(@PathVariable Long studentId) {
-        return ResponseEntity.ok(assessmentService.getReportsByStudentId(studentId));
+    public ResponseEntity<ApiResponse<List<ReportDTO>>> getReportsByStudentId(@PathVariable Long userId) {
+        return ResponseEntity.ok(assessmentService.getReportsByStudentId(userId));
     }
 }
