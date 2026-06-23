@@ -3,7 +3,7 @@ package com.example.employment.learning.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.learning.entity.LearningPath;
-import com.example.employment.student.service.StudentProfileService;
+import com.example.employment.common.service.StudentProfileService;
 import com.example.employment.learning.entity.LearningRecord;
 import com.example.employment.learning.entity.LearningResource;
 import com.example.employment.learning.mapper.LearningPathMapper;

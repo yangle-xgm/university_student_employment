@@ -16,7 +16,7 @@ import com.example.employment.assessment.mapper.AssessmentReportMapper;
 import com.example.employment.assessment.service.AssessmentService;
 import com.example.employment.common.dto.response.ApiResponse;
 import com.example.employment.common.exception.BusinessException;
-import com.example.employment.student.service.StudentProfileService;
+import com.example.employment.common.service.StudentProfileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

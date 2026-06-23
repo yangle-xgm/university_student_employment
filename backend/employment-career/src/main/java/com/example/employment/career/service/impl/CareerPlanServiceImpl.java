@@ -11,7 +11,7 @@ import com.example.employment.career.mapper.CareerPlanMapper;
 import com.example.employment.career.service.CareerPlanService;
 import com.example.employment.common.dto.response.ApiResponse;
 import com.example.employment.common.exception.BusinessException;
-import com.example.employment.student.service.StudentProfileService;
+import com.example.employment.common.service.StudentProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

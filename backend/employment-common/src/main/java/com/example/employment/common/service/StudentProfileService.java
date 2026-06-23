@@ -1,4 +1,4 @@
-package com.example.employment.student.service;
+package com.example.employment.common.service;
 
 public interface StudentProfileService {
 

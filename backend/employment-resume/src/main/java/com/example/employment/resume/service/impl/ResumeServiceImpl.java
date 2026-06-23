@@ -2,7 +2,7 @@ package com.example.employment.resume.service.impl;
 
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.resume.entity.Resume;
-import com.example.employment.student.service.StudentProfileService;
+import com.example.employment.common.service.StudentProfileService;
 import com.example.employment.resume.repository.ResumeMapper;
 import com.example.employment.resume.service.ResumeService;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
-package com.example.employment.student.service.impl;
+package com.example.employment.common.service.impl;
 
 import com.example.employment.common.entity.StudentProfile;
 import com.example.employment.common.repository.StudentProfileMapper;
-import com.example.employment.student.service.StudentProfileService;
+import com.example.employment.common.service.StudentProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
