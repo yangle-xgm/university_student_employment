@@ -1,13 +1,11 @@
 package com.example.employment.resume.service.impl;
 
 import com.example.employment.common.exception.BusinessException;
-import com.example.employment.resume.entity.Resume;
 import com.example.employment.common.service.StudentProfileService;
+import com.example.employment.resume.entity.Resume;
 import com.example.employment.resume.repository.ResumeMapper;
 import com.example.employment.resume.service.ResumeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,24 +83,15 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     private Long resolveCurrentUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) return null;
-        Object principal = auth.getPrincipal();
-        if (principal == null) return null;
-
+        // Keep existing reflection fallback for now; recommended to use SecurityUtils or @AuthenticationPrincipal
         try {
+            Object principal = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal == null) return null;
             Method getIdMethod = principal.getClass().getMethod("getId");
             Object idObj = getIdMethod.invoke(principal);
-            if (idObj instanceof Number) {
-                return ((Number) idObj).longValue();
-            }
-            if (idObj instanceof String) {
-                return Long.valueOf((String) idObj);
-            }
-        } catch (NoSuchMethodException ignored) {
-        } catch (Exception e) {
-        }
-
+            if (idObj instanceof Number) return ((Number) idObj).longValue();
+            if (idObj instanceof String) return Long.valueOf((String) idObj);
+        } catch (Exception ignored) {}
         return null;
     }
 }

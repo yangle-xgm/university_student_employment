@@ -1,37 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.employment.job.repository.JobMapper">
-    
-    <select id="searchJobs" resultType="com.example.employment.job.entity.Job">
-        SELECT j.*, c.company_name 
-        FROM jobs j 
-        LEFT JOIN company_profiles c ON j.company_id = c.id
-        WHERE j.status = 'PUBLISHED'
-        <if test="keyword != null and keyword != ''">
-            AND (j.title LIKE CONCAT('%', #{keyword}, '%') OR c.company_name LIKE CONCAT('%', #{keyword}, '%'))
-        </if>
-        <if test="location != null and location != ''">
-            AND j.location LIKE CONCAT('%', #{location}, '%')
-        </if>
-        <if test="industry != null and industry != ''">
-            AND j.industry = #{industry}
-        </if>
-        ORDER BY j.created_at DESC
-    </select>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.employment.job.mapper.JobMapper">
 
-    <select id="selectJobWithCompany" resultType="com.example.employment.job.entity.Job">
-        SELECT j.*, c.company_name 
-        FROM jobs j 
-        LEFT JOIN company_profiles c ON j.company_id = c.id
-        WHERE j.id = #{id}
-    </select>
+  <!-- 示例：获取所有���位并带上公司名称 -->
+  <select id="findAllWithCompany" resultType="com.example.employment.job.dto.response.JobDTO">
+    SELECT j.id, j.company_id, j.title, j.type, j.industry, j.location, j.min_salary, j.max_salary,
+           j.education, j.experience, j.requirements, j.responsibilities, j.benefits, j.deadline, j.status,
+           cp.company_name AS company_name
+    FROM jobs j
+    LEFT JOIN company_profiles cp ON cp.id = j.company_id
+    ORDER BY j.created_at DESC
+  </select>
 
-    <select id="selectAllJobsWithCompany" resultType="com.example.employment.job.entity.Job">
-        SELECT j.*, c.company_name 
-        FROM jobs j 
-        LEFT JOIN company_profiles c ON j.company_id = c.id
-        WHERE j.status = 'PUBLISHED'
-        ORDER BY j.created_at DESC
-    </select>
-    
+  <!-- 根据 ID 查询职位（带公司名） -->
+  <select id="selectByIdWithCompany" parameterType="long" resultType="com.example.employment.job.dto.response.JobDTO">
+    SELECT j.id, j.company_id, j.title, j.type, j.industry, j.location, j.min_salary, j.max_salary,
+           j.education, j.experience, j.requirements, j.responsibilities, j.benefits, j.deadline, j.status,
+           cp.company_name AS company_name
+    FROM jobs j
+    LEFT JOIN company_profiles cp ON cp.id = j.company_id
+    WHERE j.id = #{id}
+  </select>
+
 </mapper>
