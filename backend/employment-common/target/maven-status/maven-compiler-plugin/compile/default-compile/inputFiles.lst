@@ -1,6 +1,7 @@
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\entity\User.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\exception\BusinessException.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\exception\DevExceptionHandler.java
+D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\service\StudentProfileService.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\config\WebConfig.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\repository\UserMapper.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\entity\StudentProfile.java
@@ -12,5 +13,6 @@ D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\entity\Role.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\entity\Application.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\entity\ApplicationStatus.java
+D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\service\impl\StudentProfileServiceImpl.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\repository\StudentProfileMapper.java
 D:\JAVA EE\university_student_employment\backend\employment-common\src\main\java\com\example\employment\common\config\MetaObjectHandlerConfig.java
