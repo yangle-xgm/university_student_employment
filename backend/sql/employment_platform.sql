@@ -578,9 +578,9 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMye.IjzqAKL9xL5jvMFVdNJHvGCgTq/VEq', 'admin@example.com', '13800138000', '管理员', NULL, 'ADMIN', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
+INSERT INTO `users` VALUES (1, 'admin', '$2a$10$9mKobCPxSsNSQHw30CYOYeOd34gQp04sOtBHurKdkax5z1jgIFupe', 'admin@example.com', '13800138000', '管理员', NULL, 'ADMIN', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
 INSERT INTO `users` VALUES (2, 'student1', '$2a$10$9mKobCPxSsNSQHw30CYOYeOd34gQp04sOtBHurKdkax5z1jgIFupe', 'student1@example.com', '13800138001', '张三', NULL, 'STUDENT', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-17 18:30:28');
-INSERT INTO `users` VALUES (3, 'hr1', '$2a$10$N9qo8uLOickgx2ZMRZoMye.IjzqAKL9xL5jvMFVdNJHvGCgTq/VEq', 'hr1@example.com', '13800138002', '李四', NULL, 'HR', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
+INSERT INTO `users` VALUES (3, 'hr1', '$2a$10$9mKobCPxSsNSQHw30CYOYeOd34gQp04sOtBHurKdkax5z1jgIFupe', 'hr1@example.com', '13800138002', '李四', NULL, 'HR', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
 
 -- ----------------------------
 -- Alter table: company_profiles - 添加审核字段
