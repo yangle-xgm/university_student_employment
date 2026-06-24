@@ -6,6 +6,7 @@ import com.example.employment.career.dto.CreateCareerPlanRequest;
 import com.example.employment.career.dto.CreateMilestoneRequest;
 import com.example.employment.career.service.CareerPlanService;
 import com.example.employment.common.dto.response.ApiResponse;
+import com.example.employment.common.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,17 @@ public class CareerController {
     @PostMapping
     @Operation(summary = "创建职业规划", description = "创建新的职业规划")
     public ResponseEntity<ApiResponse<CareerPlanDTO>> createPlan(
-            @RequestParam Long userId,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long studentId,
             @RequestBody CreateCareerPlanRequest request) {
-        return ResponseEntity.ok(careerPlanService.createPlan(userId, request));
+        Long effectiveUserId = userId != null ? userId : studentId;
+        if (effectiveUserId == null) {
+            effectiveUserId = SecurityUtils.getCurrentUserId();
+        }
+        if (effectiveUserId == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("无法获取当前用户ID"));
+        }
+        return ResponseEntity.ok(careerPlanService.createPlan(effectiveUserId, request));
     }
 
     @PutMapping("/{planId}")

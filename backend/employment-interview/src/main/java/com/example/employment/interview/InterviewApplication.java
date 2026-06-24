@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {"com.example.employment.interview", "com.example.employment.common"})
-@MapperScan("com.example.employment.interview.mapper")
+@MapperScan({"com.example.employment.interview.mapper", "com.example.employment.common.repository"})
 public class InterviewApplication {
 
     public static void main(String[] args) {

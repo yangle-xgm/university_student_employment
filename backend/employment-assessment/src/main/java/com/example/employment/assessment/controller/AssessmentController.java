@@ -7,6 +7,7 @@ import com.example.employment.assessment.dto.SubmitAnswersRequest;
 import com.example.employment.assessment.dto.response.SubmitResultDTO;
 import com.example.employment.assessment.service.AssessmentService;
 import com.example.employment.common.dto.response.ApiResponse;
+import com.example.employment.common.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,17 @@ public class AssessmentController {
     @PostMapping("/submit")
     @Operation(summary = "提交测评答案", description = "提交测评答案并生成报告")
     public ResponseEntity<ApiResponse<SubmitResultDTO>> submitAnswers(
-            @RequestParam Long userId,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long studentId,
             @RequestBody SubmitAnswersRequest request) {
-        return ResponseEntity.ok(assessmentService.submitAnswers(userId, request));
+        Long effectiveUserId = userId != null ? userId : studentId;
+        if (effectiveUserId == null) {
+            effectiveUserId = SecurityUtils.getCurrentUserId();
+        }
+        if (effectiveUserId == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("无法获取当前用户ID"));
+        }
+        return ResponseEntity.ok(assessmentService.submitAnswers(effectiveUserId, request));
     }
 
     @GetMapping("/reports/{reportId}")

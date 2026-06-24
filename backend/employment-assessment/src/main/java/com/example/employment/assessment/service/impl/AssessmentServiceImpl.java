@@ -91,12 +91,14 @@ public class AssessmentServiceImpl implements AssessmentService {
             if (question != null) {
                 double weight = question.getWeight() != null ? question.getWeight() : 1.0;
                 int answerValue = parseAnswerValue(answer.getAnswer());
-                totalScore += answerValue * weight;
+                int maxOptionIndex = getMaxOptionIndex(question);
+                double normalizedValue = maxOptionIndex > 0 ? (double) answerValue / maxOptionIndex : 0;
+                totalScore += normalizedValue * weight;
                 totalWeight += weight;
             }
         }
 
-        double finalScore = totalWeight > 0 ? totalScore / totalWeight * 100 : 0;
+        double finalScore = totalWeight > 0 ? (totalScore / totalWeight) * 100 : 0;
 
         String answersJson;
         try {
@@ -198,6 +200,18 @@ public class AssessmentServiceImpl implements AssessmentService {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    private int getMaxOptionIndex(AssessmentQuestion question) {
+        String options = question.getOptions();
+        if (options == null || options.isEmpty() || !options.contains(",")) {
+            return 0;
+        }
+        int count = 1;
+        for (char c : options.toCharArray()) {
+            if (c == ',') count++;
+        }
+        return count - 1;
     }
 
     private AssessmentDTO convertToDTO(Assessment entity) {

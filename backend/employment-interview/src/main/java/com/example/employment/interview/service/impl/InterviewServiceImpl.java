@@ -2,6 +2,7 @@ package com.example.employment.interview.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.employment.common.exception.BusinessException;
+import com.example.employment.common.service.StudentProfileService;
 import com.example.employment.interview.entity.Interview;
 import com.example.employment.interview.mapper.InterviewMapper;
 import com.example.employment.interview.service.InterviewService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,6 +18,7 @@ import java.util.List;
 public class InterviewServiceImpl implements InterviewService {
 
     private final InterviewMapper interviewMapper;
+    private final StudentProfileService studentProfileService;
 
     @Override
     public Interview getInterviewById(Long interviewId) {
@@ -32,8 +35,12 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
-    public List<Interview> getInterviewsByStudentId(Long studentId) {
-        return interviewMapper.findByStudentId(studentId);
+    public List<Interview> getInterviewsByStudentId(Long userId) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, false);
+        if (studentProfileId == null) {
+            return Collections.emptyList();
+        }
+        return interviewMapper.findByStudentId(studentProfileId);
     }
 
     @Override

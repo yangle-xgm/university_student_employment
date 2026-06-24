@@ -30,8 +30,12 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<Resume> getResumesByStudentId(Long studentId) {
-        return resumeMapper.selectByStudentId(studentId);
+    public List<Resume> getResumesByStudentId(Long userId) {
+        Long studentProfileId = studentProfileService.getOrCreateStudentProfileId(userId, false);
+        if (studentProfileId == null) {
+            return List.of();
+        }
+        return resumeMapper.selectByStudentId(studentProfileId);
     }
 
     @Override

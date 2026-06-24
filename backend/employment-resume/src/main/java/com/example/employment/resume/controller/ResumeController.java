@@ -1,13 +1,13 @@
 package com.example.employment.resume.controller;
 
 import com.example.employment.common.dto.response.ApiResponse;
+import com.example.employment.common.util.SecurityUtils;
 import com.example.employment.resume.entity.Resume;
 import com.example.employment.resume.service.ResumeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,22 +36,13 @@ public class ResumeController {
 
     @PostMapping
     @Operation(summary = "创建简历", description = "创建新简历")
-    public ResponseEntity<ApiResponse<Resume>> createResume(
-            Authentication authentication,
-            @RequestBody Resume resume) {
-
-        if (resume.getStudentId() == null && authentication != null) {
-            Object principal = authentication.getPrincipal();
-            try {
-                java.lang.reflect.Method m = principal.getClass().getMethod("getId");
-                Object idObj = m.invoke(principal);
-                if (idObj instanceof Number) {
-                    resume.setStudentId(((Number) idObj).longValue());
-                } else if (idObj instanceof String) {
-                    resume.setStudentId(Long.valueOf((String) idObj));
-                }
-            } catch (Exception ignore) {
+    public ResponseEntity<ApiResponse<Resume>> createResume(@RequestBody Resume resume) {
+        if (resume.getStudentId() == null) {
+            Long userId = SecurityUtils.getCurrentUserId();
+            if (userId == null) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("无法获取当前用户ID，请先登录或在请求体中提供 studentId"));
             }
+            resume.setStudentId(userId);
         }
 
         Resume created = resumeService.createResume(resume);

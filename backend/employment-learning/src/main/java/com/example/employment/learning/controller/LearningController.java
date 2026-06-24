@@ -68,10 +68,18 @@ public class LearningController {
     @PostMapping("/records/progress")
     @Operation(summary = "更新学习进度", description = "更新学生学习资源的进度")
     public ResponseEntity<ApiResponse<LearningRecord>> updateProgress(
-            @RequestParam Long userId,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long studentId,
             @RequestParam Long resourceId,
             @RequestParam Double progress) {
-        LearningRecord record = learningService.updateLearningProgress(userId, resourceId, progress);
+        Long effectiveUserId = userId != null ? userId : studentId;
+        if (effectiveUserId == null) {
+            effectiveUserId = com.example.employment.common.util.SecurityUtils.getCurrentUserId();
+        }
+        if (effectiveUserId == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("无法获取当前用户ID"));
+        }
+        LearningRecord record = learningService.updateLearningProgress(effectiveUserId, resourceId, progress);
         return ResponseEntity.ok(ApiResponse.success(record));
     }
 }

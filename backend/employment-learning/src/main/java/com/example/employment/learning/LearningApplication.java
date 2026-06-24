@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication(scanBasePackages = {"com.example.employment.learning", "com.example.employment.common"})
 @EnableDiscoveryClient
-@MapperScan("com.example.employment.learning.mapper")
+@MapperScan({"com.example.employment.learning.mapper", "com.example.employment.common.repository"})
 public class LearningApplication {
 
     public static void main(String[] args) {

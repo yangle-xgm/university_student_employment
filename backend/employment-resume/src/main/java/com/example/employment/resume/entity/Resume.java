@@ -1,6 +1,8 @@
 package com.example.employment.resume.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,4 +52,16 @@ public class Resume {
 
     @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    @JsonGetter("content")
+    public Object getContentAsObject() {
+        if (content == null) return null;
+        try {
+            return MAPPER.readTree(content);
+        } catch (Exception e) {
+            return content;
+        }
+    }
 }
