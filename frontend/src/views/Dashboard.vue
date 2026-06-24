@@ -1,180 +1,97 @@
 <template>
-  <div class="dashboard-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">🎓</span>
-          <span class="logo-text">就业服务平台</span>
-        </div>
-      </div>
-      <nav class="sidebar-nav">
-        <router-link to="/dashboard" class="nav-item active">
-          <span class="nav-icon">📊</span>
-          <span class="nav-text">仪表盘</span>
-        </router-link>
-        <router-link to="/profile" class="nav-item">
-          <span class="nav-icon">👤</span>
-          <span class="nav-text">个人资料</span>
-        </router-link>
-        <router-link to="/assessments" class="nav-item">
-          <span class="nav-icon">📝</span>
-          <span class="nav-text">职业测评</span>
-        </router-link>
-        <router-link to="/career" class="nav-item">
-          <span class="nav-icon">🎯</span>
-          <span class="nav-text">职业规划</span>
-        </router-link>
-        <router-link to="/learning" class="nav-item">
-          <span class="nav-icon">📚</span>
-          <span class="nav-text">学习成长</span>
-        </router-link>
-        <router-link to="/interviews" class="nav-item">
-          <span class="nav-icon">💼</span>
-          <span class="nav-text">面试管理</span>
-        </router-link>
-        <router-link to="/jobs" class="nav-item">
-          <span class="nav-icon">💻</span>
-          <span class="nav-text">职位搜索</span>
-        </router-link>
-        <router-link to="/resumes" class="nav-item">
-          <span class="nav-icon">📄</span>
-          <span class="nav-text">简历管理</span>
-        </router-link>
-      </nav>
-      <div class="sidebar-footer">
-        <button class="logout-btn" @click="handleLogout">
-          <span>退出登录</span>
-        </button>
-      </div>
-    </aside>
-
-    <main class="main-content">
-      <header class="top-header">
-        <h1>欢迎回来，{{ userInfo?.username }}</h1>
-        <div class="user-info">
-          <span class="user-name">{{ userInfo?.username }}</span>
-        </div>
-      </header>
-
+  <AppLayout title="仪表盘">
+    <div class="dashboard-page">
+      <!-- KPI 卡片区 -->
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">📊</div>
-          <div class="stat-content">
-            <div class="stat-value">{{ assessmentCount }}</div>
-            <div class="stat-label">已完成测评</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🎯</div>
-          <div class="stat-content">
-            <div class="stat-value">{{ planCount }}</div>
-            <div class="stat-label">职业规划</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">📚</div>
-          <div class="stat-content">
-            <div class="stat-value">{{ learningProgress }}%</div>
-            <div class="stat-label">学习进度</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">💼</div>
-          <div class="stat-content">
-            <div class="stat-value">{{ interviewCount }}</div>
-            <div class="stat-label">面试安排</div>
-          </div>
-        </div>
+        <KpiCard
+          icon="DocumentChecked"
+          :value="assessmentCount"
+          label="已完成测评"
+          hint="查看测评记录"
+          :icon-bg="'var(--color-primary-light)'"
+          :icon-color="'var(--color-primary)'"
+          clickable
+        />
+        <KpiCard
+          icon="Aim"
+          :value="planCount"
+          label="职业规划"
+          hint="管理职业路径"
+          :icon-bg="'var(--color-accent-light)'"
+          :icon-color="'var(--color-accent)'"
+          clickable
+        />
+        <KpiCard
+          icon="Reading"
+          :value="learningProgress + '%'"
+          label="学习进度"
+          hint="继续学习"
+          :icon-bg="'var(--color-success-light)'"
+          :icon-color="'var(--color-success)'"
+          clickable
+        />
+        <KpiCard
+          icon="Calendar"
+          :value="interviewCount"
+          label="面试安排"
+          hint="查看日程"
+          :icon-bg="'var(--color-warning-light)'"
+          :icon-color="'var(--color-warning)'"
+          clickable
+        />
       </div>
 
-      <div class="content-section">
-        <div class="section-header">
-          <h2>最近活动</h2>
-        </div>
+      <!-- 最近活动 -->
+      <BaseCard class="content-card">
+        <SectionHeader title="最近活动" />
         <div class="activity-list">
-          <div class="activity-item">
-            <span class="activity-icon">✅</span>
-            <div class="activity-content">
-              <div class="activity-title">完成职业兴趣测评</div>
-              <div class="activity-time">2小时前</div>
+          <div v-for="(activity, index) in activities" :key="index" class="activity-item">
+            <div class="activity-icon" :style="{ backgroundColor: activity.iconBg, color: activity.iconColor }">
+              <el-icon :size="18">
+                <component :is="activity.icon" />
+              </el-icon>
             </div>
-          </div>
-          <div class="activity-item">
-            <span class="activity-icon">📝</span>
             <div class="activity-content">
-              <div class="activity-title">创建职业规划</div>
-              <div class="activity-time">昨天</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <span class="activity-icon">📚</span>
-            <div class="activity-content">
-              <div class="activity-title">学习Java基础课程</div>
-              <div class="activity-time">2天前</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <span class="activity-icon">💼</span>
-            <div class="activity-content">
-              <div class="activity-title">预约面试</div>
-              <div class="activity-time">3天前</div>
+              <div class="activity-title">{{ activity.title }}</div>
+              <div class="activity-time">{{ activity.time }}</div>
             </div>
           </div>
         </div>
-      </div>
+      </BaseCard>
 
-      <div class="content-section">
-        <div class="section-header">
-          <h2>推荐学习资源</h2>
-        </div>
+      <!-- 推荐学习资源 -->
+      <BaseCard class="content-card">
+        <SectionHeader title="推荐学习资源" subtitle="根据你的职业规划推荐" />
         <div class="resource-list">
-          <div class="resource-card">
-            <div class="resource-icon">📖</div>
+          <div v-for="resource in resources" :key="resource.title" class="resource-card">
+            <div class="resource-icon" :style="{ backgroundColor: resource.iconBg, color: resource.iconColor }">
+              <el-icon :size="20">
+                <component :is="resource.icon" />
+              </el-icon>
+            </div>
             <div class="resource-content">
-              <div class="resource-title">Java编程入门</div>
-              <div class="resource-category">编程基础</div>
+              <div class="resource-title">{{ resource.title }}</div>
+              <div class="resource-category">{{ resource.category }}</div>
             </div>
             <div class="resource-progress">
               <div class="progress-bar">
-                <div class="progress-fill" style="width: 65%"></div>
+                <div class="progress-fill" :style="{ width: resource.progress + '%' }"></div>
               </div>
-              <span class="progress-text">65%</span>
-            </div>
-          </div>
-          <div class="resource-card">
-            <div class="resource-icon">💻</div>
-            <div class="resource-content">
-              <div class="resource-title">前端开发实战</div>
-              <div class="resource-category">Web开发</div>
-            </div>
-            <div class="resource-progress">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 40%"></div>
-              </div>
-              <span class="progress-text">40%</span>
-            </div>
-          </div>
-          <div class="resource-card">
-            <div class="resource-icon">📊</div>
-            <div class="resource-content">
-              <div class="resource-title">数据结构与算法</div>
-              <div class="resource-category">计算机基础</div>
-            </div>
-            <div class="resource-progress">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 20%"></div>
-              </div>
-              <span class="progress-text">20%</span>
+              <span class="progress-text">{{ resource.progress }}%</span>
             </div>
           </div>
         </div>
-      </div>
-    </main>
-  </div>
+      </BaseCard>
+    </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import AppLayout from '@/components/layout/AppLayout.vue'
+import KpiCard from '@/components/common/KpiCard.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
+import SectionHeader from '@/components/common/SectionHeader.vue'
 
 const userInfo = ref({})
 const assessmentCount = ref(3)
@@ -182,207 +99,67 @@ const planCount = ref(1)
 const learningProgress = ref(45)
 const interviewCount = ref(2)
 
+const activities = [
+  { title: '完成职业兴趣测评', time: '2小时前', icon: 'CircleCheck', iconBg: 'var(--color-success-light)', iconColor: 'var(--color-success)' },
+  { title: '创建职业规划', time: '昨天', icon: 'EditPen', iconBg: 'var(--color-accent-light)', iconColor: 'var(--color-accent)' },
+  { title: '学习Java基础课程', time: '2天前', icon: 'Reading', iconBg: 'var(--color-primary-light)', iconColor: 'var(--color-primary)' },
+  { title: '预约面试', time: '3天前', icon: 'Calendar', iconBg: 'var(--color-warning-light)', iconColor: 'var(--color-warning)' }
+]
+
+const resources = [
+  { title: 'Java编程入门', category: '编程基础', progress: 65, icon: 'Notebook', iconBg: 'var(--color-primary-light)', iconColor: 'var(--color-primary)' },
+  { title: '前端开发实战', category: 'Web开发', progress: 40, icon: 'Monitor', iconBg: 'var(--color-accent-light)', iconColor: 'var(--color-accent)' },
+  { title: '数据结构与算法', category: '计算机基础', progress: 20, icon: 'DataAnalysis', iconBg: 'var(--color-success-light)', iconColor: 'var(--color-success)' }
+]
+
 onMounted(() => {
   const user = localStorage.getItem('userInfo')
   if (user) {
     userInfo.value = JSON.parse(user)
   }
 })
-
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userInfo')
-  window.location.href = '/login'
-}
 </script>
 
 <style scoped>
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f5f7fa;
-}
-
-.sidebar {
-  width: 250px;
-  background: linear-gradient(180deg, #4a69bd 0%, #3d5a9e 100%);
-  color: white;
+.dashboard-page {
   display: flex;
   flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-icon {
-  font-size: 1.5rem;
-}
-
-.logo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 1rem;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.25rem;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-icon {
-  font-size: 1.2rem;
-}
-
-.nav-text {
-  font-size: 0.95rem;
-}
-
-.sidebar-footer {
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.top-header h1 {
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-name {
-  font-weight: 500;
-  color: #333;
+  gap: var(--space-6);
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: var(--space-5);
 }
 
-.stat-card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.stat-icon {
-  font-size: 2rem;
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.stat-label {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.content-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.section-header {
-  margin-bottom: 1.5rem;
-}
-
-.section-header h2 {
-  color: #333;
-  font-size: 1.2rem;
+.content-card {
+  padding: var(--space-5);
 }
 
 .activity-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .activity-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
 }
 
 .activity-icon {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
 }
 
 .activity-content {
@@ -390,32 +167,39 @@ const handleLogout = () => {
 }
 
 .activity-title {
-  color: #333;
-  font-weight: 500;
+  font-weight: var(--font-medium);
+  color: var(--color-text-1);
 }
 
 .activity-time {
-  color: #999;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-3);
+  margin-top: var(--space-1);
 }
 
 .resource-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .resource-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
 }
 
 .resource-icon {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
 }
 
 .resource-content {
@@ -423,38 +207,53 @@ const handleLogout = () => {
 }
 
 .resource-title {
-  color: #333;
-  font-weight: 500;
+  font-weight: var(--font-medium);
+  color: var(--color-text-1);
 }
 
 .resource-category {
-  color: #666;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
+  margin-top: var(--space-1);
 }
 
 .resource-progress {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-3);
 }
 
 .progress-bar {
-  width: 80px;
-  height: 6px;
-  background-color: #e0e0e0;
-  border-radius: 3px;
+  width: 120px;
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #4a69bd;
-  border-radius: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: var(--radius-full);
 }
 
 .progress-text {
-  font-size: 0.85rem;
-  color: #4a69bd;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+  min-width: 40px;
+  text-align: right;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

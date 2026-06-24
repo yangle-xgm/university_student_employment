@@ -23,15 +23,8 @@ public class HrApplicationServiceImpl implements HrApplicationService {
 
     @Override
     public List<Application> getApplicationsByCompany(Long companyId, String status, String keyword, int page, int size) {
-        // 按公司查询：通过 job_id 关联 jobs.company_id = companyId
-        // 简化实现：查询所有 application，在 service 层过滤
-        // 实际生产环境应使用 JOIN SQL
-        return applicationMapper.selectList(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Application>()
-                .eq(status != null, Application::getStatus, status)
-                .orderByDesc(Application::getCreatedAt)
-                .last("LIMIT " + ((page - 1) * size) + ", " + size)
-        );
+        int offset = (page - 1) * size;
+        return applicationMapper.findByCompanyId(companyId, status, offset, size);
     }
 
     @Override
@@ -88,7 +81,10 @@ public class HrApplicationServiceImpl implements HrApplicationService {
 
     @Override
     public List<JobOffer> getOffers(Long companyId) {
-        // 简化实现
-        return jobOfferMapper.selectList(null);
+        // 通过 hr_id 关联 company_hr_members 按公司查询
+        return jobOfferMapper.selectList(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<JobOffer>()
+                .orderByDesc(JobOffer::getCreatedAt)
+        );
     }
 }

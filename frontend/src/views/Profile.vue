@@ -1,146 +1,88 @@
 <template>
-  <div class="dashboard-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">🎓</span>
-          <span class="logo-text">就业服务平台</span>
+  <AppLayout title="个人资料">
+    <div class="profile-page">
+      <BaseCard class="profile-main-card">
+        <div class="profile-header">
+          <div class="avatar">
+            <el-icon :size="36"><UserFilled /></el-icon>
+          </div>
+          <div class="profile-info">
+            <h2>{{ userInfo?.username }}</h2>
+            <p class="user-role">学生</p>
+          </div>
+          <el-button type="primary" :icon="Edit" @click="showEditModal = true">编辑资料</el-button>
         </div>
-      </div>
-      <nav class="sidebar-nav">
-        <router-link to="/dashboard" class="nav-item">
-          <span class="nav-icon">📊</span>
-          <span class="nav-text">仪表盘</span>
-        </router-link>
-        <router-link to="/profile" class="nav-item active">
-          <span class="nav-icon">👤</span>
-          <span class="nav-text">个人资料</span>
-        </router-link>
-        <router-link to="/assessments" class="nav-item">
-          <span class="nav-icon">📝</span>
-          <span class="nav-text">职业测评</span>
-        </router-link>
-        <router-link to="/career" class="nav-item">
-          <span class="nav-icon">🎯</span>
-          <span class="nav-text">职业规划</span>
-        </router-link>
-        <router-link to="/learning" class="nav-item">
-          <span class="nav-icon">📚</span>
-          <span class="nav-text">学习成长</span>
-        </router-link>
-        <router-link to="/interviews" class="nav-item">
-          <span class="nav-icon">💼</span>
-          <span class="nav-text">面试管理</span>
-        </router-link>
-        <router-link to="/jobs" class="nav-item">
-          <span class="nav-icon">💻</span>
-          <span class="nav-text">职位搜索</span>
-        </router-link>
-        <router-link to="/resumes" class="nav-item">
-          <span class="nav-icon">📄</span>
-          <span class="nav-text">简历管理</span>
-        </router-link>
-      </nav>
-      <div class="sidebar-footer">
-        <button class="logout-btn" @click="handleLogout">
-          <span>退出登录</span>
-        </button>
-      </div>
-    </aside>
 
-    <main class="main-content">
-      <header class="top-header">
-        <h1>个人资料</h1>
-        <div class="user-info">
-          <span class="user-name">{{ userInfo?.username }}</span>
-        </div>
-      </header>
-
-      <div class="profile-content">
-        <div class="profile-card">
-          <div class="profile-header">
-            <div class="avatar">
-              <span class="avatar-icon">👤</span>
+        <div class="profile-details">
+          <div class="detail-section">
+            <h3>基本信息</h3>
+            <div class="detail-row">
+              <label>用户名</label>
+              <span>{{ profile?.username || userInfo?.username }}</span>
             </div>
-            <div class="profile-info">
-              <h2>{{ userInfo?.username }}</h2>
-              <p class="user-role">学生</p>
+            <div class="detail-row">
+              <label>邮箱</label>
+              <span>{{ profile?.email || userInfo?.email }}</span>
             </div>
-            <button class="edit-btn" @click="showEditModal = true">
-              编辑资料
-            </button>
+            <div class="detail-row">
+              <label>手机号</label>
+              <span>{{ profile?.phone || '未填写' }}</span>
+            </div>
+            <div class="detail-row">
+              <label>注册时间</label>
+              <span>{{ profile?.createdAt || userInfo?.createdAt || '未知' }}</span>
+            </div>
           </div>
 
-          <div class="profile-details">
-            <div class="detail-section">
-              <h3>基本信息</h3>
-              <div class="detail-row">
-                <label>用户名</label>
-                <span>{{ profile?.username || userInfo?.username }}</span>
-              </div>
-              <div class="detail-row">
-                <label>邮箱</label>
-                <span>{{ profile?.email || userInfo?.email }}</span>
-              </div>
-              <div class="detail-row">
-                <label>手机号</label>
-                <span>{{ profile?.phone || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>注册时间</label>
-                <span>{{ profile?.createdAt || userInfo?.createdAt || '未知' }}</span>
-              </div>
+          <div class="detail-section">
+            <h3>教育背景</h3>
+            <div class="detail-row">
+              <label>学校</label>
+              <span>{{ profile?.school || '未填写' }}</span>
             </div>
-
-            <div class="detail-section">
-              <h3>教育背景</h3>
-              <div class="detail-row">
-                <label>学校</label>
-                <span>{{ profile?.school || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>专业</label>
-                <span>{{ profile?.major || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>学历</label>
-                <span>{{ profile?.education || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>毕业时间</label>
-                <span>{{ profile?.graduationDate || '未填写' }}</span>
-              </div>
+            <div class="detail-row">
+              <label>专业</label>
+              <span>{{ profile?.major || '未填写' }}</span>
             </div>
+            <div class="detail-row">
+              <label>学历</label>
+              <span>{{ profile?.education || '未填写' }}</span>
+            </div>
+            <div class="detail-row">
+              <label>毕业时间</label>
+              <span>{{ profile?.graduationDate || '未填写' }}</span>
+            </div>
+          </div>
 
-            <div class="detail-section">
-              <h3>求职意向</h3>
-              <div class="detail-row">
-                <label>期望职位</label>
-                <span>{{ profile?.desiredPosition || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>期望地点</label>
-                <span>{{ profile?.desiredLocation || '未填写' }}</span>
-              </div>
-              <div class="detail-row">
-                <label>期望薪资</label>
-                <span>{{ profile?.desiredSalary || '未填写' }}</span>
-              </div>
+          <div class="detail-section">
+            <h3>求职意向</h3>
+            <div class="detail-row">
+              <label>期望职位</label>
+              <span>{{ profile?.desiredPosition || '未填写' }}</span>
+            </div>
+            <div class="detail-row">
+              <label>期望地点</label>
+              <span>{{ profile?.desiredLocation || '未填写' }}</span>
+            </div>
+            <div class="detail-row">
+              <label>期望薪资</label>
+              <span>{{ profile?.desiredSalary || '未填写' }}</span>
             </div>
           </div>
         </div>
+      </BaseCard>
 
-        <div class="profile-card">
-          <h3>技能特长</h3>
-          <div class="skills-container">
-            <div v-for="skill in skills" :key="skill" class="skill-tag">
-              {{ skill }}
-            </div>
-          </div>
+      <BaseCard class="profile-skills-card">
+        <SectionHeader title="技能特长" />
+        <div class="skills-container">
+          <el-tag v-for="skill in skills" :key="skill" type="primary" effect="light" round>
+            {{ skill }}
+          </el-tag>
+          <span v-if="skills.length === 0" class="no-skills">暂无技能标签</span>
         </div>
-      </div>
+      </BaseCard>
 
-      <el-dialog title="编辑个人资料" v-model="showEditModal" width="500px">
+      <el-dialog title="编辑个人资料" v-model="showEditModal" width="560px" destroy-on-close>
         <form @submit.prevent="handleSave" class="edit-form">
           <div class="form-row">
             <div class="form-group">
@@ -202,12 +144,16 @@
           <el-button type="primary" @click="handleSave">保存</el-button>
         </template>
       </el-dialog>
-    </main>
-  </div>
+    </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { Edit, UserFilled } from '@element-plus/icons-vue'
+import AppLayout from '@/components/layout/AppLayout.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
+import SectionHeader from '@/components/common/SectionHeader.vue'
 import { getStudentInfo, updateStudentProfile } from '@/api/student'
 
 const userInfo = ref({})
@@ -241,7 +187,7 @@ onMounted(async () => {
       userId.value = storedUserId
     }
   }
-  
+
   await loadProfile()
 })
 
@@ -249,7 +195,7 @@ const loadProfile = async () => {
   try {
     const data = await getStudentInfo(userId.value)
     profile.value = data
-    
+
     if (data.skills) {
       skills.value = data.skills.split(',').map(s => s.trim())
     }
@@ -274,14 +220,14 @@ const handleSave = async () => {
       graduationDate: editForm.graduationDate,
       skills: editForm.skills
     }
-    
+
     await updateStudentProfile(userId.value, data)
-    
+
     profile.value = { ...profile.value, ...data }
     if (editForm.skills) {
       skills.value = editForm.skills.split(',').map(s => s.trim())
     }
-    
+
     showEditModal.value = false
   } catch (error) {
     console.error('保存个人资料失败:', error)
@@ -289,253 +235,149 @@ const handleSave = async () => {
     loading.value = false
   }
 }
-
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userInfo')
-  window.location.href = '/login'
-}
 </script>
 
 <style scoped>
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f5f7fa;
-}
-
-.sidebar {
-  width: 250px;
-  background: linear-gradient(180deg, #4a69bd 0%, #3d5a9e 100%);
-  color: white;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-icon {
-  font-size: 1.5rem;
-}
-
-.logo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 1rem;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.25rem;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-icon {
-  font-size: 1.2rem;
-}
-
-.nav-text {
-  font-size: 0.95rem;
-}
-
-.sidebar-footer {
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.top-header h1 {
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.profile-content {
+.profile-page {
   display: grid;
   grid-template-columns: 1fr 300px;
-  gap: 1.5rem;
+  gap: var(--space-6);
+  align-items: start;
 }
 
-.profile-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.profile-main-card {
+  padding: var(--space-6);
 }
 
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 1.5rem;
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: var(--space-6);
 }
 
 .avatar {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--color-text-inverse);
 }
 
-.avatar-icon {
-  font-size: 2.5rem;
+.profile-info {
+  flex: 1;
 }
 
 .profile-info h2 {
-  color: #333;
-  margin-bottom: 0.25rem;
+  color: var(--color-text-1);
+  margin-bottom: var(--space-1);
 }
 
 .user-role {
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.edit-btn {
-  margin-left: auto;
-  padding: 0.5rem 1.5rem;
-  background-color: #4a69bd;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.edit-btn:hover {
-  background-color: #3d5a9e;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
 }
 
 .profile-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
 }
 
 .detail-section h3 {
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 1rem;
+  color: var(--color-text-1);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-primary-light);
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  gap: var(--space-3);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
 }
 
 .detail-row label {
-  color: #666;
-  font-size: 0.9rem;
+  color: var(--color-text-3);
+  font-size: var(--text-sm);
 }
 
 .detail-row span {
-  color: #333;
+  color: var(--color-text-1);
+  font-weight: var(--font-medium);
+  text-align: right;
+}
+
+.profile-skills-card {
+  padding: var(--space-5);
 }
 
 .skills-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
-.skill-tag {
-  padding: 0.5rem 1rem;
-  background-color: #f0f4ff;
-  color: #4a69bd;
-  border-radius: 20px;
-  font-size: 0.85rem;
+.no-skills {
+  color: var(--color-text-3);
+  font-size: var(--text-sm);
 }
 
 .edit-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #333;
-}</style>
+  font-weight: var(--font-medium);
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 1024px) {
+  .profile-page {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

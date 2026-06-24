@@ -3,7 +3,7 @@
     <header class="header">
       <div class="header-content">
         <div class="logo">
-          <span class="logo-icon">🎓</span>
+          <el-icon :size="28" class="logo-icon"><School /></el-icon>
           <span class="logo-text">大学生就业服务平台</span>
         </div>
         <nav class="nav">
@@ -14,8 +14,12 @@
           <router-link to="/interviews" class="nav-link">面试管理</router-link>
         </nav>
         <div class="auth-buttons">
-          <router-link to="/login" class="btn btn-outline">登录</router-link>
-          <router-link to="/register" class="btn btn-primary">注册</router-link>
+          <router-link to="/login" custom v-slot="{ navigate }">
+            <el-button class="btn-header-outline" @click="navigate">登录</el-button>
+          </router-link>
+          <router-link to="/register" custom v-slot="{ navigate }">
+            <el-button class="btn-header-fill" type="primary" @click="navigate">注册</el-button>
+          </router-link>
         </div>
       </div>
     </header>
@@ -26,13 +30,17 @@
           <h1 class="hero-title">开启你的职业之旅</h1>
           <p class="hero-subtitle">专业的职业测评、个性化的职业规划、丰富的学习资源，助你找到理想工作</p>
           <div class="hero-buttons">
-            <router-link to="/assessments" class="btn btn-primary btn-large">开始测评</router-link>
-            <router-link to="/career" class="btn btn-outline btn-large">职业规划</router-link>
+            <router-link to="/assessments" custom v-slot="{ navigate }">
+              <el-button type="primary" size="large" @click="navigate">开始测评</el-button>
+            </router-link>
+            <router-link to="/career" custom v-slot="{ navigate }">
+              <el-button size="large" @click="navigate">职业规划</el-button>
+            </router-link>
           </div>
         </div>
         <div class="hero-image">
           <div class="hero-illustration">
-            <span class="icon">🚀</span>
+            <el-icon :size="128"><Rocket /></el-icon>
           </div>
         </div>
       </section>
@@ -41,22 +49,30 @@
         <h2 class="section-title">平台特色</h2>
         <div class="features-grid">
           <div class="feature-card">
-            <div class="feature-icon">📊</div>
+            <div class="feature-icon">
+              <el-icon :size="40"><DataLine /></el-icon>
+            </div>
             <h3>职业测评</h3>
             <p>科学的测评体系，帮助你了解自己的职业兴趣和能力倾向</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">🎯</div>
+            <div class="feature-icon">
+              <el-icon :size="40"><Aim /></el-icon>
+            </div>
             <h3>职业规划</h3>
             <p>个性化的职业规划方案，制定职业目标和发展路径</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">📚</div>
+            <div class="feature-icon">
+              <el-icon :size="40"><Reading /></el-icon>
+            </div>
             <h3>学习资源</h3>
             <p>丰富的学习资料和课程，助力技能提升</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">💼</div>
+            <div class="feature-icon">
+              <el-icon :size="40"><Briefcase /></el-icon>
+            </div>
             <h3>面试管理</h3>
             <p>面试记录和提醒，助你顺利通过面试</p>
           </div>
@@ -104,46 +120,46 @@
 }
 
 .header {
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
-  padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  padding: var(--space-4) 0;
+  box-shadow: var(--elevation-2);
 }
 
 .header-content {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0 var(--space-6);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .logo-icon {
-  font-size: 1.8rem;
+  color: var(--color-text-inverse);
 }
 
 .logo-text {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: white;
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-inverse);
 }
 
 .nav {
   display: flex;
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
 .nav-link {
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
-  font-weight: 500;
-  transition: opacity 0.3s;
+  font-weight: var(--font-medium);
+  transition: opacity var(--t-fast) var(--ease-default);
 }
 
 .nav-link:hover {
@@ -152,41 +168,30 @@
 
 .auth-buttons {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
-.btn {
-  padding: 0.5rem 1.5rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: white;
-  color: #4a69bd;
-}
-
-.btn-primary:hover {
-  background-color: #f0f0f0;
-}
-
-.btn-outline {
+.btn-header-outline {
   background-color: transparent;
-  color: white;
-  border: 2px solid white;
+  color: var(--color-text-inverse);
+  border: 2px solid var(--color-text-inverse);
 }
 
-.btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.btn-header-outline:hover {
+  background-color: color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+  color: var(--color-text-inverse);
 }
 
-.btn-large {
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
+.btn-header-fill {
+  background-color: var(--color-text-inverse);
+  color: var(--color-primary);
+  border-color: var(--color-text-inverse);
+}
+
+.btn-header-fill:hover {
+  background-color: var(--color-border-light);
+  color: var(--color-primary-hover);
+  border-color: var(--color-border-light);
 }
 
 .main-content {
@@ -195,11 +200,11 @@
 
 .hero {
   display: flex;
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: var(--space-12) var(--space-6);
   align-items: center;
-  gap: 4rem;
+  gap: var(--space-12);
 }
 
 .hero-content {
@@ -207,21 +212,21 @@
 }
 
 .hero-title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 1rem;
+  font-size: var(--text-3xl);
+  color: var(--color-text-1);
+  margin-bottom: var(--space-4);
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 2rem;
+  font-size: var(--text-xl);
+  color: var(--color-text-2);
+  margin-bottom: var(--space-6);
   line-height: 1.6;
 }
 
 .hero-buttons {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .hero-image {
@@ -232,6 +237,7 @@
 
 .hero-illustration {
   font-size: 8rem;
+  color: var(--color-primary);
   animation: float 3s ease-in-out infinite;
 }
 
@@ -241,32 +247,32 @@
 }
 
 .features {
-  padding: 4rem 2rem;
-  background-color: #f8f9fa;
+  padding: var(--space-12) var(--space-6);
+  background-color: var(--color-bg);
 }
 
 .section-title {
   text-align: center;
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 3rem;
+  font-size: var(--text-2xl);
+  color: var(--color-text-1);
+  margin-bottom: var(--space-8);
 }
 
 .features-grid {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
 .feature-card {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-card-bg);
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-1);
   text-align: center;
-  transition: transform 0.3s;
+  transition: transform var(--t-normal) var(--ease-default);
 }
 
 .feature-card:hover {
@@ -274,32 +280,32 @@
 }
 
 .feature-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
 }
 
 .feature-card h3 {
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: var(--color-text-1);
+  margin-bottom: var(--space-2);
 }
 
 .feature-card p {
-  color: #666;
-  font-size: 0.9rem;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
   line-height: 1.5;
 }
 
 .stats {
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
+  padding: var(--space-12) var(--space-6);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
 }
 
 .stats-container {
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
 .stat-item {
@@ -307,23 +313,6 @@
 }
 
 .stat-value {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: white;
-}
-
-.stat-label {
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 0.5rem;
-}
-
-.footer {
-  background-color: #333;
-  padding: 2rem;
-  text-align: center;
-}
-
-.footer-content p {
-  color: #999;
-}
-</style>
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-inverse

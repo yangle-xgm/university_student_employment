@@ -3,7 +3,7 @@
     <div class="register-wrapper">
       <div class="register-illustration">
         <div class="illustration-content">
-          <span class="illustration-icon">✨</span>
+          <el-icon class="illustration-icon"><MagicStick /></el-icon>
           <h3>创建账号</h3>
           <p>开启您的职业发展之旅</p>
         </div>
@@ -12,7 +12,7 @@
       <div class="register-card">
         <div class="register-header">
           <div class="logo">
-            <span class="logo-icon">🎓</span>
+            <el-icon class="logo-icon"><School /></el-icon>
             <span class="logo-text">大学生就业服务平台</span>
           </div>
           <h2>注册账号</h2>
@@ -76,9 +76,14 @@
             </label>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block" :loading="loading">
+          <el-button
+            type="primary"
+            native-type="submit"
+            class="btn-block"
+            :loading="loading"
+          >
             注册
-          </button>
+          </el-button>
         </form>
 
         <div class="register-footer">
@@ -135,15 +140,15 @@ const handleRegister = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
-  padding: 2rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  padding: var(--space-8);
 }
 
 .register-wrapper {
   display: flex;
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-3);
   overflow: hidden;
   max-width: 900px;
   width: 100%;
@@ -151,26 +156,26 @@ const handleRegister = async () => {
 
 .register-illustration {
   flex: 1;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
+  padding: var(--space-12);
 }
 
 .illustration-content {
   text-align: center;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .illustration-icon {
-  font-size: 5rem;
-  margin-bottom: 1.5rem;
+  font-size: calc(var(--space-12) + var(--space-8));
+  margin-bottom: var(--space-6);
 }
 
 .illustration-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
 }
 
 .illustration-content p {
@@ -179,102 +184,85 @@ const handleRegister = async () => {
 
 .register-card {
   flex: 1;
-  padding: 3rem;
+  padding: var(--space-12);
 }
 
 .register-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 }
 
 .logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .logo-icon {
-  font-size: 2rem;
+  font-size: var(--space-8);
+  color: var(--color-primary);
 }
 
 .logo-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #4a69bd;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
 }
 
 .register-header h2 {
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: var(--color-text-1);
+  margin-bottom: var(--space-2);
 }
 
 .register-header p {
-  color: #666;
+  color: var(--color-text-2);
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-6);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #333;
+  font-weight: var(--font-medium);
+  color: var(--color-text-1);
 }
 
 .agree-terms {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .agree-terms label {
   cursor: pointer;
   font-weight: normal;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: var(--text-sm);
+  color: var(--color-text-2);
 }
 
 .agree-terms a {
-  color: #4a69bd;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
 .agree-terms a:hover {
   text-decoration: underline;
-}
-
-.btn {
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.3s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background-color: #4a69bd;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #3d5a9e;
 }
 
 .btn-block {
@@ -283,15 +271,15 @@ const handleRegister = async () => {
 
 .register-footer {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: var(--space-8);
 }
 
 .register-footer p {
-  color: #666;
+  color: var(--color-text-2);
 }
 
 .register-footer a {
-  color: #4a69bd;
+  color: var(--color-primary);
   text-decoration: none;
 }
 

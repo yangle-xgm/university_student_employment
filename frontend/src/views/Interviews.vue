@@ -1,77 +1,22 @@
 <template>
-  <div class="dashboard-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">🎓</span>
-          <span class="logo-text">就业服务平台</span>
-        </div>
-      </div>
-      <nav class="sidebar-nav">
-        <router-link to="/dashboard" class="nav-item">
-          <span class="nav-icon">📊</span>
-          <span class="nav-text">仪表盘</span>
-        </router-link>
-        <router-link to="/profile" class="nav-item">
-          <span class="nav-icon">👤</span>
-          <span class="nav-text">个人资料</span>
-        </router-link>
-        <router-link to="/assessments" class="nav-item">
-          <span class="nav-icon">📝</span>
-          <span class="nav-text">职业测评</span>
-        </router-link>
-        <router-link to="/career" class="nav-item">
-          <span class="nav-icon">🎯</span>
-          <span class="nav-text">职业规划</span>
-        </router-link>
-        <router-link to="/learning" class="nav-item">
-          <span class="nav-icon">📚</span>
-          <span class="nav-text">学习成长</span>
-        </router-link>
-        <router-link to="/interviews" class="nav-item active">
-          <span class="nav-icon">💼</span>
-          <span class="nav-text">面试管理</span>
-        </router-link>
-        <router-link to="/jobs" class="nav-item">
-          <span class="nav-icon">💻</span>
-          <span class="nav-text">职位搜索</span>
-        </router-link>
-        <router-link to="/resumes" class="nav-item">
-          <span class="nav-icon">📄</span>
-          <span class="nav-text">简历管理</span>
-        </router-link>
-      </nav>
-      <div class="sidebar-footer">
-        <button class="logout-btn" @click="handleLogout">
-          <span>退出登录</span>
-        </button>
-      </div>
-    </aside>
-
-    <main class="main-content">
-      <header class="top-header">
-        <h1>面试管理</h1>
-        <div class="user-info">
-          <span class="user-name">{{ userInfo?.username }}</span>
-        </div>
-      </header>
-
+  <AppLayout title="面试管理">
+    <div class="interview-page">
       <div class="interview-stats">
-        <div class="stat-item">
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ upcomingCount }}</div>
           <div class="stat-label">即将到来</div>
-        </div>
-        <div class="stat-item">
+        </BaseCard>
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ completedCount }}</div>
           <div class="stat-label">已完成</div>
-        </div>
-        <div class="stat-item">
+        </BaseCard>
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ canceledCount }}</div>
           <div class="stat-label">已取消</div>
-        </div>
+        </BaseCard>
       </div>
 
-      <div class="filter-section">
+      <BaseCard class="filter-card">
         <el-tabs v-model="activeTab" class="filter-tabs">
           <el-tab-pane label="全部面试" name="all">
           </el-tab-pane>
@@ -82,55 +27,55 @@
           <el-tab-pane label="已取消" name="canceled">
           </el-tab-pane>
         </el-tabs>
-      </div>
+      </BaseCard>
 
       <div class="interview-list">
-        <div v-for="interview in filteredInterviews" :key="interview.id" class="interview-card">
+        <BaseCard v-for="interview in filteredInterviews" :key="interview.id" class="interview-card">
           <div class="interview-header">
             <div class="company-info">
-              <span class="company-icon">🏢</span>
+              <el-icon :size="32" class="company-icon"><OfficeBuilding /></el-icon>
               <div class="company-detail">
                 <h3>{{ interview.companyName }}</h3>
                 <p class="position">{{ interview.position }}</p>
               </div>
             </div>
-            <span class="interview-status" :class="getStatusClass(interview.status)">
+            <el-tag :type="getStatusType(interview.status)" effect="light" round>
               {{ getStatusLabel(interview.status) }}
-            </span>
+            </el-tag>
           </div>
-          
+
           <div class="interview-body">
             <div class="info-grid">
               <div class="info-item">
-                <span class="info-icon">📅</span>
+                <el-icon :size="18" class="info-icon"><Calendar /></el-icon>
                 <div class="info-content">
                   <span class="info-label">面试时间</span>
                   <span class="info-value">{{ formatDate(interview.interviewDate) }} {{ interview.interviewTime }}</span>
                 </div>
               </div>
               <div class="info-item">
-                <span class="info-icon">📍</span>
+                <el-icon :size="18" class="info-icon"><Location /></el-icon>
                 <div class="info-content">
                   <span class="info-label">面试地点</span>
                   <span class="info-value">{{ interview.location }}</span>
                 </div>
               </div>
               <div class="info-item">
-                <span class="info-icon">👤</span>
+                <el-icon :size="18" class="info-icon"><User /></el-icon>
                 <div class="info-content">
                   <span class="info-label">面试官</span>
                   <span class="info-value">{{ interview.interviewer }}</span>
                 </div>
               </div>
               <div class="info-item">
-                <span class="info-icon">📞</span>
+                <el-icon :size="18" class="info-icon"><Phone /></el-icon>
                 <div class="info-content">
                   <span class="info-label">联系方式</span>
                   <span class="info-value">{{ interview.contactPhone }}</span>
                 </div>
               </div>
             </div>
-            
+
             <div class="interview-notes" v-if="interview.notes">
               <span class="notes-label">备注</span>
               <p>{{ interview.notes }}</p>
@@ -139,18 +84,20 @@
 
           <div class="interview-footer">
             <div class="action-buttons">
-              <button class="action-btn primary" @click="viewDetails(interview)">查看详情</button>
-              <button class="action-btn secondary" @click="editInterview(interview)">编辑</button>
-              <button v-if="interview.status === 'UPCOMING'" class="action-btn danger" @click="handleCancelInterview(interview.id)">取消</button>
+              <el-button type="primary" size="small" @click="viewDetails(interview)">查看详情</el-button>
+              <el-button size="small" @click="editInterview(interview)">编辑</el-button>
+              <el-button v-if="interview.status === 'UPCOMING'" type="danger" size="small" @click="handleCancelInterview(interview.id)">取消</el-button>
             </div>
           </div>
-        </div>
+        </BaseCard>
       </div>
 
-      <div class="empty-state" v-if="filteredInterviews.length === 0">
-        <span class="empty-icon">💼</span>
-        <p>暂无面试安排</p>
-      </div>
+      <EmptyState
+        v-if="filteredInterviews.length === 0"
+        icon="Briefcase"
+        title="暂无面试安排"
+        description="目前还没有面试安排，快去投递简历吧"
+      />
 
       <el-dialog title="面试详情" v-model="showDetailModal" width="600px">
         <div v-if="selectedInterview" class="detail-content">
@@ -161,9 +108,9 @@
           <div class="detail-info">
             <div class="detail-row">
               <label>面试状态</label>
-              <span :class="getStatusClass(selectedInterview.status)" class="status-badge">
+              <el-tag :type="getStatusType(selectedInterview.status)" effect="light" round class="status-badge">
                 {{ getStatusLabel(selectedInterview.status) }}
-              </span>
+              </el-tag>
             </div>
             <div class="detail-row">
               <label>面试时间</label>
@@ -195,13 +142,18 @@
           <el-button @click="showDetailModal = false">关闭</el-button>
         </template>
       </el-dialog>
-    </main>
-  </div>
+    </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { getInterviewsByUserId } from '@/api/interview'
+import AppLayout from '@/components/layout/AppLayout.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
+import SectionHeader from '@/components/common/SectionHeader.vue'
+import EmptyState from '@/components/common/EmptyState.vue'
+import { OfficeBuilding, Calendar, Location, User, Phone, Briefcase } from '@element-plus/icons-vue'
 
 const userInfo = ref({})
 const activeTab = ref('all')
@@ -235,6 +187,16 @@ const getStatusLabel = (status) => {
 
 const getStatusClass = (status) => {
   return status ? status.toLowerCase() : 'unknown'
+}
+
+const getStatusType = (status) => {
+  const types = {
+    'UPCOMING': 'warning',
+    'COMPLETED': 'success',
+    'CANCELED': 'danger',
+    'RESCHEDULED': 'info'
+  }
+  return types[status] || 'info'
 }
 
 const getTypeLabel = (type) => {
@@ -305,169 +267,50 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f5f7fa;
-}
-
-.sidebar {
-  width: 250px;
-  background: linear-gradient(180deg, #4a69bd 0%, #3d5a9e 100%);
-  color: white;
+.interview-page {
   display: flex;
   flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-icon {
-  font-size: 1.5rem;
-}
-
-.logo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 1rem;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.25rem;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-icon {
-  font-size: 1.2rem;
-}
-
-.nav-text {
-  font-size: 0.95rem;
-}
-
-.sidebar-footer {
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.top-header h1 {
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-name {
-  font-weight: 500;
-  color: #333;
+  gap: var(--space-6);
 }
 
 .interview-stats {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
 }
 
-.stat-item {
-  background-color: white;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.stat-card {
   text-align: center;
-  flex: 1;
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #4a69bd;
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
 }
 
 .stat-label {
-  color: #666;
-  margin-top: 0.25rem;
+  color: var(--color-text-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
 }
 
-.filter-section {
-  margin-bottom: 1.5rem;
+.filter-card {
+  padding: var(--space-3) var(--space-5);
 }
 
-.filter-tabs {
-  background-color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.filter-tabs :deep(.el-tabs__header) {
+  margin-bottom: 0;
 }
 
 .interview-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-6);
 }
 
 .interview-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 0;
   overflow: hidden;
 }
 
@@ -475,69 +318,51 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 1.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  padding: var(--space-6);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .company-info {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
+  align-items: center;
 }
 
 .company-icon {
-  font-size: 2rem;
+  color: var(--color-primary);
 }
 
 .company-detail h3 {
-  color: #333;
-  margin: 0 0 0.25rem 0;
+  color: var(--color-text-1);
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-lg);
 }
 
 .position {
-  color: #666;
-  font-size: 0.9rem;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
   margin: 0;
 }
 
-.interview-status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.interview-status.upcoming {
-  background-color: #fff3cd;
-  color: #856404;
-}
-
-.interview-status.completed {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.interview-status.canceled {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
 .interview-body {
-  padding: 1.5rem;
+  padding: var(--space-6);
 }
 
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .info-item {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
+  align-items: flex-start;
 }
 
 .info-icon {
-  font-size: 1.2rem;
+  color: var(--color-text-3);
+  margin-top: var(--space-1);
 }
 
 .info-content {
@@ -546,145 +371,99 @@ onMounted(() => {
 }
 
 .info-label {
-  color: #999;
-  font-size: 0.85rem;
+  color: var(--color-text-3);
+  font-size: var(--text-sm);
 }
 
 .info-value {
-  color: #333;
-  font-size: 0.95rem;
+  color: var(--color-text-1);
+  font-size: var(--text-base);
 }
 
 .interview-notes {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
 }
 
 .notes-label {
-  color: #666;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-2);
   display: block;
 }
 
 .interview-notes p {
-  color: #333;
+  color: var(--color-text-1);
   margin: 0;
 }
 
 .interview-footer {
-  padding: 1rem 1.5rem;
-  background-color: #f8f9fa;
+  padding: var(--space-4) var(--space-6);
+  background-color: var(--color-bg);
 }
 
 .action-buttons {
   display: flex;
-  gap: 0.75rem;
-}
-
-.action-btn {
-  padding: 0.5rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-}
-
-.action-btn.primary {
-  background-color: #4a69bd;
-  color: white;
-}
-
-.action-btn.primary:hover {
-  background-color: #3d5a9e;
-}
-
-.action-btn.secondary {
-  background-color: #f0f4ff;
-  color: #4a69bd;
-}
-
-.action-btn.secondary:hover {
-  background-color: #e0e8ff;
-}
-
-.action-btn.danger {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
-.action-btn.danger:hover {
-  background-color: #f5c6cb;
-}
-
-.empty-state {
-  background-color: white;
-  border-radius: 12px;
-  padding: 3rem;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.empty-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 1rem;
-}
-
-.empty-state p {
-  color: #666;
+  gap: var(--space-3);
 }
 
 .detail-content {
-  padding: 0.5rem;
+  padding: var(--space-2);
 }
 
 .detail-header h2 {
-  color: #333;
-  margin: 0 0 0.25rem 0;
+  color: var(--color-text-1);
+  margin: 0 0 var(--space-1) 0;
 }
 
 .detail-header .position {
-  color: #4a69bd;
+  color: var(--color-primary);
 }
 
 .detail-info {
-  margin-top: 1.5rem;
+  margin-top: var(--space-6);
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .detail-row label {
-  color: #666;
+  color: var(--color-text-2);
 }
 
 .detail-row span {
-  color: #333;
-  font-weight: 500;
+  color: var(--color-text-1);
+  font-weight: var(--font-medium);
 }
 
 .status-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: var(--text-sm);
 }
 
 .detail-row.notes {
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .detail-row.notes p {
-  color: #333;
+  color: var(--color-text-1);
   margin: 0;
   line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .interview-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

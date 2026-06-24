@@ -10,4 +10,15 @@
         SELECT * FROM applications WHERE job_id = #{jobId} ORDER BY created_at DESC
     </select>
 
+    <select id="findByCompanyId" resultType="com.example.employment.common.entity.Application">
+        SELECT a.* FROM applications a
+        INNER JOIN jobs j ON a.job_id = j.id
+        WHERE j.company_id = #{companyId}
+        <if test="status != null and status != ''">
+            AND a.status = #{status}
+        </if>
+        ORDER BY a.created_at DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
 </mapper>

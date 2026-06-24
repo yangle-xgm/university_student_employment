@@ -11,7 +11,7 @@
  Target Server Version : 80017
  File Encoding         : 65001
 
- Date: 23/06/2026 23:15:39
+ Date: 24/06/2026 11:48:10
 */
 
 SET NAMES utf8mb4;
@@ -66,56 +66,56 @@ CREATE TABLE `assessment_questions`  (
 -- ----------------------------
 -- Records of assessment_questions
 -- ----------------------------
-INSERT INTO `assessment_questions` VALUES (1, 1, 'SINGLE', '您更喜欢哪种工作环境？', '["安静独立的办公室", "热闹的团队环境", "户外工作场所", "创意工作室"]', 1.00, 0, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (2, 1, 'SINGLE', '您更倾向于从事哪种类型的工作？', '["数据分析", "创意设计", "人际交往", "技术研发"]', 1.00, 1, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (3, 1, 'SINGLE', '您对哪类活动最感兴趣？', '["阅读写作", "运动健身", "音乐艺术", "科学实验"]', 1.00, 2, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (4, 1, 'SINGLE', '您更享受哪种工作方式？', '["独立完成任务", "团队协作", "领导他人", "跟随指导"]', 1.00, 3, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (5, 1, 'SCALE', '我喜欢学习新知识和技能', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 4, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (6, 1, 'SCALE', '我对自己的职业方向有清晰的规划', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 5, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (7, 1, 'SINGLE', '您认为工作中最重要的是？', '["成就感", "人际关系", "薪资待遇", "个人成长"]', 1.00, 6, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (8, 1, 'SCALE', '我经常主动了解行业动态', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 7, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (9, 1, 'SINGLE', '您更愿意在哪个行业发展？', '["IT/互联网", "金融", "教育", "医疗"]', 1.00, 8, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (10, 1, 'SCALE', '我愿意为职业发展投入额外时间', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 9, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (11, 2, 'SCALE', '我是一个善于社交的人', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 0, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (12, 2, 'SCALE', '我做事比较谨慎', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 1, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (13, 2, 'SCALE', '我容易感到焦虑或紧张', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 2, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (14, 2, 'SCALE', '我喜欢尝试新事物', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 3, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (15, 2, 'SCALE', '我在团队中通常扮演领导角色', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 4, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (16, 2, 'SCALE', '我能够很好地控制自己的情绪', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 5, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (17, 2, 'SCALE', '我更喜欢按计划行事而非随机应变', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 6, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (18, 2, 'SCALE', '我善于倾听他人的意见', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 7, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (19, 2, 'SCALE', '面对压力我仍能保持冷静', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 8, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (20, 2, 'SCALE', '我乐于帮助他人解决问题', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 9, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (21, 3, 'SCALE', '我的逻辑思维能力很强', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 0, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (22, 3, 'SCALE', '我能够清晰表达自己的想法', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 1, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (23, 3, 'SCALE', '我善于分析和解决复杂问题', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 2, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (24, 3, 'SCALE', '我的时间管理能力很好', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 3, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (25, 3, 'SCALE', '我有较强的学习能力', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 4, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (26, 3, 'SCALE', '我能够高效完成多任务处理', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 5, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (27, 3, 'SCALE', '我的创新能力较强', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 6, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (28, 3, 'SCALE', '我善于与他人合作', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 7, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (29, 3, 'SCALE', '我的计算机操作能力很强', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 8, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (30, 3, 'SCALE', '我能够快速适应新环境', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 9, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (31, 4, 'SINGLE', '您选择工作时最看重的是？', '["薪资待遇", "发展空间", "工作氛围", "稳定性"]', 1.00, 0, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (32, 4, 'SCALE', '工作与生活平衡对我很重要', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 1, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (33, 4, 'SCALE', '我认为工作应该有意义和价值', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 2, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (34, 4, 'SINGLE', '您更认可以下哪种说法？', '["工作是为了更好的生活", "生活是为了更好的工作", "工作与生活同等重要", "只要能赚钱就行"]', 1.00, 3, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (35, 4, 'SCALE', '我重视团队合作和集体荣誉', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 4, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (36, 4, 'SCALE', '创新和挑战对我来说很重要', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 5, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (37, 4, 'SINGLE', '您对加班的态度是？', '["坚决不接受", "偶尔可以接受", "可以接受合理加班", "为了事业可以接受"]', 1.00, 6, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (38, 4, 'SCALE', '我认为企业社会责任很重要', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 7, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (39, 4, 'SCALE', '我希望能帮助他人通过工作', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 8, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (40, 4, 'SINGLE', '您理想的公司规模是？', '["初创公司", "中小型企业", "大型企业", "无所谓"]', 1.00, 9, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (41, 5, 'SINGLE', '您希望在工作中获得什么？', '["专业成长", "职位晋升", "工作自由", "稳定收入"]', 1.00, 0, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (42, 5, 'SCALE', '我渴望成为某个领域的专家', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 1, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (43, 5, 'SCALE', '我希望未来能管理一个团队', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 2, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (44, 5, 'SINGLE', '您更倾向于哪种职业发展路径？', '["技术专家路线", "管理路线", "创业路线", "自由职业"]', 1.00, 3, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (45, 5, 'SCALE', '我追求工作与生活的平衡', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 4, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (46, 5, 'SCALE', '我渴望自主创业', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 5, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (47, 5, 'SINGLE', '您认为5年后的自己应该？', '["成为技术专家", "担任管理岗位", "拥有自己的事业", "稳定工作即可"]', 1.00, 6, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (48, 5, 'SCALE', '我重视工作带来的社会地位', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 7, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (49, 5, 'SCALE', '我希望工作能提供持续学习机会', '["非常不符合", "不太符合", "一般", "比较符合", "非常符合"]', 1.00, 8, '2026-06-16 10:23:16');
-INSERT INTO `assessment_questions` VALUES (50, 5, 'SINGLE', '您如何看待工作中的挑战？', '["主动寻求挑战", "接受合理挑战", "尽量避免挑战", "无所谓"]', 1.00, 9, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (1, 1, 'SINGLE', '您更喜欢哪种工作环境？', '[\"安静独立的办公室\", \"热闹的团队环境\", \"户外工作场所\", \"创意工作室\"]', 1.00, 0, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (2, 1, 'SINGLE', '您更倾向于从事哪种类型的工作？', '[\"数据分析\", \"创意设计\", \"人际交往\", \"技术研发\"]', 1.00, 1, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (3, 1, 'SINGLE', '您对哪类活动最感兴趣？', '[\"阅读写作\", \"运动健身\", \"音乐艺术\", \"科学实验\"]', 1.00, 2, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (4, 1, 'SINGLE', '您更享受哪种工作方式？', '[\"独立完成任务\", \"团队协作\", \"领导他人\", \"跟随指导\"]', 1.00, 3, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (5, 1, 'SCALE', '我喜欢学习新知识和技能', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 4, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (6, 1, 'SCALE', '我对自己的职业方向有清晰的规划', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 5, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (7, 1, 'SINGLE', '您认为工作中最重要的是？', '[\"成就感\", \"人际关系\", \"薪资待遇\", \"个人成长\"]', 1.00, 6, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (8, 1, 'SCALE', '我经常主动了解行业动态', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 7, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (9, 1, 'SINGLE', '您更愿意在哪个行业发展？', '[\"IT/互联网\", \"金融\", \"教育\", \"医疗\"]', 1.00, 8, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (10, 1, 'SCALE', '我愿意为职业发展投入额外时间', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 9, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (11, 2, 'SCALE', '我是一个善于社交的人', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 0, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (12, 2, 'SCALE', '我做事比较谨慎', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 1, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (13, 2, 'SCALE', '我容易感到焦虑或紧张', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 2, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (14, 2, 'SCALE', '我喜欢尝试新事物', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 3, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (15, 2, 'SCALE', '我在团队中通常扮演领导角色', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 4, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (16, 2, 'SCALE', '我能够很好地控制自己的情绪', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 5, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (17, 2, 'SCALE', '我更喜欢按计划行事而非随机应变', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 6, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (18, 2, 'SCALE', '我善于倾听他人的意见', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 7, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (19, 2, 'SCALE', '面对压力我仍能保持冷静', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 8, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (20, 2, 'SCALE', '我乐于帮助他人解决问题', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 9, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (21, 3, 'SCALE', '我的逻辑思维能力很强', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 0, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (22, 3, 'SCALE', '我能够清晰表达自己的想法', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 1, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (23, 3, 'SCALE', '我善于分析和解决复杂问题', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 2, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (24, 3, 'SCALE', '我的时间管理能力很好', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 3, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (25, 3, 'SCALE', '我有较强的学习能力', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 4, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (26, 3, 'SCALE', '我能够高效完成多任务处理', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 5, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (27, 3, 'SCALE', '我的创新能力较强', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 6, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (28, 3, 'SCALE', '我善于与他人合作', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 7, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (29, 3, 'SCALE', '我的计算机操作能力很强', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 8, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (30, 3, 'SCALE', '我能够快速适应新环境', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 9, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (31, 4, 'SINGLE', '您选择工作时最看重的是？', '[\"薪资待遇\", \"发展空间\", \"工作氛围\", \"稳定性\"]', 1.00, 0, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (32, 4, 'SCALE', '工作与生活平衡对我很重要', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 1, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (33, 4, 'SCALE', '我认为工作应该有意义和价值', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 2, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (34, 4, 'SINGLE', '您更认可以下哪种说法？', '[\"工作是为了更好的生活\", \"生活是为了更好的工作\", \"工作与生活同等重要\", \"只要能赚钱就行\"]', 1.00, 3, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (35, 4, 'SCALE', '我重视团队合作和集体荣誉', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 4, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (36, 4, 'SCALE', '创新和挑战对我来说很重要', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 5, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (37, 4, 'SINGLE', '您对加班的态度是？', '[\"坚决不接受\", \"偶尔可以接受\", \"可以接受合理加班\", \"为了事业可以接受\"]', 1.00, 6, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (38, 4, 'SCALE', '我认为企业社会责任很重要', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 7, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (39, 4, 'SCALE', '我希望能帮助他人通过工作', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 8, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (40, 4, 'SINGLE', '您理想的公司规模是？', '[\"初创公司\", \"中小型企业\", \"大型企业\", \"无所谓\"]', 1.00, 9, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (41, 5, 'SINGLE', '您希望在工作中获得什么？', '[\"专业成长\", \"职位晋升\", \"工作自由\", \"稳定收入\"]', 1.00, 0, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (42, 5, 'SCALE', '我渴望成为某个领域的专家', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 1, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (43, 5, 'SCALE', '我希望未来能管理一个团队', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 2, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (44, 5, 'SINGLE', '您更倾向于哪种职业发展路径？', '[\"技术专家路线\", \"管理路线\", \"创业路线\", \"自由职业\"]', 1.00, 3, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (45, 5, 'SCALE', '我追求工作与生活的平衡', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 4, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (46, 5, 'SCALE', '我渴望自主创业', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 5, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (47, 5, 'SINGLE', '您认为5年后的自己应该？', '[\"成为技术专家\", \"担任管理岗位\", \"拥有自己的事业\", \"稳定工作即可\"]', 1.00, 6, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (48, 5, 'SCALE', '我重视工作带来的社会地位', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 7, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (49, 5, 'SCALE', '我希望工作能提供持续学习机会', '[\"非常不符合\", \"不太符合\", \"一般\", \"比较符合\", \"非常符合\"]', 1.00, 8, '2026-06-16 10:23:16');
+INSERT INTO `assessment_questions` VALUES (50, 5, 'SINGLE', '您如何看待工作中的挑战？', '[\"主动寻求挑战\", \"接受合理挑战\", \"尽量避免挑战\", \"无所谓\"]', 1.00, 9, '2026-06-16 10:23:16');
 
 -- ----------------------------
 -- Table structure for assessment_records
@@ -260,79 +260,6 @@ CREATE TABLE `company_profiles`  (
 -- ----------------------------
 INSERT INTO `company_profiles` VALUES (1, 3, '腾讯科技', '互联网', '10000+', '深圳', '腾讯是一家知名互联网公司', NULL, NULL, NULL, '2026-06-16 10:23:16', '2026-06-16 10:23:16');
 
--- 支持多HR协作：移除 company_profiles.user_id 的 UNIQUE 约束
-ALTER TABLE `company_profiles` DROP INDEX `user_id`;
-ALTER TABLE `company_profiles` ADD INDEX `idx_user_id` (`user_id`);
-
--- 公司审核字段
-ALTER TABLE `company_profiles` ADD COLUMN `verified` TINYINT(1) DEFAULT 0 AFTER `description`;
-ALTER TABLE `company_profiles` ADD COLUMN `verified_at` DATETIME NULL AFTER `verified`;
-ALTER TABLE `company_profiles` ADD COLUMN `verified_by` BIGINT NULL AFTER `verified_at`;
-
--- ----------------------------
--- Table structure for company_hr_members
--- ----------------------------
-DROP TABLE IF EXISTS `company_hr_members`;
-CREATE TABLE `company_hr_members` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `company_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `role` ENUM('OWNER','ADMIN','MEMBER') NOT NULL DEFAULT 'MEMBER',
-  `invited_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `accepted` tinyint(1) DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uq_company_user` (`company_id`, `user_id`),
-  CONSTRAINT `fk_chm_company` FOREIGN KEY (`company_id`) REFERENCES `company_profiles` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_chm_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
--- 迁移现有 company_profiles.user_id 为 OWNER
-INSERT INTO `company_hr_members` (`company_id`, `user_id`, `role`, `accepted`) VALUES (1, 3, 'OWNER', 1);
-
--- ----------------------------
--- Table structure for audit_logs
--- ----------------------------
-DROP TABLE IF EXISTS `audit_logs`;
-CREATE TABLE `audit_logs` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `actor_user_id` bigint(20) NULL,
-  `actor_role` varchar(50) NULL,
-  `action` varchar(100) NOT NULL,
-  `target_type` varchar(50) NULL,
-  `target_id` bigint(20) NULL,
-  `details` text NULL,
-  `ip` varchar(45) NULL,
-  `user_agent` varchar(255) NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_actor` (`actor_user_id`),
-  KEY `idx_action` (`action`),
-  KEY `idx_created_at` (`created_at`),
-  CONSTRAINT `fk_audit_user` FOREIGN KEY (`actor_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
--- ----------------------------
--- Table structure for job_offers
--- ----------------------------
-DROP TABLE IF EXISTS `job_offers`;
-CREATE TABLE `job_offers` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `application_id` bigint(20) NOT NULL,
-  `hr_id` bigint(20) NOT NULL,
-  `salary` decimal(10,2) NULL,
-  `title` varchar(100) NULL,
-  `status` ENUM('SENT','ACCEPTED','REJECTED','REVOKED') DEFAULT 'SENT',
-  `sent_at` datetime NULL,
-  `responded_at` datetime NULL,
-  `notes` text NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  CONSTRAINT `fk_offer_app` FOREIGN KEY (`application_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_offer_hr` FOREIGN KEY (`hr_id`) REFERENCES `users` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-
 -- ----------------------------
 -- Table structure for interview_evaluations
 -- ----------------------------
@@ -352,7 +279,7 @@ CREATE TABLE `interview_evaluations`  (
   INDEX `evaluator_id`(`evaluator_id`) USING BTREE,
   CONSTRAINT `interview_evaluations_ibfk_1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `interview_evaluations_ibfk_2` FOREIGN KEY (`evaluator_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of interview_evaluations
@@ -373,7 +300,7 @@ CREATE TABLE `interview_questions`  (
   `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of interview_questions
@@ -392,7 +319,7 @@ CREATE TABLE `interviews`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `application_id` bigint(20) NULL DEFAULT NULL,
   `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `scheduled_time` datetime(0) NULL,
+  `scheduled_time` datetime(0) NULL DEFAULT NULL,
   `status` enum('SCHEDULED','IN_PROGRESS','COMPLETED','CANCELLED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SCHEDULED',
   `meeting_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `recording_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
@@ -455,7 +382,7 @@ CREATE TABLE `learning_path_resources`  (
   INDEX `resource_id`(`resource_id`) USING BTREE,
   CONSTRAINT `learning_path_resources_ibfk_1` FOREIGN KEY (`path_id`) REFERENCES `learning_paths` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `learning_path_resources_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `learning_resources` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of learning_path_resources
@@ -556,7 +483,7 @@ CREATE TABLE `resume_templates`  (
   `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of resume_templates
@@ -654,5 +581,93 @@ CREATE TABLE `users`  (
 INSERT INTO `users` VALUES (1, 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMye.IjzqAKL9xL5jvMFVdNJHvGCgTq/VEq', 'admin@example.com', '13800138000', '管理员', NULL, 'ADMIN', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
 INSERT INTO `users` VALUES (2, 'student1', '$2a$10$9mKobCPxSsNSQHw30CYOYeOd34gQp04sOtBHurKdkax5z1jgIFupe', 'student1@example.com', '13800138001', '张三', NULL, 'STUDENT', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-17 18:30:28');
 INSERT INTO `users` VALUES (3, 'hr1', '$2a$10$N9qo8uLOickgx2ZMRZoMye.IjzqAKL9xL5jvMFVdNJHvGCgTq/VEq', 'hr1@example.com', '13800138002', '李四', NULL, 'HR', 'ACTIVE', '2026-06-16 10:23:16', '2026-06-16 10:23:16');
+
+-- ----------------------------
+-- Alter table: company_profiles - 添加审核字段
+-- ----------------------------
+ALTER TABLE `company_profiles`
+  ADD COLUMN `verified` tinyint(1) DEFAULT 0 AFTER `contact_phone`,
+  ADD COLUMN `verified_at` datetime NULL AFTER `verified`,
+  ADD COLUMN `verified_by` bigint(20) NULL AFTER `verified_at`,
+  ADD CONSTRAINT `fk_company_verified_by` FOREIGN KEY (`verified_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+-- 移除 user_id 的 UNIQUE 约束以支持多HR协作
+ALTER TABLE `company_profiles` DROP INDEX `user_id`;
+
+-- ----------------------------
+-- Alter table: student_profiles - 添加新字段
+-- ----------------------------
+ALTER TABLE `student_profiles`
+  ADD COLUMN `bio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL AFTER `skills`,
+  ADD COLUMN `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL AFTER `bio`,
+  ADD COLUMN `target_job` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL AFTER `avatar_url`,
+  ADD COLUMN `expected_salary` decimal(10,2) NULL AFTER `target_job`,
+  ADD COLUMN `job_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL AFTER `expected_salary`;
+
+-- ----------------------------
+-- Table structure for company_hr_members
+-- ----------------------------
+DROP TABLE IF EXISTS `company_hr_members`;
+CREATE TABLE `company_hr_members` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `role` enum('OWNER','ADMIN','MEMBER') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'MEMBER',
+  `invited_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `accepted` tinyint(1) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uq_company_user` (`company_id`, `user_id`),
+  INDEX `idx_user_id` (`user_id`),
+  CONSTRAINT `fk_chm_company` FOREIGN KEY (`company_id`) REFERENCES `company_profiles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_chm_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- 迁移现有 company_profiles.user_id 到 company_hr_members
+INSERT INTO `company_hr_members` (`company_id`, `user_id`, `role`, `accepted`)
+SELECT `id`, `user_id`, 'OWNER', 1 FROM `company_profiles` WHERE `user_id` IS NOT NULL;
+
+-- ----------------------------
+-- Table structure for audit_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `audit_logs`;
+CREATE TABLE `audit_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `actor_user_id` bigint(20) NULL,
+  `actor_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `action` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `target_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `target_id` bigint(20) NULL,
+  `details` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_actor_user_id` (`actor_user_id`),
+  CONSTRAINT `fk_audit_user` FOREIGN KEY (`actor_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for job_offers
+-- ----------------------------
+DROP TABLE IF EXISTS `job_offers`;
+CREATE TABLE `job_offers` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `application_id` bigint(20) NOT NULL,
+  `hr_id` bigint(20) NOT NULL,
+  `salary` decimal(10,2) NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `status` enum('SENT','ACCEPTED','REJECTED','REVOKED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SENT',
+  `sent_at` datetime NULL,
+  `responded_at` datetime NULL,
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_application_id` (`application_id`),
+  INDEX `idx_hr_id` (`hr_id`),
+  CONSTRAINT `fk_offer_app` FOREIGN KEY (`application_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_offer_hr` FOREIGN KEY (`hr_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

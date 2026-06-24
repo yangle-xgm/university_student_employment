@@ -48,7 +48,7 @@
       <module name="employment-interview" options="-parameters" />
       <module name="employment-job" options="-parameters" />
       <module name="employment-learning" options="-parameters" />
-      <module name="employment-platform" options="" />
+      <module name="employment-platform" options="-parameters" />
       <module name="employment-resume" options="-parameters" />
       <module name="employment-student" options="-parameters" />
     </option>

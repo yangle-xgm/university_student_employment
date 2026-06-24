@@ -47,7 +47,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
-        user.setStatus("DISABLED");
+        user.setStatus("INACTIVE");
         userMapper.updateById(user);
     }
 
