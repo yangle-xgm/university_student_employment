@@ -21,4 +21,10 @@
         LIMIT #{offset}, #{size}
     </select>
 
+    <select id="findCompanyIdByApplicationId" resultType="java.lang.Long">
+        SELECT j.company_id FROM applications a
+        INNER JOIN jobs j ON a.job_id = j.id
+        WHERE a.id = #{applicationId}
+    </select>
+
 </mapper>

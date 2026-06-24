@@ -15,7 +15,7 @@ public interface HrCompanyService {
 
     void removeMember(Long memberId, Long operatorUserId);
 
-    void updateMemberRole(Long memberId, String role);
+    void updateMemberRole(Long memberId, String role, Long operatorUserId);
 
     boolean isHrOfCompany(Long userId, Long companyId);
 }

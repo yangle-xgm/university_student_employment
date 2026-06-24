@@ -59,7 +59,8 @@ public class HrController {
     public ResponseEntity<ApiResponse<String>> updateMemberRole(
             @PathVariable Long memberId,
             @RequestParam String role) {
-        hrCompanyService.updateMemberRole(memberId, role);
+        Long operatorUserId = SecurityUtils.getCurrentUserId();
+        hrCompanyService.updateMemberRole(memberId, role, operatorUserId);
         return ResponseEntity.ok(ApiResponse.success("角色修改成功"));
     }
 

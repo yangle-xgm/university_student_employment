@@ -1,11 +1,13 @@
 package com.example.employment.hr.service.impl;
 
 import com.example.employment.common.entity.Application;
+import com.example.employment.common.entity.CompanyProfile;
 import com.example.employment.common.entity.JobOffer;
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.common.repository.ApplicationMapper;
 import com.example.employment.common.repository.JobOfferMapper;
 import com.example.employment.hr.service.HrApplicationService;
+import com.example.employment.hr.service.HrCompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class HrApplicationServiceImpl implements HrApplicationService {
 
     private final ApplicationMapper applicationMapper;
     private final JobOfferMapper jobOfferMapper;
+    private final HrCompanyService hrCompanyService;
 
     @Override
     public List<Application> getApplicationsByCompany(Long companyId, String status, String keyword, int page, int size) {
@@ -61,6 +64,12 @@ public class HrApplicationServiceImpl implements HrApplicationService {
             throw new BusinessException("申请记录不存在");
         }
 
+        CompanyProfile hrCompany = hrCompanyService.getCompanyByUserId(hrId);
+        Long applicationCompanyId = applicationMapper.findCompanyIdByApplicationId(applicationId);
+        if (applicationCompanyId == null || !applicationCompanyId.equals(hrCompany.getId())) {
+            throw new BusinessException("无权为该申请创建Offer");
+        }
+
         JobOffer offer = JobOffer.builder()
                 .applicationId(applicationId)
                 .hrId(hrId)
@@ -81,10 +90,6 @@ public class HrApplicationServiceImpl implements HrApplicationService {
 
     @Override
     public List<JobOffer> getOffers(Long companyId) {
-        // 通过 hr_id 关联 company_hr_members 按公司查询
-        return jobOfferMapper.selectList(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<JobOffer>()
-                .orderByDesc(JobOffer::getCreatedAt)
-        );
+        return jobOfferMapper.findByCompanyId(companyId);
     }
 }

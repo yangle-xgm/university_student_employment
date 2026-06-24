@@ -1,0 +1,31 @@
+# Tasks
+- [x] Task 1: 获取并确认审查范围：列出过去 24 小时内的提交及其变更文件清单
+  - [x] SubTask 1.1: 确认目标提交 hash 与时间戳
+  - [x] SubTask 1.2: 生成变更文件清单（Java、XML、YAML、SQL、Vue/JS）
+- [x] Task 2: 对后端核心 Service 与 SQL/schema 变更执行高影响缺陷审查
+  - [x] SubTask 2.1: 审查 SQL schema 与实体字段一致性
+  - [x] SubTask 2.2: 审查 Service 层空引用/未处理异常/权限绕过/输入校验
+  - [x] SubTask 2.3: 审查并发与资源管理风险
+- [x] Task 3: 对前端 API 与组件变更执行高影响缺陷审查
+  - [x] SubTask 3.1: 审查 request.js 中 token 失效与异常处理
+  - [x] SubTask 3.2: 审查视图组件中潜在的空引用或越界访问
+- [x] Task 4: 汇总审查结论并输出最终报告
+  - [x] SubTask 4.1: 确认 4 个高影响缺陷的具体触发场景
+  - [x] SubTask 4.2: 输出标准结论与修复计划
+- [x] Task 5: 修复后端安全与权限缺陷
+  - [x] SubTask 5.1: 移除 AuthServiceImpl 中的明文密码日志
+  - [x] SubTask 5.2: 修复 HrApplicationServiceImpl.getOffers 返回跨公司数据的问题
+  - [x] SubTask 5.3: 修复 HrApplicationServiceImpl.createOffer 跨公司创建 Offer 的问题
+  - [x] SubTask 5.4: 修复 HrCompanyServiceImpl 成员管理缺少公司归属校验的问题
+- [x] Task 6: 添加回归测试覆盖修复的缺陷
+  - [x] SubTask 6.1: 为 HrApplicationServiceImpl 添加跨公司访问测试
+  - [x] SubTask 6.2: 为 HrCompanyServiceImpl 添加成员权限测试
+- [x] Task 7: 验证修复并输出最终审查结论
+
+# Task Dependencies
+- Task 2  depends on Task 1
+- Task 3  depends on Task 1
+- Task 4  depends on Task 2 and Task 3
+- Task 5  depends on Task 4
+- Task 6  depends on Task 5
+- Task 7  depends on Task 6

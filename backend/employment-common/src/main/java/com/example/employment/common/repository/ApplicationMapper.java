@@ -18,4 +18,6 @@ public interface ApplicationMapper extends BaseMapper<Application> {
                                        @Param("status") String status,
                                        @Param("offset") int offset,
                                        @Param("size") int size);
+
+    Long findCompanyIdByApplicationId(@Param("applicationId") Long applicationId);
 }

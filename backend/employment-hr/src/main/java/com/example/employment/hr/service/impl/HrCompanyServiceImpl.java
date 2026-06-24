@@ -62,6 +62,10 @@ public class HrCompanyServiceImpl implements HrCompanyService {
         if (member == null) {
             throw new BusinessException("成员不存在");
         }
+        CompanyHrMember operatorMembership = companyHrMemberMapper.findByCompanyAndUser(member.getCompanyId(), operatorUserId);
+        if (operatorMembership == null || !Boolean.TRUE.equals(operatorMembership.getAccepted())) {
+            throw new BusinessException("无权操作该公司成员");
+        }
         if ("OWNER".equals(member.getRole())) {
             throw new BusinessException("不能移除公司所有者");
         }
@@ -70,10 +74,14 @@ public class HrCompanyServiceImpl implements HrCompanyService {
 
     @Override
     @Transactional
-    public void updateMemberRole(Long memberId, String role) {
+    public void updateMemberRole(Long memberId, String role, Long operatorUserId) {
         CompanyHrMember member = companyHrMemberMapper.selectById(memberId);
         if (member == null) {
             throw new BusinessException("成员不存在");
+        }
+        CompanyHrMember operatorMembership = companyHrMemberMapper.findByCompanyAndUser(member.getCompanyId(), operatorUserId);
+        if (operatorMembership == null || !Boolean.TRUE.equals(operatorMembership.getAccepted())) {
+            throw new BusinessException("无权操作该公司成员");
         }
         member.setRole(role);
         member.setUpdatedAt(LocalDateTime.now());
