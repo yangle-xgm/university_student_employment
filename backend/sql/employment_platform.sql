@@ -260,6 +260,79 @@ CREATE TABLE `company_profiles`  (
 -- ----------------------------
 INSERT INTO `company_profiles` VALUES (1, 3, '腾讯科技', '互联网', '10000+', '深圳', '腾讯是一家知名互联网公司', NULL, NULL, NULL, '2026-06-16 10:23:16', '2026-06-16 10:23:16');
 
+-- 支持多HR协作：移除 company_profiles.user_id 的 UNIQUE 约束
+ALTER TABLE `company_profiles` DROP INDEX `user_id`;
+ALTER TABLE `company_profiles` ADD INDEX `idx_user_id` (`user_id`);
+
+-- 公司审核字段
+ALTER TABLE `company_profiles` ADD COLUMN `verified` TINYINT(1) DEFAULT 0 AFTER `description`;
+ALTER TABLE `company_profiles` ADD COLUMN `verified_at` DATETIME NULL AFTER `verified`;
+ALTER TABLE `company_profiles` ADD COLUMN `verified_by` BIGINT NULL AFTER `verified_at`;
+
+-- ----------------------------
+-- Table structure for company_hr_members
+-- ----------------------------
+DROP TABLE IF EXISTS `company_hr_members`;
+CREATE TABLE `company_hr_members` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `role` ENUM('OWNER','ADMIN','MEMBER') NOT NULL DEFAULT 'MEMBER',
+  `invited_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `accepted` tinyint(1) DEFAULT 0,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uq_company_user` (`company_id`, `user_id`),
+  CONSTRAINT `fk_chm_company` FOREIGN KEY (`company_id`) REFERENCES `company_profiles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_chm_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- 迁移现有 company_profiles.user_id 为 OWNER
+INSERT INTO `company_hr_members` (`company_id`, `user_id`, `role`, `accepted`) VALUES (1, 3, 'OWNER', 1);
+
+-- ----------------------------
+-- Table structure for audit_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `audit_logs`;
+CREATE TABLE `audit_logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `actor_user_id` bigint(20) NULL,
+  `actor_role` varchar(50) NULL,
+  `action` varchar(100) NOT NULL,
+  `target_type` varchar(50) NULL,
+  `target_id` bigint(20) NULL,
+  `details` text NULL,
+  `ip` varchar(45) NULL,
+  `user_agent` varchar(255) NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_actor` (`actor_user_id`),
+  KEY `idx_action` (`action`),
+  KEY `idx_created_at` (`created_at`),
+  CONSTRAINT `fk_audit_user` FOREIGN KEY (`actor_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Table structure for job_offers
+-- ----------------------------
+DROP TABLE IF EXISTS `job_offers`;
+CREATE TABLE `job_offers` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `application_id` bigint(20) NOT NULL,
+  `hr_id` bigint(20) NOT NULL,
+  `salary` decimal(10,2) NULL,
+  `title` varchar(100) NULL,
+  `status` ENUM('SENT','ACCEPTED','REJECTED','REVOKED') DEFAULT 'SENT',
+  `sent_at` datetime NULL,
+  `responded_at` datetime NULL,
+  `notes` text NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  CONSTRAINT `fk_offer_app` FOREIGN KEY (`application_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_offer_hr` FOREIGN KEY (`hr_id`) REFERENCES `users` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 -- ----------------------------
 -- Table structure for interview_evaluations
 -- ----------------------------

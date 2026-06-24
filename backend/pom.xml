@@ -28,6 +28,8 @@
         <module>employment-learning</module>
         <module>employment-interview</module>
         <module>employment-career</module>
+        <module>employment-hr</module>
+        <module>employment-admin</module>
         <module>employment-gateway</module>
     </modules>
     
@@ -167,6 +169,18 @@
             <dependency>
                 <groupId>com.example</groupId>
                 <artifactId>employment-career</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>employment-hr</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>employment-admin</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

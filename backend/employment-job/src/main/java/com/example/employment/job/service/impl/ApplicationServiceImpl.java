@@ -3,7 +3,7 @@ package com.example.employment.job.service.impl;
 import com.example.employment.common.entity.Application;
 import com.example.employment.common.exception.BusinessException;
 import com.example.employment.common.service.StudentProfileService;
-import com.example.employment.job.repository.ApplicationMapper;
+import com.example.employment.common.repository.ApplicationMapper;
 import com.example.employment.job.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

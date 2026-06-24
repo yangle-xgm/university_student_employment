@@ -1,4 +1,4 @@
-package com.example.employment.job.repository;
+package com.example.employment.common.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.employment.common.entity.Application;

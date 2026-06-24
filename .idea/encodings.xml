@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/backend/employment-admin/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-assessment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-assessment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-auth/src/main/java" charset="UTF-8" />
@@ -11,6 +12,7 @@
     <file url="file://$PROJECT_DIR$/backend/employment-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backend/employment-hr/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-interview/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-interview/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/backend/employment-job/src/main/java" charset="UTF-8" />

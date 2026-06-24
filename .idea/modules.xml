@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/employment-admin/employment-admin.iml" filepath="$PROJECT_DIR$/backend/employment-admin/employment-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-assessment/employment-assessment.iml" filepath="$PROJECT_DIR$/backend/employment-assessment/employment-assessment.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-auth/employment-auth.iml" filepath="$PROJECT_DIR$/backend/employment-auth/employment-auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-career/employment-career.iml" filepath="$PROJECT_DIR$/backend/employment-career/employment-career.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-common/employment-common.iml" filepath="$PROJECT_DIR$/backend/employment-common/employment-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-gateway/employment-gateway.iml" filepath="$PROJECT_DIR$/backend/employment-gateway/employment-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/employment-hr/employment-hr.iml" filepath="$PROJECT_DIR$/backend/employment-hr/employment-hr.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-interview/employment-interview.iml" filepath="$PROJECT_DIR$/backend/employment-interview/employment-interview.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-job/employment-job.iml" filepath="$PROJECT_DIR$/backend/employment-job/employment-job.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/employment-learning/employment-learning.iml" filepath="$PROJECT_DIR$/backend/employment-learning/employment-learning.iml" />

@@ -15,8 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -56,10 +54,9 @@ class StudentServiceTest {
                 .school("清华大学")
                 .major("计算机科学")
                 .grade("大三")
-                .graduationDate(LocalDate.of(2025, 6, 30))
                 .education("本科")
                 .skills("Java, Python")
-                .resumeUrl("resume.pdf")
+                .bio("热爱编程")
                 .build();
     }
 

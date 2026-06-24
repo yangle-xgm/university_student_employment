@@ -1,0 +1,32 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: employment-hr
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        ip: ${SERVICE_IP:}
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/employment_platform?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    username: root
+    password: 21491879
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
+jwt:
+  secret: employment-platform-jwt-secret-key-2024
+  expiration: 86400000
+
+logging:
+  level:
+    com.example: debug

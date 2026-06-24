@@ -33,6 +33,31 @@ public class LearningServiceImpl implements LearningService {
     private final StudentProfileService studentProfileService;
 
     @Override
+    public List<LearningResource> getResourceList(String category) {
+        return learningResourceMapper.selectList(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<LearningResource>()
+                .eq(category != null && !category.isEmpty(), LearningResource::getCategory, category)
+                .orderByDesc(LearningResource::getCreatedAt)
+        );
+    }
+
+    @Override
+    public List<LearningResource> searchResources(String keyword) {
+        return learningResourceMapper.selectList(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<LearningResource>()
+                .like(LearningResource::getTitle, keyword)
+                .or()
+                .like(LearningResource::getDescription, keyword)
+                .orderByDesc(LearningResource::getCreatedAt)
+        );
+    }
+
+    @Override
+    public LearningResource getResourceById(Long resourceId) {
+        return learningResourceMapper.selectById(resourceId);
+    }
+
+    @Override
     public List<LearningPath> getLearningPathList(String status) {
         try {
             List<LearningPath> paths = learningPathMapper.findByStatus(status);
@@ -54,6 +79,11 @@ public class LearningServiceImpl implements LearningService {
             log.error("Mapper method findByStatus not found: {}", ex.getMessage());
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public LearningPath getLearningPathById(Long pathId) {
+        return learningPathMapper.selectById(pathId);
     }
 
     @Override
@@ -92,7 +122,7 @@ public class LearningServiceImpl implements LearningService {
 
     @Override
     @Transactional
-    public void updateLearningProgress(Long userId, Long resourceId, Double progress) {
+    public LearningRecord updateLearningProgress(Long userId, Long resourceId, Double progress) {
         if (userId == null || resourceId == null || progress == null) {
             throw new BusinessException("参数不完整");
         }
@@ -116,11 +146,13 @@ public class LearningServiceImpl implements LearningService {
             r.setCreatedAt(LocalDateTime.now());
             r.setUpdatedAt(LocalDateTime.now());
             learningRecordMapper.insert(r);
+            return r;
         } else {
             exist.setProgress(progress);
             exist.setCompleted(progress >= 100.0);
             exist.setUpdatedAt(LocalDateTime.now());
             learningRecordMapper.updateById(exist);
+            return exist;
         }
     }
 }

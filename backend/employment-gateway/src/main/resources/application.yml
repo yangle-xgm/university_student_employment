@@ -62,6 +62,21 @@ spring:
           uri: http://localhost:8088
           predicates:
             - Path=/api/interviews/**
+        
+        - id: hr-service
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/hr/**
+        
+        - id: admin-service
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/admin/**
+        
+        - id: application-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/applications/**
 
   main:
     web-application-type: reactive
@@ -79,6 +94,7 @@ whitelist:
     - /swagger-ui/**
     - /swagger-ui.html
     - /actuator/**
+    - /api/public/**
 
 logging:
   level:

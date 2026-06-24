@@ -38,7 +38,6 @@
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.jboss.logging:jboss-logging:3.5.3.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.6.0" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:3.2.11" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:3.2.11" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:3.2.11" level="project" />
@@ -85,6 +84,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:6.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.2.7" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:6.2.7" level="project" />
     <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-starter-webmvc-api:2.3.0" level="project" />

@@ -69,13 +69,17 @@ public class JwtAuthGlobalFilter implements GlobalFilter, Ordered {
             }
         }
 
+        if (path.startsWith("/api/hr/")) {
+            if (!"HR".equals(role) && !"ADMIN".equals(role)) {
+                log.debug("非HR/管理员角色访问HR端点，role={}，返回401", role);
+                return UnauthorizedHandler.handle(exchange);
+            }
+        }
+
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate()
                 .header("X-User-Id", String.valueOf(userId))
-                .header("X-Username", username);
-
-        if ("ADMIN".equals(role)) {
-            requestBuilder.header("X-Admin-Id", String.valueOf(userId));
-        }
+                .header("X-Username", username)
+                .header("X-User-Role", role);
 
         ServerHttpRequest mutatedRequest = requestBuilder.build();
         ServerWebExchange mutatedExchange = exchange.mutate().request(mutatedRequest).build();

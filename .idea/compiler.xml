@@ -9,6 +9,7 @@
         <module name="employment-learning" />
         <module name="employment-interview" />
         <module name="employment-student" />
+        <module name="employment-hr" />
         <module name="employment-resume" />
         <module name="employment-gateway" />
         <module name="employment-common" />
@@ -16,14 +17,17 @@
         <module name="employment-auth" />
         <module name="employment-assessment" />
         <module name="employment-job" />
+        <module name="employment-admin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="employment-admin" target="17" />
       <module name="employment-assessment" target="17" />
       <module name="employment-auth" target="17" />
       <module name="employment-career" target="17" />
       <module name="employment-common" target="17" />
       <module name="employment-gateway" target="17" />
+      <module name="employment-hr" target="17" />
       <module name="employment-interview" target="17" />
       <module name="employment-job" target="17" />
       <module name="employment-learning" target="17" />
@@ -34,15 +38,17 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="employment-admin" options="-parameters" />
       <module name="employment-assessment" options="-parameters" />
       <module name="employment-auth" options="-parameters" />
       <module name="employment-career" options="-parameters" />
       <module name="employment-common" options="-parameters" />
       <module name="employment-gateway" options="-parameters" />
+      <module name="employment-hr" options="-parameters" />
       <module name="employment-interview" options="-parameters" />
       <module name="employment-job" options="-parameters" />
       <module name="employment-learning" options="-parameters" />
-      <module name="employment-platform" options="-parameters" />
+      <module name="employment-platform" options="" />
       <module name="employment-resume" options="-parameters" />
       <module name="employment-student" options="-parameters" />
     </option>
