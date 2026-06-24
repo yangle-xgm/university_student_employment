@@ -1,135 +1,176 @@
 <template>
   <AppLayout title="职位搜索">
     <div class="jobs-page">
-      <!-- 筛选栏 -->
-      <BaseCard class="filter-card">
-        <div class="search-filters">
-          <div class="filter-row">
+      <!-- 搜索 Hero -->
+      <div class="search-hero">
+        <div class="hero-content">
+          <h1 class="hero-title">发现你的下一份机会</h1>
+          <p class="hero-subtitle">探索适合自己的职位，开启职业新篇章</p>
+          <div class="hero-search">
             <el-input
               v-model="searchForm.keyword"
-              placeholder="搜索职位关键词..."
-              class="filter-input"
+              placeholder="搜索职位、公司或关键词..."
+              class="hero-search-input"
               clearable
+              size="large"
               @keyup.enter="handleSearch"
             >
+              <template #prefix>
+                <el-icon :size="20"><Search /></el-icon>
+              </template>
               <template #append>
-                <el-button type="primary" @click="handleSearch">
-                  <el-icon><Search /></el-icon>
+                <el-button type="primary" size="large" @click="handleSearch">
+                  搜索
                 </el-button>
               </template>
             </el-input>
           </div>
-          <div class="filter-row">
-            <div class="filter-group">
-              <label>工作地点</label>
-              <el-select v-model="searchForm.location" placeholder="选择地点" class="filter-select" clearable>
-                <el-option label="全部" value="" />
-                <el-option label="北京" value="北京" />
-                <el-option label="上海" value="上海" />
-                <el-option label="广州" value="广州" />
-                <el-option label="深圳" value="深圳" />
-                <el-option label="杭州" value="杭州" />
-                <el-option label="成都" value="成都" />
-              </el-select>
-            </div>
-            <div class="filter-group">
-              <label>行业</label>
-              <el-select v-model="searchForm.industry" placeholder="选择行业" class="filter-select" clearable>
-                <el-option label="全部" value="" />
-                <el-option label="互联网" value="互联网" />
-                <el-option label="金融" value="金融" />
-                <el-option label="教育" value="教育" />
-                <el-option label="医疗" value="医疗" />
-                <el-option label="制造" value="制造" />
-                <el-option label="零售" value="零售" />
-              </el-select>
-            </div>
-            <div class="filter-group">
-              <label>职位类型</label>
-              <el-select v-model="searchForm.jobType" placeholder="选择类型" class="filter-select" clearable>
-                <el-option label="全部" value="" />
-                <el-option label="全职" value="全职" />
-                <el-option label="兼职" value="兼职" />
-                <el-option label="实习" value="实习" />
-              </el-select>
-            </div>
-          </div>
         </div>
-      </BaseCard>
+      </div>
 
-      <!-- 统计与列表 -->
-      <BaseCard class="list-card">
-        <SectionHeader title="职位列表" :subtitle="`共找到 ${jobs.length} 个职位`">
-          <el-button @click="resetFilters">重置筛选</el-button>
-        </SectionHeader>
-
-        <div class="jobs-list">
-          <div v-for="job in jobs" :key="job.id" class="job-card" @click="handleApply(job)">
-            <div class="job-header">
-              <div class="job-title-section">
-                <h3>{{ job.title }}</h3>
-                <el-tag :type="getJobTypeType(job.jobType)" size="small" effect="light" round>
-                  {{ getJobTypeLabel(job.jobType) }}
-                </el-tag>
+      <div class="jobs-content">
+        <!-- 左侧筛选栏 -->
+        <div class="filter-sidebar">
+          <BaseCard class="filter-card" :hoverable="false">
+            <div class="filter-header">
+              <h3>
+                <el-icon><Filter /></el-icon>
+                筛选条件
+              </h3>
+              <el-button link type="primary" @click="resetFilters">重置</el-button>
+            </div>
+            <div class="filter-groups">
+              <div class="filter-group">
+                <label>工作地点</label>
+                <el-select v-model="searchForm.location" placeholder="选择地点" class="filter-select" clearable>
+                  <el-option label="全部" value="" />
+                  <el-option label="北京" value="北京" />
+                  <el-option label="上海" value="上海" />
+                  <el-option label="广州" value="广州" />
+                  <el-option label="深圳" value="深圳" />
+                  <el-option label="杭州" value="杭州" />
+                  <el-option label="成都" value="成都" />
+                </el-select>
               </div>
-              <div class="job-salary">{{ job.salary }}</div>
+              <div class="filter-group">
+                <label>行业</label>
+                <el-select v-model="searchForm.industry" placeholder="选择行业" class="filter-select" clearable>
+                  <el-option label="全部" value="" />
+                  <el-option label="互联网" value="互联网" />
+                  <el-option label="金融" value="金融" />
+                  <el-option label="教育" value="教育" />
+                  <el-option label="医疗" value="医疗" />
+                  <el-option label="制造" value="制造" />
+                  <el-option label="零售" value="零售" />
+                </el-select>
+              </div>
+              <div class="filter-group">
+                <label>职位类型</label>
+                <el-select v-model="searchForm.jobType" placeholder="选择类型" class="filter-select" clearable>
+                  <el-option label="全部" value="" />
+                  <el-option label="全职" value="全职" />
+                  <el-option label="兼职" value="兼职" />
+                  <el-option label="实习" value="实习" />
+                </el-select>
+              </div>
             </div>
-            <div class="job-info">
-              <span class="company-name">
-                <el-icon><OfficeBuilding /></el-icon>
-                {{ job.companyName }}
-              </span>
-              <span class="job-location">
-                <el-icon><Location /></el-icon>
-                {{ job.location }}
-              </span>
-              <span class="job-industry">
-                <el-icon><Briefcase /></el-icon>
-                {{ job.industry }}
-              </span>
-            </div>
-            <p class="job-description">{{ job.description }}</p>
-            <div class="job-tags">
-              <el-tag v-for="tag in job.tags" :key="tag" type="info" size="small" effect="light" round>
-                {{ tag }}
-              </el-tag>
-            </div>
-            <div class="job-footer">
-              <span class="post-date">
-                <el-icon><Clock /></el-icon>
-                发布时间: {{ job.postDate }}
-              </span>
-              <el-button type="primary" size="default" round @click.stop="handleApply(job)">
-                立即申请
-              </el-button>
-            </div>
-          </div>
+          </BaseCard>
         </div>
 
-        <EmptyState
-          v-if="jobs.length === 0"
-          icon="Search"
-          title="暂无匹配的职位"
-          description="尝试调整筛选条件或关键词"
-        >
-          <el-button type="primary" @click="resetFilters">重置筛选条件</el-button>
-        </EmptyState>
-      </BaseCard>
+        <!-- 右侧列表 -->
+        <div class="jobs-main">
+          <BaseCard class="list-card" :hoverable="false">
+            <SectionHeader :title="`找到 ${jobs.length} 个职位`" subtitle="精选优质岗位" />
+
+            <div class="jobs-list">
+              <div v-for="job in jobs" :key="job.id" class="job-card" @click="handleApply(job)">
+                <div class="job-card-glow"></div>
+                <div class="job-main">
+                  <div class="job-header">
+                    <div class="job-title-section">
+                      <h3>{{ job.title }}</h3>
+                      <div class="job-badges">
+                        <el-tag :type="getJobTypeType(job.jobType)" size="small" effect="light" round>
+                          {{ getJobTypeLabel(job.jobType) }}
+                        </el-tag>
+                        <span class="post-date">
+                          <el-icon><Clock /></el-icon>
+                          {{ job.postDate }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="job-salary">{{ job.salary }}</div>
+                  </div>
+                  <div class="job-company">
+                    <div class="company-logo">
+                      <el-icon :size="20"><OfficeBuilding /></el-icon>
+                    </div>
+                    <div class="company-info">
+                      <span class="company-name">{{ job.companyName }}</span>
+                      <div class="job-meta">
+                        <span><el-icon><Location /></el-icon>{{ job.location }}</span>
+                        <span><el-icon><Briefcase /></el-icon>{{ job.industry }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="job-description">{{ job.description }}</p>
+                  <div class="job-tags">
+                    <el-tag v-for="tag in job.tags" :key="tag" type="info" size="small" effect="light" round>
+                      {{ tag }}
+                    </el-tag>
+                  </div>
+                </div>
+                <div class="job-action">
+                  <el-button type="primary" size="large" round @click.stop="handleApply(job)">
+                    立即申请
+                    <el-icon class="btn-icon"><ArrowRight /></el-icon>
+                  </el-button>
+                </div>
+              </div>
+            </div>
+
+            <EmptyState
+              v-if="jobs.length === 0"
+              icon="Search"
+              title="暂无匹配的职位"
+              description="尝试调整筛选条件或关键词"
+            >
+              <el-button type="primary" @click="resetFilters">重置筛选条件</el-button>
+            </EmptyState>
+          </BaseCard>
+        </div>
+      </div>
 
       <!-- 职位详情弹窗 -->
-      <el-dialog title="职位详情" v-model="showJobDetailModal" width="680px" destroy-on-close>
+      <el-dialog title="职位详情" v-model="showJobDetailModal" width="720px" destroy-on-close class="job-detail-dialog">
         <div v-if="selectedJob" class="job-detail">
           <div class="detail-header">
+            <div class="detail-company-logo">
+              <el-icon :size="28"><OfficeBuilding /></el-icon>
+            </div>
             <div class="detail-title-section">
               <h2>{{ selectedJob.title }}</h2>
               <div class="detail-meta">
-                <span class="detail-company">
-                  <el-icon><OfficeBuilding /></el-icon>
-                  {{ selectedJob.companyName }}
-                </span>
+                <el-tag :type="getJobTypeType(selectedJob.jobType)" effect="light" round>
+                  {{ getJobTypeLabel(selectedJob.jobType) }}
+                </el-tag>
                 <span class="detail-salary">{{ selectedJob.salary }}</span>
               </div>
             </div>
+          </div>
+          <div class="detail-company-bar">
+            <span class="company-name">
+              <el-icon><OfficeBuilding /></el-icon>
+              {{ selectedJob.companyName }}
+            </span>
+            <span class="job-meta">
+              <el-icon><Location /></el-icon>
+              {{ selectedJob.location }}
+            </span>
+            <span class="job-meta">
+              <el-icon><Briefcase /></el-icon>
+              {{ selectedJob.industry }}
+            </span>
           </div>
           <div class="detail-content">
             <div class="detail-section">
@@ -144,7 +185,7 @@
             </div>
             <div class="detail-section">
               <h3>公司信息</h3>
-              <div class="company-info">
+              <div class="company-info-card">
                 <div class="info-row">
                   <span class="info-label">公司名称</span>
                   <span class="info-value">{{ selectedJob.companyName }}</span>
@@ -264,26 +305,121 @@ onMounted(() => {
   gap: var(--space-6);
 }
 
+.search-hero {
+  position: relative;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-10) var(--space-8);
+  color: var(--color-text-inverse);
+  overflow: hidden;
+  box-shadow: var(--elevation-3);
+}
+
+.search-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-extrabold);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-2);
+}
+
+.hero-subtitle {
+  font-size: var(--text-base);
+  opacity: 0.85;
+  margin-bottom: var(--space-6);
+}
+
+.hero-search {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-full);
+  padding: var(--space-1);
+}
+
+.hero-search-input :deep(.el-input__wrapper) {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-full) 0 0 var(--radius-full);
+  box-shadow: none;
+}
+
+.hero-search-input :deep(.el-input-group__append) {
+  background: transparent;
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  border: none;
+  padding: 0;
+}
+
+.hero-search-input :deep(.el-input-group__append .el-button) {
+  border-radius: var(--radius-full);
+  margin: 0;
+  height: 100%;
+  padding: 0 var(--space-8);
+  background: var(--color-text-inverse);
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+}
+
+.hero-search-input :deep(.el-input__prefix) {
+  color: var(--color-text-3);
+}
+
+.jobs-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.filter-sidebar {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-6));
+}
+
 .filter-card {
   padding: var(--space-5);
 }
 
-.search-filters {
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.filter-header h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-1);
+  margin: 0;
+}
+
+.filter-groups {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-}
-
-.filter-row {
-  display: flex;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-
-.filter-input {
-  width: 100%;
-  max-width: 480px;
+  gap: var(--space-5);
 }
 
 .filter-group {
@@ -299,7 +435,7 @@ onMounted(() => {
 }
 
 .filter-select {
-  width: 180px;
+  width: 100%;
 }
 
 .list-card {
@@ -313,61 +449,133 @@ onMounted(() => {
 }
 
 .job-card {
-  background-color: var(--color-bg);
-  border-radius: var(--radius-md);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-5);
   padding: var(--space-5);
+  background: var(--gradient-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
   cursor: pointer;
-  transition: transform var(--t-normal) var(--ease-default),
-              box-shadow var(--t-normal) var(--ease-default);
+  overflow: hidden;
+  transition: all var(--t-normal) var(--ease-smooth);
 }
 
 .job-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--elevation-2);
+  transform: translateY(-3px);
+  box-shadow: var(--elevation-3);
+  border-color: rgba(37, 99, 235, 0.15);
+}
+
+.job-card-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+  opacity: 0;
+  transition: opacity var(--t-normal) var(--ease-default);
+  pointer-events: none;
+}
+
+.job-card:hover .job-card-glow {
+  opacity: 1;
+}
+
+.job-main {
+  min-width: 0;
 }
 
 .job-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
   gap: var(--space-4);
 }
 
 .job-title-section {
+  min-width: 0;
+}
+
+.job-title-section h3 {
+  color: var(--color-text-1);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  margin: 0 0 var(--space-2) 0;
+  letter-spacing: -0.01em;
+}
+
+.job-badges {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
 }
 
-.job-title-section h3 {
-  color: var(--color-text-1);
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  margin: 0;
+.post-date {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
 }
 
 .job-salary {
   font-size: var(--text-xl);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-extrabold);
   color: var(--color-danger);
   white-space: nowrap;
+  letter-spacing: -0.02em;
 }
 
-.job-info {
+.job-company {
   display: flex;
-  gap: var(--space-5);
+  align-items: center;
+  gap: var(--space-3);
   margin-bottom: var(--space-3);
+}
+
+.company-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  background: var(--gradient-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.company-name {
+  color: var(--color-text-1);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+}
+
+.job-meta {
+  display: flex;
+  gap: var(--space-3);
   flex-wrap: wrap;
 }
 
-.job-info span {
+.job-meta span {
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
   color: var(--color-text-2);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .job-description {
@@ -378,65 +586,101 @@ onMounted(() => {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-size: var(--text-sm);
 }
 
 .job-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-4);
 }
 
-.job-footer {
+.job-action {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
-  gap: var(--space-3);
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--color-border-light);
 }
 
-.post-date {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  color: var(--color-text-3);
-  font-size: var(--text-sm);
+.job-action .el-button {
+  min-width: 120px;
+}
+
+.btn-icon {
+  margin-left: var(--space-1);
 }
 
 /* 弹窗详情 */
-.job-detail {
-  padding: var(--space-2);
+.job-detail :deep(.el-dialog__body) {
+  padding-top: var(--space-4);
 }
 
 .detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
   margin-bottom: var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.detail-company-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  background: var(--gradient-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.detail-title-section {
+  flex: 1;
 }
 
 .detail-title-section h2 {
   color: var(--color-text-1);
   margin: 0 0 var(--space-3) 0;
   font-size: var(--text-xl);
+  font-weight: var(--font-bold);
 }
 
 .detail-meta {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   flex-wrap: wrap;
-}
-
-.detail-company {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  color: var(--color-text-2);
 }
 
 .detail-salary {
   color: var(--color-danger);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-extrabold);
   font-size: var(--text-lg);
+}
+
+.detail-company-bar {
+  display: flex;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.detail-company-bar span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+}
+
+.detail-company-bar .company-name {
+  color: var(--color-text-1);
+  font-weight: var(--font-semibold);
 }
 
 .detail-content {
@@ -449,7 +693,7 @@ onMounted(() => {
   color: var(--color-text-1);
   margin-bottom: var(--space-3);
   font-size: var(--text-base);
-  font-weight: var(--font-semibold);
+  font-weight: var(--font-bold);
   padding-bottom: var(--space-2);
   border-bottom: 2px solid var(--color-primary-light);
 }
@@ -466,17 +710,31 @@ onMounted(() => {
 }
 
 .detail-section li {
-  padding: var(--space-2) 0;
+  padding: var(--space-3) 0;
   color: var(--color-text-2);
   border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+  padding-left: var(--space-5);
+}
+
+.detail-section li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
 }
 
 .detail-section li:last-child {
   border-bottom: none;
 }
 
-.company-info {
-  background-color: var(--color-bg);
+.company-info-card {
+  background: var(--color-bg);
   padding: var(--space-4);
   border-radius: var(--radius);
 }
@@ -484,7 +742,7 @@ onMounted(() => {
 .info-row {
   display: flex;
   justify-content: space-between;
-  padding: var(--space-2) 0;
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -494,6 +752,7 @@ onMounted(() => {
 
 .info-label {
   color: var(--color-text-3);
+  font-size: var(--text-sm);
 }
 
 .info-value {
@@ -501,27 +760,57 @@ onMounted(() => {
   font-weight: var(--font-medium);
 }
 
-@media (max-width: 640px) {
-  .filter-row {
-    flex-direction: column;
-    align-items: stretch;
+@media (max-width: 1024px) {
+  .jobs-content {
+    grid-template-columns: 1fr;
   }
 
-  .filter-select {
-    width: 100%;
+  .filter-sidebar {
+    position: static;
+  }
+
+  .filter-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .job-card {
+    grid-template-columns: 1fr;
+  }
+
+  .job-action {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-border-light);
+    padding-top: var(--space-4);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: var(--text-xl);
+  }
+
+  .hero-search-input :deep(.el-input-group__append .el-button) {
+    padding: 0 var(--space-4);
+  }
+
+  .filter-groups {
+    grid-template-columns: 1fr;
   }
 
   .job-header {
     flex-direction: column;
   }
 
-  .job-info {
-    gap: var(--space-3);
+  .job-salary {
+    font-size: var(--text-lg);
   }
 
-  .job-footer {
+  .detail-company-bar {
     flex-direction: column;
-    align-items: flex-start;
+    gap: var(--space-2);
   }
 }
 </style>

@@ -1,16 +1,28 @@
 package com.example.employment.interview.service;
 
 import com.example.employment.interview.entity.Interview;
+import com.example.employment.interview.entity.InterviewEvaluation;
 
 import java.util.List;
 
 public interface InterviewService {
-    Interview getInterviewById(Long interviewId);
-    List<Interview> getAllInterviews();
-    List<Interview> getInterviewsByStudentId(Long studentId);
-    List<Interview> getInterviewsByJobId(Long jobId);
-    List<Interview> getInterviewsByApplicationId(Long applicationId);
+
+    List<Interview> listAll(Long applicationId);
+
+    Interview getById(Long id);
+
     Interview createInterview(Interview interview);
-    Interview updateInterview(Long interviewId, Interview interview);
-    void deleteInterview(Long interviewId);
+
+    Interview updateInterview(Long id, Interview interview);
+
+    void deleteInterview(Long id);
+
+    List<Interview> getByStudentId(Long studentProfileId);
+
+    // 面试评估
+    InterviewEvaluation addEvaluation(Long interviewId, Long evaluatorId, InterviewEvaluation evaluation);
+
+    List<InterviewEvaluation> getEvaluationsByInterviewId(Long interviewId);
+
+    void deleteEvaluation(Long evaluationId);
 }

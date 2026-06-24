@@ -1,84 +1,29 @@
 <template>
-  <div class="dashboard-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo">
-          <span class="logo-icon">🎓</span>
-          <span class="logo-text">就业服务平台</span>
-        </div>
-      </div>
-      <nav class="sidebar-nav">
-        <router-link to="/dashboard" class="nav-item">
-          <span class="nav-icon">📊</span>
-          <span class="nav-text">仪表盘</span>
-        </router-link>
-        <router-link to="/profile" class="nav-item">
-          <span class="nav-icon">👤</span>
-          <span class="nav-text">个人资料</span>
-        </router-link>
-        <router-link to="/assessments" class="nav-item">
-          <span class="nav-icon">📝</span>
-          <span class="nav-text">职业测评</span>
-        </router-link>
-        <router-link to="/career" class="nav-item">
-          <span class="nav-icon">🎯</span>
-          <span class="nav-text">职业规划</span>
-        </router-link>
-        <router-link to="/learning" class="nav-item active">
-          <span class="nav-icon">📚</span>
-          <span class="nav-text">学习成长</span>
-        </router-link>
-        <router-link to="/interviews" class="nav-item">
-          <span class="nav-icon">💼</span>
-          <span class="nav-text">面试管理</span>
-        </router-link>
-        <router-link to="/jobs" class="nav-item">
-          <span class="nav-icon">💻</span>
-          <span class="nav-text">职位搜索</span>
-        </router-link>
-        <router-link to="/resumes" class="nav-item">
-          <span class="nav-icon">📄</span>
-          <span class="nav-text">简历管理</span>
-        </router-link>
-      </nav>
-      <div class="sidebar-footer">
-        <button class="logout-btn" @click="handleLogout">
-          <span>退出登录</span>
-        </button>
-      </div>
-    </aside>
-
-    <main class="main-content">
-      <header class="top-header">
-        <h1>学习成长</h1>
-        <div class="user-info">
-          <span class="user-name">{{ userInfo?.username }}</span>
-        </div>
-      </header>
-
+  <AppLayout title="学习成长">
+    <div class="learning-page">
       <div class="learning-stats">
-        <div class="stat-item">
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ totalResources }}</div>
           <div class="stat-label">学习资源</div>
-        </div>
-        <div class="stat-item">
+        </BaseCard>
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ completedResources }}</div>
           <div class="stat-label">已完成</div>
-        </div>
-        <div class="stat-item">
+        </BaseCard>
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ learningDays }}</div>
           <div class="stat-label">连续学习</div>
-        </div>
-        <div class="stat-item">
+        </BaseCard>
+        <BaseCard class="stat-card">
           <div class="stat-value">{{ totalHours }}h</div>
           <div class="stat-label">累计时长</div>
-        </div>
+        </BaseCard>
       </div>
 
       <div class="search-section">
-        <el-input 
-          v-model="searchKeyword" 
-          placeholder="搜索学习资源..." 
+        <el-input
+          v-model="searchKeyword"
+          placeholder="搜索学习资源..."
           class="search-input"
           @keyup.enter="handleSearch"
         >
@@ -100,9 +45,11 @@
       </div>
 
       <div v-if="activeTab === 'all'" class="resources-grid">
-        <div v-for="resource in filteredResources" :key="resource.id" class="resource-card">
+        <BaseCard v-for="resource in filteredResources" :key="resource.id" class="resource-card">
           <div class="resource-icon-wrapper" :class="getResourceIconClass(resource.type)">
-            <span class="resource-icon">{{ getResourceIcon(resource.type) }}</span>
+            <el-icon :size="28">
+              <component :is="getResourceIcon(resource.type)" />
+            </el-icon>
           </div>
           <div class="resource-content">
             <h3>{{ resource.title }}</h3>
@@ -118,16 +65,18 @@
               <span class="progress-text">{{ getResourceProgress(resource.id) }}%</span>
             </div>
           </div>
-          <button class="learn-btn" @click="startLearning(resource)">
+          <el-button type="primary" class="learn-btn" @click="startLearning(resource)">
             {{ getResourceProgress(resource.id) > 0 ? '继续学习' : '开始学习' }}
-          </button>
-        </div>
+          </el-button>
+        </BaseCard>
       </div>
 
       <div v-if="activeTab === 'paths'" class="paths-list">
-        <div v-for="path in learningPaths" :key="path.id" class="path-card">
+        <BaseCard v-for="path in learningPaths" :key="path.id" class="path-card">
           <div class="path-header">
-            <div class="path-icon">🚀</div>
+            <div class="path-icon">
+              <el-icon :size="40"><Promotion /></el-icon>
+            </div>
             <div class="path-info">
               <h3>{{ path.title }}</h3>
               <p class="path-desc">{{ path.description }}</p>
@@ -149,19 +98,26 @@
                 <span class="resource-duration">{{ resource.duration }}</span>
               </div>
               <span class="resource-status" :class="getResourceStatusClass(resource.completed)">
-                {{ resource.completed ? '✓ 完成' : '○ 未完成' }}
+                <el-icon :size="14">
+                  <component :is="resource.completed ? CircleCheck : CircleClose" />
+                </el-icon>
+                {{ resource.completed ? '完成' : '未完成' }}
               </span>
             </div>
           </div>
-        </div>
+        </BaseCard>
       </div>
 
       <div v-if="activeTab === 'my'" class="my-learning">
-        <div class="recent-section">
-          <h2>最近学习</h2>
-          <div class="recent-list">
+        <BaseCard class="recent-section">
+          <SectionHeader title="最近学习" />
+          <div v-if="recentLearning.length > 0" class="recent-list">
             <div v-for="item in recentLearning" :key="item.id" class="recent-item">
-              <div class="recent-icon">{{ getResourceIcon(item.type) }}</div>
+              <div class="recent-icon" :class="getResourceIconClass(item.type)">
+                <el-icon :size="24">
+                  <component :is="getResourceIcon(item.type)" />
+                </el-icon>
+              </div>
               <div class="recent-info">
                 <h4>{{ item.title }}</h4>
                 <div class="recent-progress">
@@ -171,29 +127,39 @@
                   <span>{{ item.progress }}%</span>
                 </div>
               </div>
-              <button class="continue-btn" @click="startLearning(item)">继续</button>
+              <el-button type="primary" size="small" plain @click="startLearning(item)">继续</el-button>
             </div>
           </div>
-        </div>
+          <EmptyState
+            v-else
+            icon="Reading"
+            title="暂无最近学习"
+            description="开始学习资源，记录你的成长轨迹"
+          />
+        </BaseCard>
 
-        <div class="achievements-section">
-          <h2>学习成就</h2>
+        <BaseCard class="achievements-section">
+          <SectionHeader title="学习成就" />
           <div class="achievements-grid">
             <div v-for="achievement in achievements" :key="achievement.id" class="achievement-card" :class="{ unlocked: achievement.unlocked }">
-              <span class="achievement-icon">{{ achievement.icon }}</span>
+              <el-icon :size="32" class="achievement-icon">
+                <component :is="achievement.icon" />
+              </el-icon>
               <h4>{{ achievement.title }}</h4>
               <p class="achievement-desc">{{ achievement.description }}</p>
               <span class="achievement-status">{{ achievement.unlocked ? '已解锁' : '未解锁' }}</span>
             </div>
           </div>
-        </div>
+        </BaseCard>
       </div>
 
       <el-dialog title="学习资源详情" v-model="showResourceModal" width="600px">
         <div v-if="selectedResource" class="resource-detail">
           <div class="detail-header">
             <div class="detail-icon" :class="getResourceIconClass(selectedResource.type)">
-              {{ getResourceIcon(selectedResource.type) }}
+              <el-icon :size="32">
+                <component :is="getResourceIcon(selectedResource.type)" />
+              </el-icon>
             </div>
             <div class="detail-info">
               <h2>{{ selectedResource.title }}</h2>
@@ -223,13 +189,18 @@
           <el-button type="primary" @click="handleStartLearning">开始学习</el-button>
         </template>
       </el-dialog>
-    </main>
-  </div>
+    </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { VideoPlay, Reading, Document, EditPen, Promotion, Star, Medal, Trophy, CircleCheck, CircleClose } from '@element-plus/icons-vue'
 import { getLearningResources, searchResources, getLearningPaths, getLearningRecords, updateLearningProgress } from '@/api/learning'
+import AppLayout from '@/components/layout/AppLayout.vue'
+import BaseCard from '@/components/common/BaseCard.vue'
+import SectionHeader from '@/components/common/SectionHeader.vue'
+import EmptyState from '@/components/common/EmptyState.vue'
 
 const userInfo = ref({})
 const activeTab = ref('all')
@@ -241,10 +212,10 @@ const learningPaths = ref([])
 const learningRecords = ref([])
 const recentLearning = ref([])
 const achievements = ref([
-  { id: 1, icon: '🌟', title: '初学者', description: '完成第一个学习资源', unlocked: true },
-  { id: 2, icon: '🔥', title: '学习达人', description: '连续学习7天', unlocked: true },
-  { id: 3, icon: '📚', title: '知识渊博', description: '完成10个学习资源', unlocked: false },
-  { id: 4, icon: '🏆', title: '全栈大师', description: '完成全栈开发路径', unlocked: false }
+  { id: 1, icon: Star, title: '初学者', description: '完成第一个学习资源', unlocked: true },
+  { id: 2, icon: Medal, title: '学习达人', description: '连续学习7天', unlocked: true },
+  { id: 3, icon: Reading, title: '知识渊博', description: '完成10个学习资源', unlocked: false },
+  { id: 4, icon: Trophy, title: '全栈大师', description: '完成全栈开发路径', unlocked: false }
 ])
 
 const showResourceModal = ref(false)
@@ -258,8 +229,8 @@ const totalHours = ref(15)
 const filteredResources = computed(() => {
   if (!searchKeyword.value) return resources.value
   const keyword = searchKeyword.value.toLowerCase()
-  return resources.value.filter(r => 
-    r.title.toLowerCase().includes(keyword) || 
+  return resources.value.filter(r =>
+    r.title.toLowerCase().includes(keyword) ||
     r.description.toLowerCase().includes(keyword) ||
     r.category.toLowerCase().includes(keyword)
   )
@@ -272,12 +243,12 @@ const getResourceProgress = (resourceId) => {
 
 const getResourceIcon = (type) => {
   const icons = {
-    'VIDEO': '🎬',
-    'COURSE': '📖',
-    'DOCUMENT': '📄',
-    'ARTICLE': '📝'
+    'VIDEO': VideoPlay,
+    'COURSE': Reading,
+    'DOCUMENT': Document,
+    'ARTICLE': EditPen
   }
-  return icons[type] || '📚'
+  return icons[type] || Reading
 }
 
 const getResourceIconClass = (type) => {
@@ -327,12 +298,12 @@ const startLearning = (resource) => {
 
 const handleStartLearning = async () => {
   if (!selectedResource.value) return
-  
+
   try {
     const progress = getResourceProgress(selectedResource.value.id)
     const newProgress = Math.min(100, progress + 10)
     await updateLearningProgress(userId.value, selectedResource.value.id, newProgress)
-    
+
     const recordIndex = learningRecords.value.findIndex(r => r.resourceId === selectedResource.value.id)
     if (recordIndex >= 0) {
       learningRecords.value[recordIndex].progress = newProgress
@@ -346,7 +317,7 @@ const handleStartLearning = async () => {
   } catch (error) {
     console.error('更新学习进度失败:', error)
   }
-  
+
   showResourceModal.value = false
 }
 
@@ -374,9 +345,9 @@ const loadPaths = async () => {
   } catch (error) {
     console.error('加载学习路径失败:', error)
     learningPaths.value = [
-      { 
-        id: 1, 
-        title: '全栈开发工程师成长路径', 
+      {
+        id: 1,
+        title: '全栈开发工程师成长路径',
         description: '从零基础到全栈开发工程师的完整学习路径',
         resourceCount: 12,
         totalDuration: '48小时',
@@ -388,9 +359,9 @@ const loadPaths = async () => {
           { id: 4, title: 'Node.js后端', duration: '8小时', completed: false }
         ]
       },
-      { 
-        id: 2, 
-        title: 'Java后端开发进阶', 
+      {
+        id: 2,
+        title: 'Java后端开发进阶',
         description: '深入学习Java后端开发技术栈',
         resourceCount: 8,
         totalDuration: '32小时',
@@ -409,7 +380,7 @@ const loadRecords = async () => {
   try {
     const data = await getLearningRecords(userId.value)
     learningRecords.value = data
-    
+
     recentLearning.value = resources.value
       .map(r => ({
         ...r,
@@ -427,19 +398,13 @@ const loadRecords = async () => {
   }
 }
 
-const handleLogout = () => {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userInfo')
-  window.location.href = '/login'
-}
-
 onMounted(async () => {
   const user = localStorage.getItem('userInfo')
   if (user) {
     userInfo.value = JSON.parse(user)
     userId.value = userInfo.value.id || userInfo.value.userId || 1
   }
-  
+
   await loadResources()
   await loadPaths()
   await loadRecords()
@@ -447,150 +412,38 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #f5f7fa;
-}
-
-.sidebar {
-  width: 250px;
-  background: linear-gradient(180deg, #4a69bd 0%, #3d5a9e 100%);
-  color: white;
+.learning-page {
   display: flex;
   flex-direction: column;
-}
-
-.sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo-icon {
-  font-size: 1.5rem;
-}
-
-.logo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 1rem;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.25rem;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-icon {
-  font-size: 1.2rem;
-}
-
-.nav-text {
-  font-size: 0.95rem;
-}
-
-.sidebar-footer {
-  padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.logout-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.top-header h1 {
-  color: #333;
-  font-size: 1.5rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.user-name {
-  font-weight: 500;
-  color: #333;
+  gap: var(--space-6);
 }
 
 .learning-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: var(--space-5);
 }
 
-.stat-item {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+.stat-card {
   text-align: center;
+  padding: var(--space-5);
 }
 
 .stat-value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #4a69bd;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
+  line-height: 1.2;
 }
 
 .stat-label {
-  color: #666;
-  margin-top: 0.25rem;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  margin-top: var(--space-2);
 }
 
 .search-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-2);
 }
 
 .search-input {
@@ -598,41 +451,39 @@ onMounted(async () => {
 }
 
 .tabs-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-2);
 }
 
 .resource-tabs {
-  background-color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: var(--color-card-bg);
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  box-shadow: var(--elevation-1);
 }
 
 .resources-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
 
 .resource-card {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
-  gap: 1rem;
-  transition: transform 0.3s, box-shadow 0.3s;
+  gap: var(--space-4);
+  align-items: flex-start;
+  transition: transform var(--t-normal) var(--ease-default),
+              box-shadow var(--t-normal) var(--ease-default);
 }
 
 .resource-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
 }
 
 .resource-icon-wrapper {
   width: 56px;
   height: 56px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -640,165 +491,178 @@ onMounted(async () => {
 }
 
 .resource-icon-wrapper.video {
-  background-color: #ffe4e6;
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
 }
 
 .resource-icon-wrapper.course {
-  background-color: #e6f7ff;
+  background-color: var(--color-info-light);
+  color: var(--color-info);
 }
 
 .resource-icon-wrapper.document {
-  background-color: #f6ffed;
+  background-color: var(--color-success-light);
+  color: var(--color-success);
 }
 
 .resource-icon-wrapper.article {
-  background-color: #fff7e6;
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
 }
 
-.resource-icon {
-  font-size: 1.8rem;
+.resource-icon-wrapper.unknown {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 .resource-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .resource-content h3 {
-  color: #333;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-1);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .resource-desc {
-  color: #666;
-  font-size: 0.9rem;
-  margin: 0 0 0.75rem 0;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-3) 0;
   flex: 1;
+  line-height: 1.5;
 }
 
 .resource-meta {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .category-tag {
-  padding: 0.25rem 0.75rem;
-  background-color: #f0f4ff;
-  color: #4a69bd;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
 }
 
 .duration {
-  color: #999;
-  font-size: 0.85rem;
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
 }
 
 .resource-progress {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .progress-bar {
   flex: 1;
   height: 6px;
-  background-color: #e0e0e0;
-  border-radius: 3px;
+  background-color: var(--color-border-light);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .progress-bar.small {
   width: 120px;
+  flex: none;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: #4a69bd;
-  border-radius: 3px;
-  transition: width 0.3s;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--t-normal) var(--ease-default);
 }
 
 .progress-text {
-  color: #4a69bd;
-  font-weight: 500;
-  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-xs);
+  min-width: 32px;
+  text-align: right;
 }
 
 .learn-btn {
-  padding: 0.5rem 1.5rem;
-  background-color: #4a69bd;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
   align-self: flex-start;
-}
-
-.learn-btn:hover {
-  background-color: #3d5a9e;
 }
 
 .paths-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
 
 .path-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
 .path-header {
   display: flex;
-  gap: 1.5rem;
-  padding: 1.5rem;
-  border-bottom: 1px solid #f0f0f0;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+  align-items: center;
 }
 
 .path-icon {
-  font-size: 2.5rem;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-light);
+  flex-shrink: 0;
 }
 
 .path-info {
   flex: 1;
+  min-width: 0;
 }
 
 .path-info h3 {
-  color: #333;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-1);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .path-desc {
-  color: #666;
-  font-size: 0.9rem;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-2) 0;
+  line-height: 1.5;
 }
 
 .path-meta {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #999;
-  font-size: 0.85rem;
+  gap: var(--space-2);
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
 }
 
 .path-progress-circle {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: conic-gradient(#4a69bd calc(var(--progress) * 360deg), #e0e0e0 0);
+  background: conic-gradient(var(--color-primary) calc(var(--progress) * 360deg), var(--color-border-light) 0);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  flex-shrink: 0;
 }
 
 .path-progress-circle::before {
@@ -806,27 +670,28 @@ onMounted(async () => {
   position: absolute;
   width: 60px;
   height: 60px;
-  background-color: white;
+  background-color: var(--color-card-bg);
   border-radius: 50%;
 }
 
 .path-progress-circle span {
   position: relative;
   z-index: 1;
-  color: #4a69bd;
-  font-weight: bold;
+  color: var(--color-primary);
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
 }
 
 .path-resources {
-  padding: 1rem 1.5rem;
+  padding: var(--space-4) var(--space-5);
 }
 
 .path-resource-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .path-resource-item:last-child {
@@ -836,212 +701,304 @@ onMounted(async () => {
 .resource-index {
   width: 28px;
   height: 28px;
-  background-color: #f0f4ff;
-  color: #4a69bd;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
 }
 
 .resource-info {
   flex: 1;
+  min-width: 0;
 }
 
 .resource-name {
-  color: #333;
-  font-size: 0.95rem;
+  color: var(--color-text-1);
+  font-size: var(--text-sm);
+  display: block;
 }
 
 .resource-duration {
-  color: #999;
-  font-size: 0.85rem;
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
 }
 
 .resource-status {
-  font-size: 0.85rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
 }
 
 .resource-status.completed {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .resource-status.pending {
-  color: #999;
+  color: var(--color-text-3);
 }
 
 .my-learning {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
-.recent-section, .achievements-section {
-  background-color: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.recent-section h2, .achievements-section h2 {
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
+.recent-section,
+.achievements-section {
+  display: flex;
+  flex-direction: column;
 }
 
 .recent-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .recent-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
 }
 
 .recent-icon {
-  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.recent-icon.video {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+}
+
+.recent-icon.course {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+}
+
+.recent-icon.document {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.recent-icon.article {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
 }
 
 .recent-info {
   flex: 1;
+  min-width: 0;
 }
 
 .recent-info h4 {
-  color: #333;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-1);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .recent-progress {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
-.continue-btn {
-  padding: 0.375rem 1rem;
-  background-color: #4a69bd;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.continue-btn:hover {
-  background-color: #3d5a9e;
+.recent-progress span {
+  color: var(--color-primary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  min-width: 32px;
+  text-align: right;
 }
 
 .achievements-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: var(--space-3);
 }
 
 .achievement-card {
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
   text-align: center;
   opacity: 0.5;
+  transition: opacity var(--t-normal) var(--ease-default),
+              transform var(--t-normal) var(--ease-default);
 }
 
 .achievement-card.unlocked {
   opacity: 1;
 }
 
+.achievement-card.unlocked:hover {
+  transform: translateY(-2px);
+}
+
 .achievement-icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 0.5rem;
+  color: var(--color-warning);
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-2);
 }
 
 .achievement-card h4 {
-  color: #333;
-  margin: 0 0 0.25rem 0;
-  font-size: 0.9rem;
+  color: var(--color-text-1);
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
 }
 
 .achievement-desc {
-  color: #666;
-  font-size: 0.8rem;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-2);
+  font-size: var(--text-xs);
+  margin: 0 0 var(--space-2) 0;
+  line-height: 1.5;
 }
 
 .achievement-status {
-  font-size: 0.8rem;
-  color: #999;
+  font-size: var(--text-xs);
+  color: var(--color-text-3);
 }
 
 .resource-detail {
-  padding: 0.5rem;
+  padding: var(--space-2);
 }
 
 .detail-header {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+  align-items: center;
 }
 
 .detail-icon {
   width: 64px;
   height: 64px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
+  flex-shrink: 0;
 }
 
-.detail-icon.video { background-color: #ffe4e6; }
-.detail-icon.course { background-color: #e6f7ff; }
-.detail-icon.document { background-color: #f6ffed; }
-.detail-icon.article { background-color: #fff7e6; }
+.detail-icon.video {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+}
+
+.detail-icon.course {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+}
+
+.detail-icon.document {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.detail-icon.article {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
 
 .detail-info h2 {
-  color: #333;
-  margin: 0 0 0.5rem 0;
+  color: var(--color-text-1);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-2) 0;
 }
 
 .detail-category {
-  padding: 0.25rem 0.75rem;
-  background-color: #f0f4ff;
-  color: #4a69bd;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
 }
 
 .detail-content p {
-  color: #666;
+  color: var(--color-text-2);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-5);
 }
 
 .detail-meta {
   display: flex;
-  gap: 2rem;
+  gap: var(--space-8);
 }
 
-.meta-item {
+.detail-meta .meta-item {
   display: flex;
   flex-direction: column;
+  gap: var(--space-1);
 }
 
 .meta-label {
-  color: #999;
-  font-size: 0.85rem;
+  color: var(--color-text-3);
+  font-size: var(--text-xs);
 }
 
 .meta-value {
-  color: #333;
-  font-weight: 500;
+  color: var(--color-text-1);
+  font-weight: var(--font-medium);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 1024px) {
+  .learning-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .my-learning {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .learning-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-card {
+    flex-direction: column;
+  }
+
+  .path-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .path-progress-circle {
+    align-self: flex-end;
+  }
+
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-meta {
+    gap: var(--space-4);
+  }
 }
 </style>

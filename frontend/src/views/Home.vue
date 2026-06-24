@@ -40,7 +40,7 @@
         </div>
         <div class="hero-image">
           <div class="hero-illustration">
-            <el-icon :size="128"><Rocket /></el-icon>
+            <el-icon :size="128"><Promotion /></el-icon>
           </div>
         </div>
       </section>
@@ -236,7 +236,6 @@
 }
 
 .hero-illustration {
-  font-size: 8rem;
   color: var(--color-primary);
   animation: float 3s ease-in-out infinite;
 }
@@ -315,4 +314,85 @@
 .stat-value {
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
-  color: var(--color-text-inverse
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-2);
+}
+
+.stat-label {
+  font-size: var(--text-md);
+  color: var(--color-text-inverse);
+}
+
+.footer {
+  background-color: var(--color-text-1);
+  color: var(--color-text-inverse);
+  padding: var(--space-6) 0;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-8);
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .auth-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .hero-title {
+    font-size: var(--text-2xl);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-lg);
+  }
+
+  .features,
+  .stats {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .features-grid,
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

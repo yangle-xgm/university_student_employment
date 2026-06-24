@@ -16,27 +16,32 @@
               :class="{ active: selectedResume?.id === resume.id }"
               @click="selectResume(resume)"
             >
-              <div class="resume-header">
-                <h3>{{ resume.name }}</h3>
-                <el-tag
-                  :type="getStatusType(resume.status)"
-                  size="small"
-                  effect="light"
-                  round
-                >
-                  {{ getStatusLabel(resume.status) }}
-                </el-tag>
-              </div>
-              <p class="resume-intro">{{ resume.introduction }}</p>
-              <div class="resume-meta">
-                <span class="meta-item">
-                  <el-icon><Clock /></el-icon>
-                  更新于 {{ resume.updatedAt }}
-                </span>
-                <span class="meta-item">
-                  <el-icon><Briefcase /></el-icon>
-                  {{ resume.experienceCount }}年经验
-                </span>
+              <div class="resume-card-glow"></div>
+              <div class="resume-card-main">
+                <div class="resume-avatar" :style="{ background: getAvatarGradient(resume.name) }">
+                  {{ getInitials(resume.name) }}
+                </div>
+                <div class="resume-card-body">
+                  <div class="resume-header">
+                    <h3>{{ resume.name }}</h3>
+                    <div class="resume-status" :class="resume.status?.toLowerCase()">
+                      <span class="status-dot"></span>
+                      {{ getStatusLabel(resume.status) }}
+                    </div>
+                  </div>
+                  <p class="resume-position">{{ resume.desiredPosition }}</p>
+                  <p class="resume-intro">{{ resume.introduction }}</p>
+                  <div class="resume-meta">
+                    <span class="meta-item">
+                      <el-icon><Clock /></el-icon>
+                      更新于 {{ resume.updatedAt }}
+                    </span>
+                    <span class="meta-item">
+                      <el-icon><Briefcase /></el-icon>
+                      {{ resume.experienceCount }}年经验
+                    </span>
+                  </div>
+                </div>
               </div>
               <div class="resume-actions" @click.stop>
                 <el-button size="small" type="primary" plain round :icon="Edit" @click="editResume(resume)">编辑</el-button>
@@ -58,16 +63,26 @@
         <!-- 右侧简历详情 -->
         <BaseCard v-if="selectedResume" class="resume-detail-card">
           <div class="detail-header">
-            <div class="resume-title-row">
-              <h1>{{ selectedResume.name }}</h1>
-              <el-tag type="primary" effect="light" round>{{ selectedResume.desiredPosition }}</el-tag>
-            </div>
-            <div class="resume-contact">
-              <span><el-icon><Phone /></el-icon>{{ selectedResume.phone }}</span>
-              <span class="divider">•</span>
-              <span><el-icon><Message /></el-icon>{{ selectedResume.email }}</span>
-              <span class="divider">•</span>
-              <span><el-icon><Location /></el-icon>{{ selectedResume.location }}</span>
+            <div class="detail-header-bg"></div>
+            <div class="detail-header-content">
+              <div class="detail-avatar" :style="{ background: getAvatarGradient(selectedResume.name) }">
+                {{ getInitials(selectedResume.name) }}
+              </div>
+              <div class="detail-header-info">
+                <div class="resume-title-row">
+                  <h1>{{ selectedResume.name }}</h1>
+                  <el-tag type="primary" effect="light" round class="position-tag">{{ selectedResume.desiredPosition }}</el-tag>
+                </div>
+                <div class="resume-contact">
+                  <span><el-icon><Phone /></el-icon>{{ selectedResume.phone }}</span>
+                  <span class="divider">•</span>
+                  <span><el-icon><Message /></el-icon>{{ selectedResume.email }}</span>
+                  <span class="divider">•</span>
+                  <span><el-icon><Location /></el-icon>{{ selectedResume.location }}</span>
+                  <span class="divider">•</span>
+                  <span><el-icon><Briefcase /></el-icon>{{ selectedResume.experienceCount }}年经验</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -242,6 +257,26 @@ const getStatusType = (status) => {
     'ARCHIVED': 'info'
   }
   return types[status] || 'info'
+}
+
+const getInitials = (name) => {
+  if (!name) return '?'
+  return name.slice(0, 2)
+}
+
+const getAvatarGradient = (name) => {
+  const gradients = [
+    'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+    'linear-gradient(135deg, #0891B2 0%, #2563EB 100%)',
+    'linear-gradient(135deg, #059669 0%, #10B981 100%)',
+    'linear-gradient(135deg, #7C3AED 0%, #DB2777 100%)',
+    'linear-gradient(135deg, #EA580C 0%, #F59E0B 100%)'
+  ]
+  let hash = 0
+  for (let i = 0; i < (name || '').length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return gradients[Math.abs(hash) % gradients.length]
 }
 
 const openCreateModal = () => {

@@ -95,6 +95,11 @@ public class CareerPlanServiceImpl implements CareerPlanService {
         if (plan == null) {
             throw new BusinessException("职业规划不存在");
         }
+        // 先删除关联的里程碑，再删除规划
+        careerMilestoneMapper.delete(
+            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<CareerMilestone>()
+                .eq(CareerMilestone::getPlanId, planId)
+        );
         careerPlanMapper.deleteById(planId);
         return ApiResponse.success("删除成功");
     }

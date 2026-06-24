@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface InterviewMapper extends BaseMapper<Interview> {
 
-    List<Interview> findByStudentId(@Param("studentId") Long studentId);
+    List<Interview> findByApplicationId(@Param("applicationId") Long applicationId);
 
-    List<Interview> findByJobId(@Param("jobId") Long jobId);
+    List<Interview> findByStudentId(@Param("studentProfileId") Long studentProfileId);
 }

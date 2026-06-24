@@ -316,9 +316,102 @@ onMounted(() => {
   font-size: var(--text-sm);
 }
 
+.question-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.question-card {
+  padding: var(--space-6);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.question-number {
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+}
+
+.question-content {
+  color: var(--color-text-1);
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-6);
+  line-height: 1.5;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--t-normal) var(--ease-default);
+}
+
+.option-item:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.option-item.selected {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.option-item input[type="radio"] {
+  display: none;
+}
+
+.option-label {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-2);
+  flex-shrink: 0;
+}
+
+.option-item.selected .option-label {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.option-text {
+  color: var(--color-text-1);
+  flex: 1;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
 .loading-state {
   text-align: center;
   padding: calc(var(--space-8) * 2);
+}
+
+.loading-state p {
+  color: var(--color-text-2);
 }
 
 .loading-spinner {
@@ -332,3 +425,132 @@ onMounted(() => {
 }
 
 @keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.result-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.result-card {
+  padding: var(--space-8);
+  text-align: center;
+}
+
+.result-header {
+  margin-bottom: var(--space-6);
+}
+
+.result-icon {
+  color: var(--color-warning);
+  margin-bottom: var(--space-3);
+}
+
+.result-header h2 {
+  color: var(--color-text-1);
+  margin: 0;
+}
+
+.result-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-inverse);
+}
+
+.score-value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+}
+
+.score-unit {
+  font-size: var(--text-sm);
+}
+
+.score-level {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+
+.result-content {
+  text-align: left;
+  margin-bottom: var(--space-6);
+}
+
+.result-content h3 {
+  color: var(--color-text-1);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.result-content p {
+  color: var(--color-text-2);
+  line-height: 1.7;
+  margin-bottom: var(--space-5);
+}
+
+.recommendations h4 {
+  color: var(--color-text-1);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-base);
+}
+
+.recommendations ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recommendations li {
+  padding: var(--space-2) 0;
+  color: var(--color-text-2);
+  padding-left: var(--space-5);
+  position: relative;
+}
+
+.recommendations li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-success);
+  font-weight: var(--font-bold);
+}
+
+.btn-icon {
+  margin-right: var(--space-1);
+}
+
+@media (max-width: 640px) {
+  .navigation-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .navigation-buttons .el-button {
+    width: 100%;
+  }
+
+  .question-card {
+    padding: var(--space-4);
+  }
+
+  .result-card {
+    padding: var(--space-5);
+  }
+}
+</style>

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.employment.interview.mapper.InterviewMapper">
-    
+
+    <select id="findByApplicationId" resultType="com.example.employment.interview.entity.Interview">
+        SELECT * FROM interviews WHERE application_id = #{applicationId} ORDER BY scheduled_time ASC
+    </select>
+
     <select id="findByStudentId" resultType="com.example.employment.interview.entity.Interview">
         SELECT i.* FROM interviews i
         INNER JOIN applications a ON i.application_id = a.id
-        WHERE a.student_id = #{studentId}
-        ORDER BY i.created_at DESC
+        WHERE a.student_id = #{studentProfileId}
+        ORDER BY i.scheduled_time ASC
     </select>
-    
-    <select id="findByJobId" resultType="com.example.employment.interview.entity.Interview">
-        SELECT i.* FROM interviews i
-        INNER JOIN applications a ON i.application_id = a.id
-        WHERE a.job_id = #{jobId}
-        ORDER BY i.created_at DESC
-    </select>
-    
+
 </mapper>

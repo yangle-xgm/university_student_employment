@@ -4,7 +4,9 @@
       <div class="login-card">
         <div class="login-header">
           <div class="logo">
-            <span class="logo-icon">🎓</span>
+            <div class="logo-icon">
+              <el-icon :size="32"><School /></el-icon>
+            </div>
             <span class="logo-text">大学生就业服务平台</span>
           </div>
           <h2>欢迎登录</h2>
@@ -53,7 +55,9 @@
 
       <div class="login-illustration">
         <div class="illustration-content">
-          <span class="illustration-icon">🚀</span>
+          <div class="illustration-icon">
+            <el-icon :size="80"><Promotion /></el-icon>
+          </div>
           <h3>开启职业之旅</h3>
           <p>专业测评、职业规划、学习资源</p>
         </div>
@@ -102,15 +106,15 @@ const handleLogin = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
-  padding: 2rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  padding: var(--space-6);
 }
 
 .login-wrapper {
   display: flex;
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-3);
   overflow: hidden;
   max-width: 900px;
   width: 100%;
@@ -118,56 +122,56 @@ const handleLogin = async () => {
 
 .login-card {
   flex: 1;
-  padding: 3rem;
+  padding: var(--space-10);
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-6);
 }
 
 .logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
 .logo-icon {
-  font-size: 2rem;
+  color: var(--color-primary);
 }
 
 .logo-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #4a69bd;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--color-text-1);
 }
 
 .login-header h2 {
-  color: #333;
-  margin-bottom: 0.5rem;
+  color: var(--color-text-1);
+  margin-bottom: var(--space-2);
 }
 
 .login-header p {
-  color: #666;
+  color: var(--color-text-2);
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #333;
+  font-weight: var(--font-medium);
+  color: var(--color-text-2);
 }
 
 .remember-me {
@@ -179,12 +183,12 @@ const handleLogin = async () => {
 .remember-me label {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   cursor: pointer;
 }
 
 .forgot-password {
-  color: #4a69bd;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -193,21 +197,21 @@ const handleLogin = async () => {
 }
 
 .btn {
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.3s;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius);
+  font-weight: var(--font-medium);
+  transition: all var(--t-normal);
   border: none;
   cursor: pointer;
 }
 
 .btn-primary {
-  background-color: #4a69bd;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .btn-primary:hover {
-  background-color: #3d5a9e;
+  background-color: var(--color-primary-hover);
 }
 
 .btn-block {
@@ -216,15 +220,15 @@ const handleLogin = async () => {
 
 .login-footer {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: var(--space-6);
 }
 
 .login-footer p {
-  color: #666;
+  color: var(--color-text-2);
 }
 
 .login-footer a {
-  color: #4a69bd;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -234,29 +238,44 @@ const handleLogin = async () => {
 
 .login-illustration {
   flex: 1;
-  background: linear-gradient(135deg, #4a69bd 0%, #6a89cc 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem;
+  padding: var(--space-10);
 }
 
 .illustration-content {
   text-align: center;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .illustration-icon {
-  font-size: 5rem;
-  margin-bottom: 1.5rem;
+  color: var(--color-text-inverse);
+  margin-bottom: var(--space-5);
 }
 
 .illustration-content h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
 }
 
 .illustration-content p {
   opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .login-illustration {
+    order: -1;
+    padding: var(--space-6);
+  }
+
+  .login-card {
+    padding: var(--space-6);
+  }
 }
 </style>

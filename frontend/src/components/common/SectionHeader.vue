@@ -20,16 +20,18 @@ defineProps({
 <style scoped>
 .section-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .section-title {
-  font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
   color: var(--color-text-1);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .section-subtitle {

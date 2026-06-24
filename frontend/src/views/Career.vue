@@ -1,6 +1,6 @@
 <template>
   <AppLayout title="职业规划">
-    <div class="career-content">
+    <div class="career-page">
       <div class="plans-section">
         <SectionHeader title="我的职业规划">
           <el-button type="primary" @click="showAddPlanModal = true">+ 创建规划</el-button>
@@ -270,3 +270,273 @@ const handleAddMilestone = async () => {
       title: milestoneForm.title,
       dueDate: milestoneForm.dueDate,
       description: milestoneForm.description,
+      progress: 0
+    }
+    milestones.value.push(newMilestone)
+  }
+
+  showAddMilestoneModal.value = false
+  milestoneForm.title = ''
+  milestoneForm.dueDate = ''
+  milestoneForm.description = ''
+}
+
+const handleUpdateMilestoneProgress = async (milestone) => {
+  const input = window.prompt('请输入新的进度 (0-100):', milestone.progress)
+  if (input === null) return
+
+  const progress = parseInt(input, 10)
+  if (isNaN(progress) || progress < 0 || progress > 100) {
+    alert('请输入 0 到 100 之间的数字')
+    return
+  }
+
+  try {
+    await updateMilestoneProgress(milestone.id, progress)
+    milestone.progress = progress
+  } catch (error) {
+    console.error('更新里程碑进度失败:', error)
+    milestone.progress = progress
+  }
+}
+
+const handleDeleteMilestone = async (milestoneId) => {
+  if (!window.confirm('确定要删除这个里程碑吗？')) return
+
+  try {
+    await deleteMilestone(milestoneId)
+    milestones.value = milestones.value.filter(m => m.id !== milestoneId)
+  } catch (error) {
+    console.error('删除里程碑失败:', error)
+    milestones.value = milestones.value.filter(m => m.id !== milestoneId)
+  }
+}
+
+onMounted(async () => {
+  const user = localStorage.getItem('userInfo')
+  if (user) {
+    userInfo.value = JSON.parse(user)
+    userId.value = userInfo.value.id || userInfo.value.userId || 1
+  }
+
+  await loadPlans()
+})
+</script>
+
+<style scoped>
+.career-page {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.plans-section,
+.milestones-section {
+  min-width: 0;
+}
+
+.plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.plan-card {
+  cursor: pointer;
+  transition: transform var(--t-normal) var(--ease-default),
+              box-shadow var(--t-normal) var(--ease-default);
+}
+
+.plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-2);
+}
+
+.plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.plan-header h3 {
+  color: var(--color-text-1);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
+
+.plan-description {
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4) 0;
+}
+
+.plan-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+}
+
+.meta-item .el-icon {
+  color: var(--color-primary);
+}
+
+.plan-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--color-border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--t-normal) var(--ease-default);
+}
+
+.progress-text {
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  min-width: 36px;
+  text-align: right;
+}
+
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.milestone-card {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.milestone-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.milestone-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.milestone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.milestone-header h4 {
+  color: var(--color-text-1);
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
+
+.milestone-due {
+  color: var(--color-text-3);
+  font-size: var(--text-sm);
+}
+
+.milestone-description {
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  margin: 0 0 var(--space-4) 0;
+}
+
+.milestone-progress-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.milestone-progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: var(--color-border-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.milestone-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--t-normal) var(--ease-default);
+}
+
+.milestone-progress-text {
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  min-width: 36px;
+  text-align: right;
+}
+
+.milestone-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-group label {
+  font-weight: var(--font-medium);
+  color: var(--color-text-2);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 1024px) {
+  .career-page {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

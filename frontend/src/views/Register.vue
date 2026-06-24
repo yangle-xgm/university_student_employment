@@ -3,7 +3,7 @@
     <div class="register-wrapper">
       <div class="register-illustration">
         <div class="illustration-content">
-          <el-icon class="illustration-icon"><MagicStick /></el-icon>
+          <el-icon class="illustration-icon"><Star /></el-icon>
           <h3>创建账号</h3>
           <p>开启您的职业发展之旅</p>
         </div>
@@ -140,7 +140,7 @@ const handleRegister = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   padding: var(--space-8);
 }
 
@@ -156,7 +156,7 @@ const handleRegister = async () => {
 
 .register-illustration {
   flex: 1;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -285,5 +285,27 @@ const handleRegister = async () => {
 
 .register-footer a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: var(--space-4);
+  }
+
+  .register-wrapper {
+    flex-direction: column;
+  }
+
+  .register-illustration {
+    padding: var(--space-8);
+  }
+
+  .register-card {
+    padding: var(--space-8);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
